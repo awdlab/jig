@@ -207,11 +207,7 @@ export class JigToolbar extends ToolbarTemplates {
       }
     });
 
-    // Single tab stop across the whole toolbar. Offscreen copies of collapsed
-    // items are inert, so they must not become navigable.
-    // After render: which element owns a control's tab stop is read off the DOM, and a
-    // projected control's own bindings — the `tabindex` a `jig-select` puts on its
-    // trigger — are not applied yet while the toolbar's own view is being refreshed.
+    // Single tab stop across the toolbar, run after render so projected controls' tabindex bindings are applied.
     afterRenderEffect(onCleanup => {
       const group = this._roving();
       const controls = [

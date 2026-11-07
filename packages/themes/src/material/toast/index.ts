@@ -11,11 +11,7 @@ import {
 import { neutralColor as greyColor } from '@awdlab/jig-themes/material/colors';
 import { toastControlTemplate } from '@awdlab/jig-themes/templates/toast';
 
-// MD3 toasts (like snackbars) use a fixed dark "inverse surface" regardless of kind —
-// the kind color is expressed as an accent (header icon), not a full-surface tint. We
-// use the raw, non-reversed grey palette because `color.surface.*` inverts in dark mode
-// (dark toast on light → light toast on dark), which is not what we want here. Mirrors
-// `material/snackbar`.
+// Fixed dark inverse surface from the raw grey palette, since `color.surface.*` inverts in dark mode.
 const SURFACE = greyColor['900'];
 const ON_SURFACE = greyColor['50'];
 const BORDER = greyColor['700'];

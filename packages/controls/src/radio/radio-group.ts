@@ -87,11 +87,7 @@ export class JigRadioGroup<V>
     });
     inject(DestroyRef).onDestroy(() => sub.unsubscribe());
 
-    // Keep the roving tab stop on the selected radio so Tab-in lands on the
-    // checked option (native behavior). Disabled radios are skipped so a
-    // selected-but-disabled option never becomes the tab stop. `syncActiveIndex`
-    // updates the tab stop silently — no emit, no focus move — so a programmatic
-    // `value` change never yanks DOM focus into the group.
+    // Keeps the tab stop on the selected, enabled radio without moving DOM focus.
     effect(() => {
       const items = this.roving.items();
       if (!items.length) {

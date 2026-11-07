@@ -77,7 +77,7 @@ export type OverlayLifecycleOptions = {
 /**
  * The open/close state machine shared by every overlay control.
  *
- * Owns three things the controls used to each re-implement: the phase machine, the
+ * Owns three things: the phase machine, the
  * native show/hide call for the current {@link OverlayMode}, and the `popover`
  * attribute lifecycle (present only while open, so a closed overlay is not a
  * top-layer element). Everything else — light dismiss, focus, delays, deferred
@@ -111,11 +111,7 @@ export class OverlayLifecycle {
     const destroyRef = injector?.get(DestroyRef) ?? inject(DestroyRef);
     destroyRef.onDestroy(() => (this._destroyed = true));
 
-    // Follow whichever source of truth the control has: an explicit predicate, or its
-    // own `open` model. Untracked, so the effect depends on that source alone — show and
-    // hide both read and write the phase, which would otherwise re-run the effect on
-    // every transition. Both calls are no-ops when the phase already matches, so the
-    // model updates this class makes cannot feed back into a loop.
+    // Follows the open predicate or `open` model untracked, so phase writes in show/hide cannot re-run the effect.
     const isOpen = options.openWhen ?? options.control?.open;
     if (isOpen) {
       afterRenderEffect(

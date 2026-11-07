@@ -3,10 +3,7 @@ import { baseStyles } from '@awdlab/jig-themes/base';
 import { colorsTemplate } from '@awdlab/jig-themes/nova/base';
 import { scrollShadowDirectiveTemplate } from '@awdlab/jig-themes/templates/api';
 
-// The scroll-shadow tint is the single source of truth for the shadow color. It is defined on the
-// scroll container's scrolled-* classes so both the generic overlay surface and any consumer
-// painting its own shadows off those classes (e.g. the table's sticky-column edges) inherit the
-// exact same value.
+// The tint is set on the scrolled-* classes so the overlay and consumer-painted shadows share it.
 export const scrollShadowStyles = createThemePart({
   controlTemplate: scrollShadowDirectiveTemplate,
   base: baseStyles.scrollShadow,

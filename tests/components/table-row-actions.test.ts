@@ -326,12 +326,7 @@ test('keyboard: row actions coexist with selection mode', async ({ page }) => {
   });
 
   await test.step('single mode — mouse-click select then ArrowDown advances from the clicked row', async () => {
-    // Regression (Task 9 review): a mouse click resets focusedRowIndex to null
-    // (TableSelectionModel.handleRowClick). In single mode, selection's onKeyDown
-    // resolves that null back to the selected row before moving; the row-actions
-    // nav model must delegate ArrowUp/Down to it (rather than recomputing the
-    // start index) so ArrowDown advances past the clicked row instead of jumping
-    // to row 0.
+    // Row-actions nav delegates ArrowUp/Down to selection, which resolves a click-cleared focus to the selected row.
     const fourRows = [
       { id: 1, name: 'Row 0' },
       { id: 2, name: 'Row 1' },

@@ -179,12 +179,7 @@ export function calculateItemViewLayout(params: ItemViewLayoutInput): ItemViewLa
   let renderedItemOrders: OverflowOrderEntry[] = [];
   let overflowIndicatorLocations = new Set<ItemOverflowLocation>();
 
-  // Fixed-point iteration:
-  // 1) We blindly assume that we don't need any overflow indicators for the first pass.
-  // 2) We see how many items fit with that assumption.
-  // 3) The remaining items define which overflow locations exist (start/end/center).
-  // 4) That determines the *actual* number of indicators.
-  // Repeat until the indicator count stabilizes.
+  // Fixed-point iteration: recount the overflow indicators from the visible items until the count stabilizes.
   while (overflowIndicatorCount !== previousOverflowIndicatorCount) {
     previousOverflowIndicatorCount = overflowIndicatorCount;
 

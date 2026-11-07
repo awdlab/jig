@@ -61,11 +61,7 @@ export class JigScrollShadow {
     afterNextRender(() => {
       const scrollEl = this._el.nativeElement;
 
-      // Injected overlay: a zero-size sticky layer pinned to the viewport's top-left corner, with a
-      // sized cover inside it. The cover's edge gradients (driven by the theme via the scrolled-*
-      // classes) paint over the scrolling content — painting on the container itself would sit
-      // *under* its children. When `unstyled`, the theme hides the layer (display:none), so it
-      // stays inert and never disturbs the container's layout (e.g. the table's CSS grid).
+      // Sticky zero-size overlay whose cover paints the edge gradients above the scrolling children.
       const layer = this._renderer.createElement('div') as HTMLElement;
       layer.className = this.unstyled()
         ? `${this.theme.class('overlay')} ${this.theme.class('unstyled')}`

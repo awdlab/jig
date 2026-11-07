@@ -75,11 +75,7 @@ import { uploadStyles } from '@awdlab/jig-themes/shade/upload';
 
 import type {} from './theme-types.js';
 
-// Shared button vocabulary — identical to nova (primary | secondary | link | text | icon), so
-// themes are kind-compatible and no per-theme kind translation is needed. `primary`, `secondary`
-// and `icon` are the kinds the built-in controls hardcode internally (dialog/toast close,
-// paginator/calendar nav, input-field clear, filter actions). `destructive` is a color slot, not
-// a kind: a destructive button is `kind="primary" color="destructive"`.
+// Same button kinds as nova; `destructive` is a color, not a kind.
 export const KINDS = {
   button: ['primary', 'secondary', 'link', 'text', 'icon'] as const,
   message: ['default', 'outlined', 'simple'] as const,

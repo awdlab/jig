@@ -38,12 +38,12 @@ export class JigSelectHarness extends JigHarness {
     this.multipleItemView = new JigItemViewHarness(locator.locator('jig-item-view'));
   }
 
-  /** The list box, now owned by the dropdown. */
+  /** The list box, owned by the dropdown. */
   public get listBox(): JigListBoxHarness {
     return this.dropdown.listBox;
   }
 
-  /** The dropdown's content wrapper, formerly the select's own `popover-content`. */
+  /** The dropdown's content wrapper. */
   public get popoverContent(): Locator {
     return this.dropdown.content;
   }

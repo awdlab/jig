@@ -11,10 +11,7 @@ import {
 import { greyColor } from '@awdlab/jig-themes/nova/colors';
 import { snackbarControlTemplate } from '@awdlab/jig-themes/templates/snackbar';
 
-// The snackbar surface is a fixed dark slate in BOTH color schemes (like the
-// spec, and like Material toasts). We use the raw, non-reversed grey palette
-// because `color.surface.*` inverts in dark mode (dark toast on light → light
-// toast on dark), which is not what we want here.
+// Fixed dark surface in both schemes, from the raw grey palette since `color.surface.*` inverts in dark mode.
 const SURFACE = greyColor['900'];
 const ON_SURFACE = greyColor['50'];
 const BORDER = greyColor['700'];
@@ -45,10 +42,7 @@ export const snackbarStyles = createThemePart({
         background: ${SURFACE};
         color: ${ON_SURFACE};
         border: 1px solid ${BORDER};
-        /* Icon color = the kind's accent by default; the neutral (surface) kind
-           overrides it to the text color below. Set on the host so it inherits
-           reliably (same approach as themedColors), avoiding descendant-selector
-           leaks. */
+        /* Kind accent by default, set on the host so it inherits without descendant selectors. */
         --snk-icon-color: var(--theme-color-500);
         gap: ${v('size.padding.md')};
         padding: ${v('size.padding.md')} ${v('size.padding.xl')};
@@ -145,12 +139,7 @@ export const snackbarStyles = createThemePart({
         gap: ${v('size.padding.sm')};
       }
 
-      /* The close icon button has no themed color of its own, so it would fall
-         back to the UA default (black). Pin it to the neutral surface contrast
-         (the surface is always neutral now). Scoped to our own close button so
-         caller action colors (e.g. a success action) are never overridden. */
-      /* Scoped under the root so it wins over the icon-button's resting fill,
-         which is a light surface and would sit wrong on the dark snackbar. */
+      /* Pins the close button to the surface contrast color, scoped under root to beat the icon-button's light resting fill. */
       ${c('root')} ${c('close-button')} {
         color: ${ON_SURFACE};
         background: transparent;

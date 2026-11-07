@@ -626,11 +626,7 @@ export class JigTable<
       previousRowId = rowId;
     });
 
-    // A11y: announce sort / filter / pagination / selection changes through a
-    // polite live region — none of these are otherwise conveyed to assistive
-    // tech. Only the aspect that actually changed is announced (checked in
-    // priority order), and the first run only seeds the baselines. Writes only
-    // `liveAnnouncement`, which it never reads, so it cannot re-trigger itself.
+    // Announces the changed sort, filter, page or selection via the live region; the first run only seeds the baselines.
     let seeded = false;
     let prevSort = '';
     let prevFilterCount = 0;

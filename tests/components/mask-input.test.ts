@@ -499,9 +499,6 @@ test('variable-length hour overflow: 1+3 overflows to 3 in hour, advances', asyn
 
 // ---------------------------------------------------------------------------
 // 14. Active-section highlight only shows while focused.
-//     Before the fix, section 0 was highlighted even when the control had no
-//     focus. The `section-active` class must now be absent until the proxy
-//     input is focused, and must disappear again after blur.
 // ---------------------------------------------------------------------------
 
 test('active-section highlight only shows while focused', async ({ page }, testInfo) => {

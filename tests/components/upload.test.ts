@@ -125,7 +125,7 @@ test('uploading: a single dismiss button cancels the upload and removes the item
   await upload.selectFiles([textFile('big.bin')]);
   await upload.expectItemState(0, 'uploading');
 
-  // Exactly one per-item action while uploading (previously cancel + remove).
+  // Exactly one per-item action while uploading.
   await expect(upload.item(0).locator(upload.classes.action)).toHaveCount(1);
 
   // Dismissing an in-flight item emits uploadCancelled AND fileRemoved, then drops it.

@@ -14,11 +14,7 @@ export const tagInputStyles = createThemePart({
       /* The field wrapper is the flex line and, in single-line mode, the scroll
          container — the tag row itself must not scroll, because a scrolling row
          collapses to a zero min-content width and gets squeezed by the text field. */
-      /* Claims the field's horizontal padding the way a plain input does, so the scroll
-         viewport — and with it the scroll shadow — reaches the field's border instead of
-         stopping a padding's width short of it. The inset moves onto the row's own content
-         (below), because padding on a scroll container would trap the sticky shadow overlay
-         inside the content box. */
+      /* Claims the field's horizontal padding so the scroll viewport and its shadow reach the border. */
       ${c('field')} {
         display: flex;
         align-items: center;
@@ -72,10 +68,7 @@ export const tagInputStyles = createThemePart({
         border: 0;
         cursor: pointer;
       }
-      /* The text field is sized by what has been typed, so it takes no more of the row than
-         it needs and tags wrap or scroll tightly; it still grows into whatever is left. The
-         field's vertical padding stays unclaimed — claiming it makes the input taller than
-         the scroll container, which then scrolls vertically. */
+      /* Sized to its typed content; vertical padding stays unclaimed so the row never scrolls vertically. */
       ${c('field')} ${d('input')} {
         field-sizing: content;
         flex: 1 1 auto;

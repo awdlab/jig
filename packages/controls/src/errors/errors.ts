@@ -117,11 +117,7 @@ export class JigErrors {
       return false;
     }
 
-    // Hold error display until the i18n defaults have loaded, so a default
-    // message never flashes as its raw key ("required") before the async
-    // translation import lands. Only affects errors with no instance/carried/
-    // global message (those show immediately); pending always shows (it has a
-    // hardcoded fallback). See {@link _awaitingI18n}.
+    // Hold errors until the i18n defaults load, so a default message never flashes as its raw key.
     if (!this.pending() && this._awaitingI18n()) {
       return false;
     }

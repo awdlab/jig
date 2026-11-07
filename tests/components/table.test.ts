@@ -604,10 +604,7 @@ test.describe('Table Lazy - pagination', () => {
       await expect(row.locator('td[class*="skeleton-cell"]')).toHaveCount(1);
     }
 
-    // The ghost bar must have a real, non-zero height in non-virtual mode
-    // (regression: it previously collapsed because --jig-table-row-height is
-    // unset without [virtual], and the row height now falls back to
-    // line-height + padding).
+    // Without [virtual] the ghost bar height falls back to line-height + padding, so it must be non-zero.
     const ghostBox = await skeletonRows.first().locator('td[class*="skeleton-cell"]').boundingBox();
     expect(ghostBox!.height).toBeGreaterThan(8);
 

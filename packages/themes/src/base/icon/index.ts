@@ -28,10 +28,7 @@ export const iconStyles = createThemePart({
           height: 100%;
         }
       }
-      /* The default icon set draws these pointing right, so RTL needs them mirrored.
-         Keyed off the slot rather than the glyph: a consumer overriding one of these
-         with their own arrow gets the same treatment, and non-directional slots
-         (close, check, filter) are untouched. */
+      /* Mirror directional slots in RTL, keyed off the slot so consumer overrides are mirrored too. */
       ${c('root')}:dir(rtl) {
         &[data-default-icon='breadcrumb-separator'],
         &[data-default-icon='calendar-previous-month'],

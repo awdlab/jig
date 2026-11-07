@@ -145,12 +145,7 @@ export class JigTableRowActions implements OnDestroy {
     // subgrid and the table's horizontal scroll container. Use Renderer2 so the
     // move stays platform-agnostic (SSR / non-DOM renderers).
     this._renderer.appendChild(this._element.nativeElement, this._bar.location.nativeElement);
-    // Pass the actions SIGNAL (not its current value) once. The bar reads it
-    // reactively in its own change detection, so we never re-push the array
-    // here. Reading `this.actions()` inside this effect-driven method would
-    // make the effect re-run on every actions change — and when a consumer
-    // binds a fresh array each change-detection pass, re-pushing it would loop
-    // into infinite change detection (NG0103).
+    // Passes the signal itself so the bar tracks it; pushing values from this effect would loop on fresh arrays (NG0103).
     setComponentInput(this._bar, 'actionsSource', this.actions);
   }
 

@@ -40,10 +40,7 @@ export const avatarGroupStyles = createThemePart({
       ${c('root')} ${d('avatar', 'root')} {
         --border-width: 3px;
         border: var(--border-width) solid ${v('color.background')};
-        /* Use :*-of-type (keyed on the jig-avatar element) rather than :*-child so
-           a non-avatar sibling injected into the group at runtime — e.g. a tooltip
-           anchor when an avatar is hovered — doesn't steal first/last position and
-           shift the stack. */
+        /* :*-of-type so runtime-injected siblings (e.g. tooltip anchors) don't shift the stack. */
         &:not(:first-of-type) {
           /* Overlap scales with avatar size (half-overlap) so small stacks don't clump.
              At the 48px default this equals the former -1.5rem. */

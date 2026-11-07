@@ -293,10 +293,7 @@ export class JigRovingGroup {
     if (!n) return;
     const start = this.activeIndex();
     let i = start;
-    // Step in `delta` direction until we land on an enabled item, skipping
-    // disabled ones. When no enabled target exists in that direction we clamp
-    // to the current index and still emit — preserving the pre-existing
-    // clamp-and-emit contract. Bounded by `n` iterations so it terminates.
+    // Steps over disabled items; with no enabled target it clamps to the current index and still emits.
     for (let step = 0; step < n; step++) {
       i += delta;
       if (this.wrap()) {
@@ -367,12 +364,7 @@ export class JigRovingItem implements RovingItemRef {
     this.id = this.element.id || generateElementId();
     if (!this.element.id) this.element.id = this.id;
 
-    // Use effect() rather than afterNextRender() so that registration is
-    // guaranteed to run synchronously during detectChanges() in Vitest/TestBed.
-    // effect() reads this._group() reactively and (re)registers whenever the
-    // resolved group changes; the onCleanup callback unregisters from the
-    // previous group before re-running, and on destroy. Equivalent to
-    // afterNextRender() in a browser environment.
+    // effect() instead of afterNextRender() so registration also runs synchronously under TestBed.
     effect(onCleanup => {
       const group = this._group();
       group.register(this);

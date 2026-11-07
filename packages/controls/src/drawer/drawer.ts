@@ -142,11 +142,7 @@ export class JigDrawer extends DrawerTemplates implements Openable {
 
   constructor() {
     super();
-    // Trap focus inside a modal drawer while it is open. The Popover API already
-    // handles Escape/light-dismiss; the trap adds focus-in, Tab wrapping, and
-    // focus restore on close that the popover does not provide. Runs as an
-    // afterRenderEffect so the (deferred) content has rendered before we move
-    // focus onto its first focusable child — a rAF can fire before zoneless CD.
+    // Traps focus in an open modal drawer after render, so the deferred content exists before it is focused.
     afterRenderEffect(() => {
       if (this.open() && this.modal()) {
         (this._focusTrap ??= new FocusTrap(this.element.nativeElement)).activate();

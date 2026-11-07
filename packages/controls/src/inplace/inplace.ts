@@ -40,12 +40,7 @@ export class JigInplace extends InplaceTemplates {
     // `contentVisible` is declared below; its field initializer has already run by
     // the time this constructor body executes, so it is safe to read here.
     const contentVisibleWithPrevious = signalWithPrevious(this.contentVisible);
-    // Keep focus with the user across the display↔content swap — the outgoing view
-    // is unmounted, which would otherwise drop focus to the document body. Both
-    // directions only act when focus WAS dropped to the body, never when the content
-    // (or something else on the page) already claimed it — so a content control that
-    // autofocuses itself (e.g. edit-inplace's input) keeps focus. Runs after render
-    // so the target element exists.
+    // Restores focus across the display/content swap, but only when it was dropped to the body.
     afterRenderEffect(() => {
       const { current: visible, previous } = contentVisibleWithPrevious();
       const doc = this.element.nativeElement.ownerDocument;

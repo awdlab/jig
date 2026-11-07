@@ -918,12 +918,7 @@ describe('DefaultSplitterCalculator', () => {
         // Move divider 50px to the right
         calculator.moveDivider(0, 50);
 
-        // Panel1 (px) should increase, Panel2 (fr) should decrease
-        // Initial fr area: 1000 - 10 (divider) - 400 (panel1) = 590px
-        // frPerPx: 1 / 590 ≈ 0.001694915
-        // Panel1 gains 50px: 400 + 50 = 450px
-        // Panel2 loses 50px which converts to: -50 * (1/590) ≈ -0.0847fr
-        // New fr value: 1 - 0.0847 ≈ 0.9153fr
+        // fr area is 590px: panel1 grows to 450px and panel2 loses 50/590fr to ~0.9153fr.
         expect(panel1.size()).toEqual('450px');
         expect(parseFloat(panel2.size())).toBeCloseTo(0.9152542373, 4);
         expect(panel2.size()).toContain('fr');
@@ -1091,13 +1086,7 @@ describe('DefaultSplitterCalculator', () => {
         // Move first divider 50px to the right
         calculator.moveDivider(0, 50);
 
-        // Panel1 (fr) should grow, Panel2 (px) should shrink, Panel3 unchanged
-        // Total fr area: 1000 - 20*2 (dividers) - 200 (panel2) = 760px
-        // Starting: 2fr total (1fr + 1fr) = 380px per fr
-        // frPerPx: 2/760 = 1/380
-        // After: panel1 gains 50px = 50 * (1/380) ≈ 0.1316fr
-        // New fr value: 1 + 0.1316 ≈ 1.1316fr
-        // panel2: 200 - 50 = 150px
+        // fr area is 760px (380px per fr): panel1 gains 50/380fr to ~1.1316fr and panel2 shrinks to 150px.
         expect(parseFloat(panel1.size())).toBeCloseTo(1.131578947, 4);
         expect(panel1.size()).toContain('fr');
         // Panel2 should shrink to 150px
@@ -1221,12 +1210,7 @@ describe('DefaultSplitterCalculator', () => {
         setPanelSize(panel3, '200px');
         setPanelSize(panel4, '200px');
 
-        // Try to move middle divider (index 1) by large amount
-        // Panel1 is fixed, Panel2 can shrink 50px, Panel3 can grow 50px, Panel4 is fixed
-        // Left side (Panel1+Panel2) can handle -50px total (Panel1 can't shrink, Panel2 can shrink 50)
-        // Right side (Panel3+Panel4) can handle +50px total (Panel3 can grow 50, Panel4 can't grow)
-        // But we're trying -100px, so it will adjust to -50
-        // However if there's asymmetry in how recursion works, line 525 might be hit
+        // Panel2 can only shrink and Panel3 only grow by 50px, so the -100px move clamps to -50px.
         calculator.moveDivider(1, -100);
 
         // Verify state

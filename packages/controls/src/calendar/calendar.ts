@@ -339,12 +339,7 @@ export class JigCalendar extends CalendarTemplates {
       return;
     }
     this._clearingMaskInput.set(false);
-    // One-directional sync: typing updates the calendar value (and thus the
-    // dropdown UI) only once the mask is COMPLETE — a fully filled, parseable
-    // date. Half-typed input never moves the calendar and is never reformatted
-    // back over the input. The calendar UI updates the value directly via
-    // selectDay / selectMonth / selectYear / changeTime (which then flow back
-    // out to the mask text via `valueStr`).
+    // Typed text only updates the value once the mask is complete, so half-typed input never moves the calendar.
     if (this._mask()?.complete()) {
       this.parseInputString();
     }

@@ -159,11 +159,7 @@ export class ThemeService implements OnDestroy {
     }
 
     if (this._config.respectReducedMotion) {
-      // Near-zero animation duration, so animationend still fires and leave logic completes.
-      // Transitions get a flat 0s: with the default `transition-property: all`, any non-zero
-      // duration transitions properties that had none, making computed-style reads lag a frame.
-      // `:where()` adds no specificity, so the tiers below cannot be outranked by this rule.
-      // Tiered elements are excluded from this rule entirely, so their CSS transitions are not collapsed.
+      // Near-zero animations keep animationend firing, transitions drop to 0s, and tiered elements are excluded via `:where()`.
       const untiered = `:not(:where(${MOTION_TIER_SELECTORS}))`;
       // Injected after the disableAnimations sheet above, so at equal specificity this sheet wins for tiered elements.
       this.upsertMotionStyle(

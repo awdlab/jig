@@ -188,18 +188,12 @@ export class JigUpload extends JigBase<'upload'> {
         return;
       }
       input.addEventListener('change', () => this.onNativeChange(input));
-      // The native input is the accessible control; name it from the projected
-      // placeholder content (previously the zone's own text). Set here because
-      // the input is projected content we can't bind an attribute on directly.
+      // Names the projected native input from the placeholder content, since projected content cannot be bound.
       input.setAttribute('aria-labelledby', this.labelId);
       this._nativeInput.set(input);
     });
 
-    // The projected native input[type=file] is itself the interactive, focusable
-    // control: it overlays the zone and opens the picker natively on
-    // click/Enter/Space. Drop it from the tab order only when clicking is
-    // disallowed (drag-only) or the control is disabled, so screen-reader users
-    // get a single, real focus stop with correct semantics.
+    // The native file input is the focus stop; it leaves the tab order when drag-only or disabled.
     effect(() => {
       const input = this._nativeInput();
       if (!input) {

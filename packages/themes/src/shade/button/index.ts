@@ -104,11 +104,7 @@ export const buttonStyles = createThemePart({
         }
       }
 
-      /* Square, ghost-style icon-only button. Kept because the built-in controls (dialog/toast
-       * close, paginator nav, calendar nav, input-field clear, …) reference kind="icon".
-       * NOTE: the paginator sizes its page buttons with an inline
-       * width: calc(1rem + 2 * var(--padding)) — so --padding MUST be defined here or those
-       * buttons collapse to inconsistent widths. */
+      /* Icon-only kind used by built-in controls; it must define --padding for the paginator's inline widths. */
       ${c('kind-icon')} {
         --padding: ${v('size.padding.md')};
         background: transparent;
