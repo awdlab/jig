@@ -1,5 +1,6 @@
 import { Component, input, computed, booleanAttribute } from '@angular/core';
 import { JigBase, JigPt, provideSelf } from '@awdlab/jig/base';
+import { clamp } from '@awdlab/jig/utils';
 import { progressControlTemplate } from '@awdlab/jig-themes/templates/progress';
 
 const TAU = Math.PI * 2;
@@ -14,7 +15,7 @@ const TAU = Math.PI * 2;
   providers: [provideSelf(JigProgress)],
   host: {
     role: 'progressbar',
-    '[class.jig-motion-loop]': 'indeterminate()',
+    '[attr.data-jig-motion]': 'indeterminate() ? "loop" : null',
     '[attr.aria-valuemin]': '0',
     '[attr.aria-valuemax]': '100',
     '[attr.aria-valuenow]': 'indeterminate() ? null : safeValue()',
@@ -56,7 +57,7 @@ export class JigProgress extends JigBase<'progress'> {
    */
   public readonly thickness = input<number>(8);
 
-  protected readonly safeValue = computed(() => Math.min(Math.max(this.value(), 0), 100));
+  protected readonly safeValue = computed(() => clamp(this.value(), 0, 100));
 
   protected readonly safeRadius = computed(() => Math.max(this.radius(), 0));
   protected readonly safeThickness = computed(() => Math.max(this.thickness(), 1));

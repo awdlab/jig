@@ -63,7 +63,7 @@ function movesCaret(event: KeyboardEvent): boolean {
     '(focusout)': 'currentHighlightedValue.set(null)',
     role: 'listbox',
     '[attr.aria-activedescendant]': 'highlightedOptionId()',
-    '[aria-multiselectable]': '!!multiple()',
+    '[attr.aria-multiselectable]': '!!multiple()',
     '[attr.aria-label]': 'label()',
     '[attr.aria-labelledby]': 'labelledBy()',
     '[id]': 'inputId()',

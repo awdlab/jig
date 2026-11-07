@@ -11,7 +11,8 @@ import { JigSpinner } from '@awdlab/jig/spinner';
       <img
         src="img/logo.png?v=4"
         alt=""
-        class="jig-motion-cosmetic animate-pulse"
+        data-jig-motion="cosmetic"
+        class="animate-pulse"
         [width]="markSize()"
         [height]="markSize()"
         [style.width.px]="markSize()"

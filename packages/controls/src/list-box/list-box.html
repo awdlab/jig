@@ -25,7 +25,7 @@
     [id]="optionId(itemOrGroup.value)"
     [attr.role]="itemOrGroup.items ? 'group' : 'option'"
     [attr.aria-label]="itemOrGroup.items ? maybeCallback(itemOrGroup.label) : null"
-    [aria-selected]="
+    [attr.aria-selected]="
       selectable() && !itemOrGroup.items ? valueArray().includes(itemOrGroup.value) : null
     "
     [attr.aria-disabled]="itemOrGroup.disabled ? 'true' : null"

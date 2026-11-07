@@ -22,6 +22,7 @@ import { JigInputField } from '@awdlab/jig/input-field';
 import { JigNumberInput } from '@awdlab/jig/number-input';
 import { JigPopover } from '@awdlab/jig/popover';
 import {
+  clamp,
   type ColorFormat,
   formatColor,
   hsvaToRgba,
@@ -53,7 +54,7 @@ const DEFAULT_HSVA: HSVA = { h: 0, s: 0, v: 0, a: 1 };
   ],
   providers: [provideSelf(JigColorPicker)],
   host: {
-    '[style.--hue]': 'hsva().h',
+    '[style.--jig-color-picker-hue]': 'hsva().h',
     '(focusout)': 'potentiallyBlurred()',
   },
 })
@@ -189,8 +190,8 @@ export class JigColorPicker extends ValueControlBase<'colorPicker', string> impl
     const el = this._svArea()?.nativeElement;
     if (!el) return;
     const rect = el.getBoundingClientRect();
-    const s = clamp01((info.absoluteX - rect.left) / rect.width);
-    const v = clamp01(1 - (info.absoluteY - rect.top) / rect.height);
+    const s = clamp((info.absoluteX - rect.left) / rect.width, 0, 1);
+    const v = clamp(1 - (info.absoluteY - rect.top) / rect.height, 0, 1);
     this.hsva.update(c => ({ ...c, s, v }));
     this.commit();
   }
@@ -200,7 +201,7 @@ export class JigColorPicker extends ValueControlBase<'colorPicker', string> impl
     const el = this._hueTrack()?.nativeElement;
     if (!el) return;
     const rect = el.getBoundingClientRect();
-    const h = clamp01((info.absoluteX - rect.left) / rect.width) * 360;
+    const h = clamp((info.absoluteX - rect.left) / rect.width, 0, 1) * 360;
     this.hsva.update(c => ({ ...c, h }));
     this.commit();
   }
@@ -210,7 +211,7 @@ export class JigColorPicker extends ValueControlBase<'colorPicker', string> impl
     const el = this._alphaTrack()?.nativeElement;
     if (!el) return;
     const rect = el.getBoundingClientRect();
-    const a = clamp01((info.absoluteX - rect.left) / rect.width);
+    const a = clamp((info.absoluteX - rect.left) / rect.width, 0, 1);
     this.hsva.update(c => ({ ...c, a }));
     this.commit();
   }
@@ -346,8 +347,4 @@ export class JigColorPicker extends ValueControlBase<'colorPicker', string> impl
   protected readonly svThumbTop = computed(() => (1 - this.hsva().v) * 100);
   protected readonly hueThumbLeft = computed(() => (this.hsva().h / 360) * 100);
   protected readonly alphaThumbLeft = computed(() => this.hsva().a * 100);
-}
-
-function clamp01(n: number): number {
-  return Math.min(1, Math.max(0, n));
 }

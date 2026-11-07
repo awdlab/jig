@@ -40,10 +40,10 @@ export const colorPickerStyles = createThemePart({
         height: 10rem;
         touch-action: none;
         cursor: crosshair;
-        /* --hue is set by the component (0..360) */
+        /* --jig-color-picker-hue is set by the component (0..360) */
         background:
           linear-gradient(to top, #000, transparent),
-          linear-gradient(to right, #fff, hsl(var(--hue), 100%, 50%));
+          linear-gradient(to right, #fff, hsl(var(--jig-color-picker-hue), 100%, 50%));
       }
       ${c('sv-thumb')}, ${c('hue-thumb')}, ${c('alpha-thumb')} {
         position: absolute;

@@ -55,7 +55,7 @@
 }
 @if (showProgress() && autoHideMs() > 0) {
   <div
-    class="jig-motion-exact"
+    data-jig-motion="exact"
     [ptInt]="this"
     [ptClass]="'progress-bar'"
     aria-hidden="true"

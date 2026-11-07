@@ -37,17 +37,7 @@ type BarAction = {
 @Component({
   selector: 'jig-table-row-actions-bar',
   imports: [JigActionButton],
-  template: `
-    @for (action of barActions(); track action.item.id) {
-      <jig-action-button
-        [class]="theme.class('row-action-button')"
-        [config]="action.config"
-        [inline]="true"
-        [attr.aria-haspopup]="action.hasChildren ? 'menu' : null"
-        (clicked)="onClicked(action)"
-      />
-    }
-  `,
+  templateUrl: './table-row-actions-bar.html',
   host: {
     '[class]': `theme.class('row-actions')`,
     role: 'presentation',

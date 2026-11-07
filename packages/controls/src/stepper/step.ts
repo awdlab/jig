@@ -17,7 +17,7 @@ import type { IconType } from '@awdlab/jig-custom-types';
  */
 @Component({
   selector: 'jig-step',
-  template: '',
+  templateUrl: './step.html',
   providers: [provideSelf(JigStep)],
 })
 export class JigStep extends JigBase<'stepper'> {

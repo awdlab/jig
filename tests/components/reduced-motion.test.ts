@@ -119,7 +119,7 @@ test('indeterminate progress keeps looping, determinate is untouched', async ({ 
     { search: '?animations' }
   );
 
-  await expect(page.locator('jig-progress.jig-motion-loop')).toHaveCount(1);
+  await expect(page.locator('jig-progress[data-jig-motion="loop"]')).toHaveCount(1);
 
   const fill = page.locator('jig-progress .jig-progress-fill');
   const motion = await motionOf(fill);
@@ -127,7 +127,7 @@ test('indeterminate progress keeps looping, determinate is untouched', async ({ 
   expect(motion.iterations).toBe('infinite');
 
   await handle.setInputs({ indeterminate: false });
-  await expect(page.locator('jig-progress.jig-motion-loop')).toHaveCount(0);
+  await expect(page.locator('jig-progress[data-jig-motion="loop"]')).toHaveCount(0);
 });
 
 test('the skeleton stops animating', async ({ page }) => {
@@ -157,7 +157,7 @@ test('the snackbar countdown bar keeps its exact duration', async ({ page }) => 
     { search: '?animations' }
   );
 
-  const motion = await motionOf(page.locator('jig-snackbar .jig-motion-exact'));
+  const motion = await motionOf(page.locator('jig-snackbar [data-jig-motion="exact"]'));
   expect(motion.duration).toBe(8);
 });
 
@@ -177,8 +177,8 @@ test('the snackbar itself still collapses under reduced motion', async ({ page }
   expect(motion.duration).toBeLessThan(0.001);
 
   // guards against the marker moving from the bar onto the host
-  await expect(page.locator('jig-snackbar.jig-motion-exact')).toHaveCount(0);
-  await expect(page.locator('jig-snackbar .jig-motion-exact')).toHaveCount(1);
+  await expect(page.locator('jig-snackbar[data-jig-motion="exact"]')).toHaveCount(0);
+  await expect(page.locator('jig-snackbar [data-jig-motion="exact"]')).toHaveCount(1);
 });
 
 test('rtl', async ({ page }, testInfo) => {

@@ -13,13 +13,13 @@ import { DeferTemplates } from './defer-templates';
   imports: [NgTemplateOutlet],
   providers: [provideSelf(JigDefer)],
   host: {
-    '[class.open]': 'open()',
-    '[class.hidden]': '!open() && hiddenOnClosed()',
-    '[aria-hidden]': '!open()',
+    '[attr.data-open]': 'open() ? "" : null',
+    '[attr.data-hidden]': '!open() && hiddenOnClosed() ? "" : null',
+    '[attr.aria-hidden]': '!open()',
   },
   styles: [
     `
-      :host.hidden {
+      :host[data-hidden] {
         visibility: hidden;
         position: absolute;
         top: -9999px;

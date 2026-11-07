@@ -7,13 +7,10 @@ import {
   themeOptionsMarkdown,
   themePartMarkdown,
   themeSchemaMarkdown,
+  text,
 } from './render.js';
 
 import type { McpServer } from '@modelcontextprotocol/sdk/server/mcp.js';
-
-function text(body: string) {
-  return { content: [{ type: 'text' as const, text: body }] };
-}
 
 /**
  * Theme authoring (capability 2). Knowledge-only: returns the token schema, a

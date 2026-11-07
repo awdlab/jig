@@ -34,18 +34,7 @@ export const TABLE_HEADER_INTERACTIVE_SELECTOR =
  */
 @Component({
   selector: 'th[jigTableTh]',
-  template: `
-    <span [class]="theme.class('cell-text')"><ng-content /></span>
-    <ng-content select="button, a, [jigTableThAction]" />
-    <div [class]="theme.class('spacer')"></div>
-    @if (_showHandle()) {
-      <div
-        [class]="theme.class('resize-handle')"
-        (pointerdown)="onResizePointerDown($event)"
-        (dblclick)="onResizeDblClick($event)"
-      ></div>
-    }
-  `,
+  templateUrl: './table-th.html',
   host: {
     role: 'columnheader',
     '[style.--jig-table-column-index]': '_visualColumnIndex()',

@@ -4,7 +4,7 @@ import { hostOrGeneratedId } from '@awdlab/jig/utils-ng';
 import { JigRovingGroup } from '@awdlab/jig/roving-group';
 import { radioGroupControlTemplate } from '@awdlab/jig-themes/templates/radio-group';
 
-import { JIG_RADIO_GROUP, type JigRadioGroupApi, type JigRadioRef } from './radio-group.token';
+import { JIG_RADIO_GROUP, type JigRadioGroupApi, type JigRadioRef } from './radio-group-token';
 
 /**
  * A themed radio group. Owns the selected {@link value}; the individual

@@ -1,0 +1,10 @@
+<span [class]="theme.class('cell-text')"><ng-content /></span>
+<ng-content select="button, a, [jigTableThAction]" />
+<div [class]="theme.class('spacer')"></div>
+@if (_showHandle()) {
+  <div
+    [class]="theme.class('resize-handle')"
+    (pointerdown)="onResizePointerDown($event)"
+    (dblclick)="onResizeDblClick($event)"
+  ></div>
+}

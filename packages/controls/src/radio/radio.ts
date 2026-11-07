@@ -11,7 +11,7 @@ import { JigBase, JigPt, provideSelf } from '@awdlab/jig/base';
 import { JigRovingItem } from '@awdlab/jig/roving-group';
 import { radioControlTemplate } from '@awdlab/jig-themes/templates/radio';
 
-import { JIG_RADIO_GROUP } from './radio-group.token';
+import { JIG_RADIO_GROUP } from './radio-group-token';
 
 /**
  * A single radio option. Must be projected inside a `jig-radio-group`, which

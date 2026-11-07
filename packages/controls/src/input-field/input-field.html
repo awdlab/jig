@@ -13,7 +13,7 @@
     disabled: disabled(),
   }"
   (click)="clicked($event)"
-  [tabindex]="tabindex()"
+  [attr.tabindex]="tabindex()"
 >
   <ng-content select="input, textarea" />
   @if (showClearButton() && !readonly()) {

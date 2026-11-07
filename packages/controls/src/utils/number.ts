@@ -25,3 +25,8 @@ export function roundToPrecision(value: number, decimals: number): number {
 export function addWithPrecision(base: number, delta: number): number {
   return roundToPrecision(base + delta, Math.max(decimalPlaces(base), decimalPlaces(delta)));
 }
+
+/** Clamps `value` into `[min, max]`; `min` wins when the bounds cross. */
+export function clamp(value: number, min: number, max: number): number {
+  return Math.max(min, Math.min(max, value));
+}

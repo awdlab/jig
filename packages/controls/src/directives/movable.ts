@@ -11,7 +11,8 @@ import {
   untracked,
 } from '@angular/core';
 import { domEventHandler, domEventSignal } from '@awdlab/jig/api/ng';
-import { JigBase } from '@awdlab/jig/base';
+import { JigBase, provideSelf } from '@awdlab/jig/base';
+import { clamp } from '@awdlab/jig/utils';
 import { signalWithPrevious } from '@awdlab/jig/utils-ng';
 import { movableDirectiveTemplate } from '@awdlab/jig-themes/templates/api';
 
@@ -27,6 +28,7 @@ import { movableDirectiveTemplate } from '@awdlab/jig-themes/templates/api';
  */
 @Directive({
   selector: '[jigMovable]',
+  providers: [provideSelf(JigMovable)],
 })
 export class JigMovable extends JigBase<'movable'> {
   protected readonly theme = this.injectThemeTemplate(movableDirectiveTemplate, {
@@ -131,8 +133,8 @@ export class JigMovable extends JigBase<'movable'> {
           const documentRect = this._document.documentElement.getBoundingClientRect();
           const elRect = this._el.nativeElement.getBoundingClientRect();
 
-          const clampedLeft = Math.min(Math.max(newLeft, 0), documentRect.width - elRect.width);
-          const clampedTop = Math.min(Math.max(newTop, 0), documentRect.height - elRect.height);
+          const clampedLeft = clamp(newLeft, 0, documentRect.width - elRect.width);
+          const clampedTop = clamp(newTop, 0, documentRect.height - elRect.height);
 
           this._el.nativeElement.style.left = `${clampedLeft}px`;
           this._el.nativeElement.style.top = `${clampedTop}px`;

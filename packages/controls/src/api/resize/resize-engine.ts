@@ -1,4 +1,5 @@
 import { afterRenderEffect, computed, signal, type Signal, untracked } from '@angular/core';
+import { clamp } from '@awdlab/jig/utils';
 
 import {
   expandResizeLimit,
@@ -732,11 +733,6 @@ export class ResizeEngine {
 }
 
 // --- Module-level helpers ---
-
-/** Clamps a value between min and max. */
-function clamp(value: number, min: number, max: number): number {
-  return Math.max(min, Math.min(max, value));
-}
 
 /** Resolves an expanded limit to px. */
 function limitToPx(limit: ExpandedResizeLimit, containerSize: number): number {

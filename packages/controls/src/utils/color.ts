@@ -1,3 +1,5 @@
+import { clamp } from './number';
+
 /** RGBA color. r/g/b are 0–255, a is 0–1. */
 export type RGBA = { r: number; g: number; b: number; a: number };
 /** HSVA color. h is 0–360, s/v/a are 0–1. */
@@ -5,7 +7,6 @@ export type HSVA = { h: number; s: number; v: number; a: number };
 /** Supported serialization formats. */
 export type ColorFormat = 'hex' | 'rgb' | 'hsl';
 
-const clamp = (n: number, min: number, max: number) => Math.min(max, Math.max(min, n));
 const round = (n: number) => Math.round(n);
 
 /** Parse a hex / rgb(a) / hsl(a) string into RGBA, or null if unrecognized. */

@@ -1,4 +1,4 @@
-import { addWithPrecision } from '@awdlab/jig/utils';
+import { addWithPrecision, clamp } from '@awdlab/jig/utils';
 
 export { decimalPlaces, roundToPrecision } from '@awdlab/jig/utils';
 
@@ -71,13 +71,7 @@ export function parseLocaleNumber(text: string, info: LocaleNumberInfo): ParsedN
 
 /** Clamps `value` into `[min, max]`; open bounds when `null`/`undefined`. */
 export function clampValue(value: number, min?: number | null, max?: number | null): number {
-  if (min != null && value < min) {
-    return min;
-  }
-  if (max != null && value > max) {
-    return max;
-  }
-  return value;
+  return clamp(value, min ?? -Infinity, max ?? Infinity);
 }
 
 /**

@@ -14,6 +14,7 @@
 - No component-level CSS/SCSS — all styling flows through the theme system
 - Tailwind CSS for utility classes in templates
 - Barrel exports via `index.ts` in every feature folder
+- Helpers meant for consumers (e.g. `domEventHandler`, `elementSizeSignal`) live in `@awdlab/jig/api/ng`; helpers only controls use (e.g. `toggleIdRefs`, `classSignal`) live in `@awdlab/jig/utils-ng` — never in both.
 - Use `@awdlab/*` path aliases for imports, never relative cross-package imports
 - 2-space indentation, single quotes (oxfmt formats `.ts`/`.json`/`.md`; Prettier + `@ngneers/prettier-config` formats `.html`)
 - Linting via oxlint with type-aware rules (tsgolint, `--type-aware`); config in root `.oxlintrc.json`. No ESLint.
@@ -26,6 +27,7 @@ _Decided 2026-07-08 (repo-wide audit). Apply to all new/edited controls; migrate
 
 - Extract a `{Name}Templates` base class (extending `JigBase` / `ValueControlBase`) **only for controls that expose template or `contentChild` projection inputs**. The component then `extends {Name}Templates` so template wiring stays out of the component class. Reference: `dialog` → `DialogTemplates`.
 - Controls with **no** template inputs stay flat: component extends the base directly and calls `injectThemeTemplate` inline. Do **not** create empty template base classes.
+- Host state is exposed as `data-*` attributes (`data-open`, `data-position`, `data-jig-motion`), never as host classes; theme classes from `ptClass` / `theme.class()` are not host state.
 
 ### Naming
 

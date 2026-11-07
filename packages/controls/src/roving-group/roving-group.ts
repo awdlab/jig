@@ -13,6 +13,7 @@ import {
   untracked,
 } from '@angular/core';
 import { domEventHandler, inlineArrowStep } from '@awdlab/jig/api/ng';
+import { clamp } from '@awdlab/jig/utils';
 import { generateElementId } from '@awdlab/jig/utils-ng';
 
 export type RovingOrientation = 'horizontal' | 'vertical';
@@ -132,7 +133,7 @@ export class JigRovingGroup {
       // so that attributes/focus always reference a valid item even if
       // activeIndex is stale after the items list shrinks.
       const active = items.length
-        ? Math.max(0, Math.min(this.activeIndex(), items.length - 1))
+        ? clamp(this.activeIndex(), 0, items.length - 1)
         : this.activeIndex();
 
       if (mode === 'tabindex') {

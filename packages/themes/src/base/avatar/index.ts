@@ -11,8 +11,8 @@ export const avatarStyles = createThemePart({
   root: {
     css: ({ v, c }) => css`
       ${c('root')} {
-        width: var(--size);
-        height: var(--size);
+        width: var(--jig-avatar-size);
+        height: var(--jig-avatar-size);
         flex-shrink: 0;
         overflow: hidden;
         display: inline-flex;
@@ -21,7 +21,9 @@ export const avatarStyles = createThemePart({
         justify-content: center;
       }
       ${c('initials')} {
-        font-size: calc(var(--size) / -12 * var(--letterCount) + var(--size) * 0.7);
+        font-size: calc(
+          var(--jig-avatar-size) / -12 * var(--letterCount) + var(--jig-avatar-size) * 0.7
+        );
         line-height: 0;
         font-family: monospace;
         user-select: none;

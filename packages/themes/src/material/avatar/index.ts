@@ -14,15 +14,15 @@ export const avatarStyles = createThemePart({
     css: ({ v, c }) => css`
       ${c('root')} {
         /* MD3 avatars default to a neutral surface fill (not primary) unless a
-           caller sets a deterministic per-user --color at runtime. */
-        --avatar-bg: var(--color, ${v('color.surface.200')});
+           caller sets a deterministic per-user --jig-avatar-color at runtime. */
+        --avatar-bg: var(--jig-avatar-color, ${v('color.surface.200')});
         border-radius: ${v('size.rounded.full')};
         &:not(:has(${c('image')})) {
           background-color: var(--avatar-bg);
         }
       }
       ${c('initials')} {
-        /* Adapts to a custom --color at runtime; pure-CSS since it can't be precomputed. */
+        /* Adapts to a custom --jig-avatar-color at runtime; pure-CSS since it can't be precomputed. */
         color: ${autoContrast('var(--avatar-bg)')};
         font-weight: ${v('font.weight.semibold')};
       }
@@ -49,7 +49,7 @@ export const avatarGroupStyles = createThemePart({
         &:not(:first-of-type) {
           /* Overlap scales with avatar size (half-overlap) so small stacks don't clump.
              At the 48px default this equals the former -1.5rem. */
-          margin-inline-start: calc(var(--size, 48px) * -0.5);
+          margin-inline-start: calc(var(--jig-avatar-size, 48px) * -0.5);
         }
         &:first-of-type {
           margin-inline-start: calc(-1 * var(--border-width));

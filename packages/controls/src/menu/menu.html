@@ -46,7 +46,7 @@
       #menuItem
       role="menuitem"
       aria-haspopup="menu"
-      [aria-expanded]="childMenu.open()"
+      [attr.aria-expanded]="childMenu.open()"
       tabindex="-1"
       [attr.tabindex]="index === tabStopIndex() ? 0 : -1"
       (focus)="focusedIndex.set(index)"

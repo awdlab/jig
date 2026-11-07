@@ -27,7 +27,7 @@ import { JigSnackbarManager } from './snackbar-manager';
 export class JigSnackbarHost extends JigBase<'snackbar'> {
   protected readonly theme = this.injectThemeTemplate(snackbarControlTemplate, 'host');
   protected readonly i18n = inject(I18n).translations;
-  private readonly _snackbarManager = inject(JigSnackbarManager);
+  private readonly _manager = inject(JigSnackbarManager);
   private readonly _el = inject<ElementRef<HTMLElement>>(ElementRef);
 
   private readonly _items = viewChildren(JigSnackbar);
@@ -36,7 +36,7 @@ export class JigSnackbarHost extends JigBase<'snackbar'> {
   // second toast appears below the first). Paired with the host's `column-reverse`, the first item
   // in DOM order sits at the bottom anchor, so a leaving item's following siblings are exactly the
   // ones that reflow toward the anchor — keeping the `& ~ *` leave-shift animation correct.
-  protected readonly snackbars = this._snackbarManager.snackbars;
+  protected readonly snackbars = this._manager.items;
 
   /**
    * Drives keyboard access to the region: `F6` jumps focus to the newest snackbar,
@@ -61,6 +61,6 @@ export class JigSnackbarHost extends JigBase<'snackbar'> {
   });
 
   protected removeSnackbar(id: number): void {
-    this._snackbarManager.removeSnackbar(id);
+    this._manager.remove(id);
   }
 }

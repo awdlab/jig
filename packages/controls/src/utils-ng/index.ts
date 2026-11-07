@@ -4,6 +4,7 @@ export * from './focus-trap';
 export * from './generate-id';
 export * from './globals';
 export * from './inject';
+export * from './notification-manager';
 export * from './notification-region';
 export * from './openable';
 export * from './overlay-lifecycle';

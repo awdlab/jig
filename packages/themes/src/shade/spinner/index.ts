@@ -25,8 +25,11 @@ export const spinnerStyles = createThemePart({
         transform-origin: 50% 50%;
       }
       ${c('circle')} {
-        --strokeWidth: var(--thickness, calc(var(--size) * 1px / 90 + 32px / 9));
-        --r: calc(var(--size) * 1px / 2 - var(--strokeWidth) / 2);
+        --strokeWidth: var(
+          --jig-spinner-thickness,
+          calc(var(--jig-spinner-size) * 1px / 90 + 32px / 9)
+        );
+        --r: calc(var(--jig-spinner-size) * 1px / 2 - var(--strokeWidth) / 2);
         --1deg: calc(2 * pi * var(--r) / 360);
         r: var(--r);
         stroke-width: var(--strokeWidth);

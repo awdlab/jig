@@ -1,4 +1,5 @@
 import { InjectionToken, type Provider } from '@angular/core';
+import { provideNotifications } from '@awdlab/jig/utils-ng';
 
 import { JigToastManager } from './toast-manager';
 
@@ -14,12 +15,6 @@ export const JIG_TOAST_USER_DEFAULTS = new InjectionToken<JigToastOptionsMeta>(
 
 export function withToasts(defaultOptions?: JigToastOptionsMeta): JigToastFeature {
   return {
-    providers: [
-      JigToastManager,
-      {
-        provide: JIG_TOAST_USER_DEFAULTS,
-        useValue: defaultOptions || {},
-      },
-    ],
+    providers: provideNotifications(JigToastManager, JIG_TOAST_USER_DEFAULTS, defaultOptions),
   };
 }

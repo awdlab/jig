@@ -15,6 +15,7 @@ import { JigButton } from '@awdlab/jig/button';
 import { I18n } from '@awdlab/jig/i18n';
 import { JigIcon } from '@awdlab/jig/icon';
 import { JigProgress } from '@awdlab/jig/progress';
+import { clamp } from '@awdlab/jig/utils';
 import { uploadControlTemplate } from '@awdlab/jig-themes/templates/upload';
 
 import type { JigUploadFile } from './types';
@@ -213,7 +214,7 @@ export class JigUpload extends JigBase<'upload'> {
 
   /** Report transfer progress (`0`–`100`) for a file; marks it `uploading`. */
   public setProgress(id: string, progress: number): void {
-    this.patch(id, { state: 'uploading', progress: clampPercent(progress) });
+    this.patch(id, { state: 'uploading', progress: clamp(progress, 0, 100) });
   }
 
   /** Mark a file as actively uploading. */
@@ -413,10 +414,6 @@ export class JigUpload extends JigBase<'upload'> {
       this.settle(id);
     }
   }
-}
-
-function clampPercent(value: number): number {
-  return Math.min(Math.max(value, 0), 100);
 }
 
 /** Match a file against an `accept` attribute (`.ext`, `type/sub`, `type/*`). */

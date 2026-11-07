@@ -372,3 +372,8 @@ export function recipeListLine(r: Recipe): string {
   const uses = r.controls.length ? ` _(uses: ${r.controls.join(', ')})_` : '';
   return `- **${r.title}** (\`${r.slug}\`) — ${r.summary}${uses}`;
 }
+
+/** Wraps a markdown body as an MCP text tool result. */
+export function text(body: string) {
+  return { content: [{ type: 'text' as const, text: body }] };
+}

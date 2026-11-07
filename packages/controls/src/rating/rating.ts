@@ -4,7 +4,7 @@ import { inlineArrowStep, isRtl } from '@awdlab/jig/api/ng';
 import { JigPt, provideSelf } from '@awdlab/jig/base';
 import { hostOrGeneratedId } from '@awdlab/jig/utils-ng';
 import { JigIcon } from '@awdlab/jig/icon';
-import { addWithPrecision } from '@awdlab/jig/utils';
+import { addWithPrecision, clamp } from '@awdlab/jig/utils';
 import { ratingControlTemplate } from '@awdlab/jig-themes/templates/rating';
 
 import { RatingTemplates } from './rating-templates';
@@ -21,7 +21,7 @@ import type { IconType } from '@awdlab/jig-custom-types';
   providers: [provideSelf(JigRating)],
   host: {
     role: 'slider',
-    'aria-valuemin': '0',
+    '[attr.aria-valuemin]': '0',
     '[attr.aria-valuemax]': 'count()',
     '[attr.aria-valuenow]': 'value()',
     '[attr.aria-readonly]': 'readonly() ? "true" : null',
@@ -31,7 +31,7 @@ import type { IconType } from '@awdlab/jig-custom-types';
     '[id]': 'inputId()',
     '[attr.aria-label]': 'label()',
     '[attr.aria-valuetext]': 'valueTextValue()',
-    '[tabindex]': 'disabled() ? -1 : 0',
+    '[attr.tabindex]': 'disabled() ? -1 : 0',
     '(keydown)': 'onKeyDown($event)',
     '(pointermove)': 'onPointerMove($event)',
     '(click)': 'onClick($event)',
@@ -91,7 +91,7 @@ export class JigRating extends RatingTemplates {
   /** Fill ratio 0..1 for symbol `index` given the current display value (hover ?? value). */
   protected fillRatio(index: number): number {
     const filled = this.displayValue() - index;
-    return Math.min(1, Math.max(0, filled));
+    return clamp(filled, 0, 1);
   }
 
   /** Moves the value by `delta`, clamped to the symbol count; at or below 0 the rating clears. */
@@ -189,7 +189,7 @@ export class JigRating extends RatingTemplates {
     }
     const offset = rtl ? rect.right - event.clientX : event.clientX - rect.left;
     const ratio = rect.width ? offset / rect.width : 1;
-    const clamped = Math.min(1, Math.max(0, ratio));
+    const clamped = clamp(ratio, 0, 1);
     // Fill on area-entry: within symbol `index`, snap UP to the nearest `step`
     // sub-division. Entering the symbol anywhere (ratio > 0) selects at least its
     // first sub-step, so a whole-step rating fills the entire symbol as soon as the

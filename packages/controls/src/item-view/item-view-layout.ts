@@ -1,4 +1,4 @@
-import { JigError } from '@awdlab/jig/utils';
+import { clamp, JigError } from '@awdlab/jig/utils';
 
 import type { OverflowStrategy } from './types';
 
@@ -49,7 +49,7 @@ export function getItemOverflowCheckOrder(params: {
     return [];
   }
 
-  const freezeCount = Math.min(Math.max(0, Math.floor(params.freezeCount)), count);
+  const freezeCount = clamp(Math.floor(params.freezeCount), 0, count);
 
   switch (params.strategy) {
     case 'end': {
@@ -82,7 +82,7 @@ export function getItemOverflowCheckOrder(params: {
       // FreezeCount applies to both ends; we must ensure the chosen index stays in-bounds.
       const minIndex = Math.min(freezeCount, count - 1);
       const maxIndex = Math.max(minIndex, count - freezeCount - 1);
-      const index = Math.min(Math.max(minIndex, Math.floor(params.strategyIndex)), maxIndex);
+      const index = clamp(Math.floor(params.strategyIndex), minIndex, maxIndex);
 
       const targetMiddleCount = Math.max(0, count - freezeCount * 2);
       const order: { index: number; location: 'start' | 'end' }[] =
@@ -242,7 +242,7 @@ export function calculateItemViewLayout(params: ItemViewLayoutInput): ItemViewLa
       const lastStartIndex = remainingItemOrders.findLast(x => x.location === 'start')?.index;
       if (overflowIndicatorLocations.has('start')) {
         const startIndex = firstStartIndex ?? firstEndIndex ?? 0;
-        res.push(startIndex + Math.min(Math.max(0, Math.floor(params.freezeCount)), count));
+        res.push(startIndex + clamp(Math.floor(params.freezeCount), 0, count));
       }
       if (overflowIndicatorLocations.has('end')) {
         const endIndex = lastEndIndex ? lastEndIndex + 1 : (lastStartIndex ?? 0);

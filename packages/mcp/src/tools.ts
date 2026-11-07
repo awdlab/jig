@@ -6,13 +6,10 @@ import {
   controlListLine,
   controlMarkdown,
   controlNames,
+  text,
 } from './render.js';
 
 import type { McpServer } from '@modelcontextprotocol/sdk/server/mcp.js';
-
-function text(body: string) {
-  return { content: [{ type: 'text' as const, text: body }] };
-}
 
 /** Register the v1 (docs/explain) tool surface. */
 export function registerTools(server: McpServer, pack: KnowledgePack): void {

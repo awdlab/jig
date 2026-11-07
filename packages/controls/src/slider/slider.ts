@@ -15,7 +15,7 @@ import { hostOrGeneratedId } from '@awdlab/jig/utils-ng';
 import { JigDrag, type JigDragInfo } from '@awdlab/jig/directives';
 import { I18n } from '@awdlab/jig/i18n';
 import { sliderControlTemplate } from '@awdlab/jig-themes/templates/slider';
-import { addWithPrecision, JigError } from '@awdlab/jig/utils';
+import { addWithPrecision, clamp, JigError } from '@awdlab/jig/utils';
 
 import type { InputGeneric } from '@awdlab/jig/utils';
 import { inlineArrowStep, isRtl } from '@awdlab/jig/api/ng';
@@ -179,7 +179,7 @@ export class JigSlider<Range extends boolean = false> extends ValueControlBase<
 
   /** {@link minRangeDistance}, held to a gap the track can actually hold. */
   private readonly gap = computed(() =>
-    Math.min(Math.max(0, this.max() - this.min()), Math.max(0, this.minRangeDistance()))
+    clamp(this.minRangeDistance(), 0, Math.max(0, this.max() - this.min()))
   );
 
   protected readonly startPercent = computed(() => this.percentOf(this.values()[0]));
@@ -359,7 +359,7 @@ export class JigSlider<Range extends boolean = false> extends ValueControlBase<
 
   private setHandle(handle: SliderHandle, next: number): void {
     const [lower, upper] = handle === 'start' ? this.startBounds() : this.endBounds();
-    const clamped = Math.min(upper, Math.max(lower, next));
+    const clamped = clamp(next, lower, upper);
     if (this.isRange()) {
       const [start, end] = this.values();
       const pair: [number, number] = handle === 'start' ? [clamped, end] : [start, clamped];

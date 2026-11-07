@@ -27,11 +27,11 @@ import { JIG_CONFIG, type JigConfig } from './config';
 
 /** Elements opted out of the default reduced-motion collapse by a motion tier marker. */
 const MOTION_TIER_SELECTORS =
-  '.jig-motion-exact, .jig-motion-exact *, ' +
-  '.jig-motion-loop, .jig-motion-loop *, ' +
-  '.jig-motion-cosmetic, .jig-motion-cosmetic *';
+  "[data-jig-motion='exact'], [data-jig-motion='exact'] *, " +
+  "[data-jig-motion='loop'], [data-jig-motion='loop'] *, " +
+  "[data-jig-motion='cosmetic'], [data-jig-motion='cosmetic'] *";
 
-/** Loop speed for `jig-motion-loop` under reduced motion — slow enough to read as motion-light, fast enough to still look like it's running. */
+/** Loop speed for `data-jig-motion="loop"` under reduced motion — slow enough to read as motion-light, fast enough to still look like it's running. */
 const REDUCED_MOTION_LOOP_DURATION = '6s';
 
 export type AppliedThemeClassCfg<T extends ControlName> =
@@ -174,11 +174,11 @@ export class ThemeService implements OnDestroy {
             animation-iteration-count: 1 !important;
             transition-duration: 0s !important;
           }
-          .jig-motion-loop, .jig-motion-loop * {
+          [data-jig-motion='loop'], [data-jig-motion='loop'] * {
             animation-duration: ${REDUCED_MOTION_LOOP_DURATION} !important;
             animation-iteration-count: infinite !important;
           }
-          .jig-motion-cosmetic, .jig-motion-cosmetic * {
+          [data-jig-motion='cosmetic'], [data-jig-motion='cosmetic'] * {
             animation-name: none !important;
           }
         }`
