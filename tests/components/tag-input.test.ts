@@ -335,18 +335,18 @@ test('roving tag navigation', async ({ page }) => {
 
   await test.step('ArrowLeft from the caret start enters the row at the last tag', async () => {
     await page.keyboard.press('ArrowLeft');
-    await expect(tags.removeButton(2)).toBeFocused();
+    await expect(tags.getRemoveButtonByIndex(2)).toBeFocused();
   });
 
   await test.step('arrows move between tags', async () => {
     await page.keyboard.press('ArrowLeft');
-    await expect(tags.removeButton(1)).toBeFocused();
+    await expect(tags.getRemoveButtonByIndex(1)).toBeFocused();
   });
 
   await test.step('Delete removes the focused tag and keeps focus in the row', async () => {
     await page.keyboard.press('Delete');
     await tags.expectTags(['alpha', 'gamma']);
-    await expect(tags.removeButton(1)).toBeFocused();
+    await expect(tags.getRemoveButtonByIndex(1)).toBeFocused();
   });
 
   await test.step('Escape returns to the field', async () => {
@@ -355,7 +355,7 @@ test('roving tag navigation', async ({ page }) => {
   });
 
   await test.step('clicking a remove button removes that tag', async () => {
-    await tags.removeButton(0).click();
+    await tags.getRemoveButtonByIndex(0).click();
     await tags.expectTags(['gamma']);
   });
 });
@@ -576,22 +576,30 @@ test('states and accessibility', async ({ page }, testInfo) => {
     await expect(tags.input.locator).toHaveAttribute('aria-haspopup', 'listbox');
     await expect(tags.liveRegion).toHaveAttribute('aria-live', 'polite');
     await expect(tags.tagList).toHaveAttribute('role', 'list');
-    await expect(tags.removeButton(0)).toHaveAttribute('aria-label', 'Remove alpha');
+    await expect(tags.getRemoveButtonByIndex(0)).toHaveAttribute('aria-label', 'Remove alpha');
     await expectNoA11yViolations(page);
     await expectScreenshot(page, testInfo, 'default');
   });
 
   await test.step('readonly hides the remove buttons', async () => {
     await handle.setInputs({ readonly: true });
-    await expect(tags.removeButton(0)).toHaveCount(0);
+    await expect(tags.getRemoveButtonByIndex(0)).toHaveCount(0);
     await expectScreenshot(page, testInfo, 'readonly');
   });
 
   await test.step('disabled hides them too', async () => {
     await handle.setInputs({ readonly: false, disabled: true });
-    await expect(tags.removeButton(0)).toHaveCount(0);
+    await expect(tags.getRemoveButtonByIndex(0)).toHaveCount(0);
     await expectScreenshot(page, testInfo, 'disabled');
   });
+});
+
+test('accessibility (axe)', async ({ page }) => {
+  await load(page);
+  const tags = new JigTagInputHarness(page.locator('jig-tag-input'));
+  await tags.type('alpha,beta,');
+  await tags.expectTags(['alpha', 'beta']);
+  await expectNoA11yViolations(page);
 });
 
 test('rtl', async ({ page }, testInfo) => {
@@ -610,11 +618,11 @@ test('rtl keyboard: the caret reaches the tags along the inline axis', async ({ 
 
   // The tags precede the caret on the inline axis, so RTL reaches them with ArrowRight.
   await page.keyboard.press('ArrowRight');
-  await expect(tags.removeButton(2)).toBeFocused();
+  await expect(tags.getRemoveButtonByIndex(2)).toBeFocused();
 
   await page.keyboard.press('ArrowRight');
-  await expect(tags.removeButton(1)).toBeFocused();
+  await expect(tags.getRemoveButtonByIndex(1)).toBeFocused();
 
   await page.keyboard.press('ArrowLeft');
-  await expect(tags.removeButton(2)).toBeFocused();
+  await expect(tags.getRemoveButtonByIndex(2)).toBeFocused();
 });

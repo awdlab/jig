@@ -61,7 +61,7 @@ export class JigSnackbarHostHarness extends JigHarness {
     super(page.locator('jig-snackbar-host'));
   }
 
-  public getSnackbar(index: number = 0): JigSnackbarHarness {
+  public getSnackbarByIndex(index: number = 0): JigSnackbarHarness {
     return new JigSnackbarHarness(this.locator.locator('jig-snackbar').nth(index));
   }
 

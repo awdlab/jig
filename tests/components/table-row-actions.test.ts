@@ -1,4 +1,5 @@
-import test, { expect } from '@playwright/test';
+import test, { expect, type Page } from '@playwright/test';
+import { JigTableHarness } from '@awdlab/jig-playwright';
 import { expectNoA11yViolations } from '../helper/axe';
 import { loadComponent, evalValue } from '../helper/load-component';
 import { useRtl } from '../helper/direction';
@@ -59,16 +60,21 @@ const SELECTION_TEMPLATE = `
   </jig-table>
 `;
 
+function tableHarness(page: Page) {
+  return new JigTableHarness(page.locator('jig-table'));
+}
+
 /** Reads the callback log recorded by action callbacks in the page. */
-function calls(page: import('@playwright/test').Page) {
+function calls(page: Page) {
   return page.evaluate(() => (window as unknown as { __calls?: string[] }).__calls ?? []);
 }
 
 test('mouse: context menu, inline bar, and disabling inline', async ({ page }) => {
+  const table = tableHarness(page);
   await test.step('right-click opens the menu and activating an item runs its callback', async () => {
     await loadComponent(
       page,
-      { template: TEMPLATE, imports: ['tableModule', 'jigTemplate'] },
+      { template: TEMPLATE, imports: ['tableModule', 'template'] },
       {
         inputs: {
           rows: ROWS,
@@ -79,7 +85,7 @@ test('mouse: context menu, inline bar, and disabling inline', async ({ page }) =
       }
     );
 
-    const firstRow = page.locator('tbody tr[role="row"]').nth(0);
+    const firstRow = table.getRowByIndex(0);
     // Dispatch the `contextmenu` event directly rather than
     // `click({ button: 'right' })`: WebKit under Playwright does not reliably
     // fire `contextmenu` from a synthetic right-click, which is a test-harness
@@ -96,7 +102,7 @@ test('mouse: context menu, inline bar, and disabling inline', async ({ page }) =
   await test.step('inline bar renders, reveals on hover, and clicking an action runs its callback', async () => {
     await loadComponent(
       page,
-      { template: INLINE_TEMPLATE, imports: ['tableModule', 'jigTemplate'] },
+      { template: INLINE_TEMPLATE, imports: ['tableModule', 'template'] },
       {
         inputs: {
           rows: ROWS,
@@ -107,24 +113,24 @@ test('mouse: context menu, inline bar, and disabling inline', async ({ page }) =
       }
     );
 
-    const firstRow = page.locator('tbody tr[role="row"]').nth(0);
+    const firstRow = table.getRowByIndex(0);
     await firstRow.hover();
-    const btn = firstRow.locator('[data-testid="inline-edit"]');
+    const btn = table.getRowActionByIndex(0, 'inline-edit');
     await expect(btn).toBeVisible();
     await btn.click();
 
     // Callback ran and the bar stays mounted after the action.
     expect(await calls(page)).toContain('edit');
-    await expect(firstRow.locator('jig-table-row-actions-bar')).toHaveCount(1);
+    await expect(table.getRowActionsBarByIndex(0)).toHaveCount(1);
   });
 
   await test.step('inline can be disabled without affecting the context menu', async () => {
     await loadComponent(
       page,
-      { template: TEMPLATE, imports: ['tableModule', 'jigTemplate'] },
+      { template: TEMPLATE, imports: ['tableModule', 'template'] },
       { inputs: { rows: ROWS, actions: [{ id: 'edit', label: 'Edit', testId: 'x' }] } }
     );
-    await expect(page.locator('jig-table-row-actions-bar')).toHaveCount(0);
+    await table.expectRowActionsBarVisible(false);
   });
 });
 
@@ -178,6 +184,7 @@ test('inline bar component: rendering, accessible names, and submenus', async ({
 test('keyboard: roving focus, activation, and menu triggers (no selection mode)', async ({
   page,
 }) => {
+  const table = tableHarness(page);
   const twoActions = [
     { id: 'edit', label: 'Edit', icon: 'edit', testId: 'kb-edit' },
     { id: 'del', label: 'Delete', icon: 'delete', testId: 'kb-del' },
@@ -186,46 +193,43 @@ test('keyboard: roving focus, activation, and menu triggers (no selection mode)'
   await test.step('arrows enter/move/exit the action bar and Escape backs out', async () => {
     await loadComponent(
       page,
-      { template: INLINE_TEMPLATE, imports: ['tableModule', 'jigTemplate'] },
+      { template: INLINE_TEMPLATE, imports: ['tableModule', 'template'] },
       { inputs: { rows: ROWS, actions: twoActions } }
     );
-
-    const table = page.locator('jig-table table[role="grid"]');
-    const firstRow = page.locator('tbody tr[role="row"]').nth(0);
-    await table.focus();
+    await table.grid.focus();
 
     // ArrowDown highlights the row (focused-row), but not yet in the actions.
     await page.keyboard.press('ArrowDown');
-    await expect(firstRow).toHaveClass(/focused-row|table-focused-row/);
-    await expect(firstRow).not.toHaveClass(/active-row|table-active-row/);
+    await table.expectRowClass(0, 'focused-row');
+    await table.expectRowClass(0, 'active-row', false);
 
     // ArrowRight enters the bar → first action focused, active-row set.
     await page.keyboard.press('ArrowRight');
-    await expect(firstRow.locator('[data-testid="kb-edit"]')).toBeFocused();
-    await expect(firstRow).toHaveClass(/active-row|table-active-row/);
+    await expect(table.getRowActionByIndex(0, 'kb-edit')).toBeFocused();
+    await table.expectRowClass(0, 'active-row');
 
     // ArrowRight/ArrowLeft move between actions.
     await page.keyboard.press('ArrowRight');
-    await expect(firstRow.locator('[data-testid="kb-del"]')).toBeFocused();
+    await expect(table.getRowActionByIndex(0, 'kb-del')).toBeFocused();
     await page.keyboard.press('ArrowLeft');
-    await expect(firstRow.locator('[data-testid="kb-edit"]')).toBeFocused();
+    await expect(table.getRowActionByIndex(0, 'kb-edit')).toBeFocused();
 
     // ArrowLeft off the first action returns to row navigation (table focused).
     await page.keyboard.press('ArrowLeft');
-    await expect(table).toBeFocused();
+    await expect(table.grid).toBeFocused();
 
     // Re-enter, then Escape backs out to the row.
     await page.keyboard.press('ArrowRight');
-    await expect(firstRow.locator('[data-testid="kb-edit"]')).toBeFocused();
+    await expect(table.getRowActionByIndex(0, 'kb-edit')).toBeFocused();
     await page.keyboard.press('Escape');
-    await expect(firstRow.locator('[data-testid="kb-edit"]')).not.toBeFocused();
-    await expect(firstRow).not.toHaveClass(/active-row|table-active-row/);
+    await expect(table.getRowActionByIndex(0, 'kb-edit')).not.toBeFocused();
+    await table.expectRowClass(0, 'active-row', false);
   });
 
   await test.step('Enter on a focused action activates it without opening the context menu', async () => {
     await loadComponent(
       page,
-      { template: INLINE_TEMPLATE, imports: ['tableModule', 'jigTemplate'] },
+      { template: INLINE_TEMPLATE, imports: ['tableModule', 'template'] },
       {
         inputs: {
           rows: ROWS,
@@ -233,17 +237,14 @@ test('keyboard: roving focus, activation, and menu triggers (no selection mode)'
         },
       }
     );
-
-    const table = page.locator('jig-table table[role="grid"]');
-    const firstRow = page.locator('tbody tr[role="row"]').nth(0);
-    await table.focus();
+    await table.grid.focus();
     await page.keyboard.press('ArrowDown');
     // Wait for the row to become active (which reveals its inline bar) before
     // entering the actions — otherwise ArrowRight can run focusFirst() while the
     // bar is still hidden/unfocusable.
-    await expect(firstRow).toHaveClass(/focused-row|table-focused-row/);
+    await table.expectRowClass(0, 'focused-row');
     await page.keyboard.press('ArrowRight');
-    const btn = firstRow.locator('[data-testid="kb-enter-edit"]');
+    const btn = table.getRowActionByIndex(0, 'kb-enter-edit');
     await expect(btn).toBeFocused();
 
     await page.keyboard.press('Enter');
@@ -255,10 +256,10 @@ test('keyboard: roving focus, activation, and menu triggers (no selection mode)'
     for (const key of ['ContextMenu', 'Shift+F10']) {
       await loadComponent(
         page,
-        { template: TEMPLATE, imports: ['tableModule', 'jigTemplate'] },
+        { template: TEMPLATE, imports: ['tableModule', 'template'] },
         { inputs: { rows: ROWS, actions: [{ id: 'edit', label: 'Edit', testId: 'kb-menu' }] } }
       );
-      await page.locator('jig-table table[role="grid"]').focus();
+      await table.grid.focus();
       await page.keyboard.press('ArrowDown');
       await page.keyboard.press(key);
       await expect(page.getByText('Edit').first()).toBeVisible();
@@ -273,11 +274,11 @@ test('keyboard: roving focus, activation, and menu triggers (no selection mode)'
           '[jigTableRowActionsInline]="false"',
           '[jigTableRowActionsInline]="false" [jigTableRowActionsContext]="false"'
         ),
-        imports: ['tableModule', 'jigTemplate'],
+        imports: ['tableModule', 'template'],
       },
       { inputs: { rows: ROWS, actions: [{ id: 'edit', label: 'Edit', testId: 'kb-ctx-off' }] } }
     );
-    await page.locator('jig-table table[role="grid"]').focus();
+    await table.grid.focus();
     await page.keyboard.press('ArrowDown');
     await page.keyboard.press('ContextMenu');
     await expect(page.getByText('Edit').first()).toBeVisible();
@@ -285,44 +286,42 @@ test('keyboard: roving focus, activation, and menu triggers (no selection mode)'
 });
 
 test('keyboard: row actions coexist with selection mode', async ({ page }) => {
+  const table = tableHarness(page);
   const oneAction = [{ id: 'edit', label: 'Edit', icon: 'edit', testId: 'sel-edit' }];
 
   await test.step('single mode — arrows select + move rows, and entering the bar never corrupts selection', async () => {
     await loadComponent(
       page,
-      { template: SELECTION_TEMPLATE, imports: ['tableModule', 'jigTemplate'] },
+      { template: SELECTION_TEMPLATE, imports: ['tableModule', 'template'] },
       { inputs: { rows: ROWS, selectionMode: 'single', actions: oneAction } }
     );
-
-    const table = page.locator('jig-table table[role="grid"]');
-    const rows = page.locator('tbody tr[role="row"]');
-    await table.focus();
+    await table.grid.focus();
 
     // ArrowDown moves to row 0 and, in single mode, selects it.
     await page.keyboard.press('ArrowDown');
-    await expect(rows.nth(0)).toHaveClass(/focused-row/);
-    await expect(rows.nth(0)).toHaveAttribute('aria-selected', 'true');
+    await table.expectRowClass(0, 'focused-row');
+    await table.expectSelected(0);
 
     // ArrowRight enters the action bar.
     await page.keyboard.press('ArrowRight');
-    const btn = rows.nth(0).locator('[data-testid="sel-edit"]');
+    const btn = table.getRowActionByIndex(0, 'sel-edit');
     await expect(btn).toBeFocused();
-    await expect(rows.nth(0)).toHaveClass(/active-row/);
+    await table.expectRowClass(0, 'active-row');
 
     // ArrowDown while in the bar must NOT fall through to selection: the
     // selected row stays row 0 and focus stays on the action button.
     await page.keyboard.press('ArrowDown');
-    await expect(rows.nth(0)).toHaveAttribute('aria-selected', 'true');
-    await expect(rows.nth(1)).not.toHaveAttribute('aria-selected', 'true');
+    await table.expectSelected(0);
+    await table.expectSelected(1, false);
     await expect(btn).toBeFocused();
 
     // ArrowLeft exits the bar back to the table, then ArrowDown advances the
     // selection to row 1 (row navigation resumes and still drives selection).
     await page.keyboard.press('ArrowLeft');
-    await expect(table).toBeFocused();
+    await expect(table.grid).toBeFocused();
     await page.keyboard.press('ArrowDown');
-    await expect(rows.nth(1)).toHaveAttribute('aria-selected', 'true');
-    await expect(rows.nth(0)).toHaveAttribute('aria-selected', 'false');
+    await table.expectSelected(1);
+    await table.expectSelected(0, false);
   });
 
   await test.step('single mode — mouse-click select then ArrowDown advances from the clicked row', async () => {
@@ -335,7 +334,7 @@ test('keyboard: row actions coexist with selection mode', async ({ page }) => {
     ];
     await loadComponent(
       page,
-      { template: SELECTION_TEMPLATE, imports: ['tableModule', 'jigTemplate'] },
+      { template: SELECTION_TEMPLATE, imports: ['tableModule', 'template'] },
       {
         inputs: {
           rows: fourRows,
@@ -344,43 +343,38 @@ test('keyboard: row actions coexist with selection mode', async ({ page }) => {
         },
       }
     );
-
-    const rows = page.locator('tbody tr[role="row"]');
-    await rows.nth(2).click();
-    await expect(rows.nth(2)).toHaveAttribute('aria-selected', 'true');
+    await table.getRowByIndex(2).click();
+    await table.expectSelected(2);
 
     await page.keyboard.press('ArrowDown');
-    await expect(rows.nth(3)).toHaveAttribute('aria-selected', 'true');
-    await expect(rows.nth(2)).toHaveAttribute('aria-selected', 'false');
-    await expect(rows.nth(0)).toHaveAttribute('aria-selected', 'false');
+    await table.expectSelected(3);
+    await table.expectSelected(2, false);
+    await table.expectSelected(0, false);
   });
 
   await test.step('multi mode — ArrowDown moves focus only, Space toggles, and Space inside the bar activates the action instead of toggling', async () => {
     await loadComponent(
       page,
-      { template: SELECTION_TEMPLATE, imports: ['tableModule', 'jigTemplate'] },
+      { template: SELECTION_TEMPLATE, imports: ['tableModule', 'template'] },
       { inputs: { rows: ROWS, selectionMode: 'multi', actions: oneAction } }
     );
-
-    const table = page.locator('jig-table table[role="grid"]');
-    const rows = page.locator('tbody tr[role="row"]');
-    await table.focus();
+    await table.grid.focus();
 
     // In multi mode ArrowDown moves focus without auto-selecting.
     await page.keyboard.press('ArrowDown');
-    await expect(rows.nth(0)).toHaveClass(/focused-row/);
-    await expect(rows.nth(0)).toHaveAttribute('aria-selected', 'false');
+    await table.expectRowClass(0, 'focused-row');
+    await table.expectSelected(0, false);
 
     // Space toggles selection of the current row.
     await page.keyboard.press(' ');
-    await expect(rows.nth(0)).toHaveAttribute('aria-selected', 'true');
+    await table.expectSelected(0);
 
     // Enter the bar; Space now activates the focused button, not selection —
     // the row's selected state must remain unchanged and no menu opens.
     await page.keyboard.press('ArrowRight');
-    await expect(rows.nth(0).locator('[data-testid="sel-edit"]')).toBeFocused();
+    await expect(table.getRowActionByIndex(0, 'sel-edit')).toBeFocused();
     await page.keyboard.press(' ');
-    await expect(rows.nth(0)).toHaveAttribute('aria-selected', 'true');
+    await table.expectSelected(0);
     await expect(page.locator('[role="menu"]')).toHaveCount(0);
   });
 });
@@ -388,6 +382,7 @@ test('keyboard: row actions coexist with selection mode', async ({ page }) => {
 test('inline actions bound to a fresh array each change-detection do not trigger NG0103', async ({
   page,
 }) => {
+  const table = tableHarness(page);
   const errors: string[] = [];
   page.on('console', msg => {
     if (msg.type() === 'error') errors.push(msg.text());
@@ -419,7 +414,7 @@ test('inline actions bound to a fresh array each change-detection do not trigger
 
   await loadComponent(
     page,
-    { template, imports: ['tableModule', 'jigTemplate'] },
+    { template, imports: ['tableModule', 'template'] },
     {
       inputs: {
         rows: ROWS,
@@ -428,73 +423,69 @@ test('inline actions bound to a fresh array each change-detection do not trigger
     }
   );
 
-  await expect(page.locator('tbody tr[role="row"]')).toHaveCount(ROWS.length);
+  await table.expectRowCount(ROWS.length);
   expect(errors.join('\n')).not.toContain('NG0103');
 });
 
 test('keyboard: tabbing out of the action bar does not freeze row navigation', async ({ page }) => {
+  const table = tableHarness(page);
   await loadComponent(
     page,
-    { template: INLINE_TEMPLATE, imports: ['tableModule', 'jigTemplate'] },
+    { template: INLINE_TEMPLATE, imports: ['tableModule', 'template'] },
     { inputs: { rows: ROWS, actions: [{ id: 'edit', label: 'Edit', icon: 'edit' }] } }
   );
-
-  const grid = page.locator('jig-table table[role="grid"]');
-  const rows = page.locator('tbody tr[role="row"]');
-  await grid.focus();
+  await table.grid.focus();
 
   // Enter the first row's action bar, then leave it with Tab instead of Escape.
   await page.keyboard.press('ArrowDown');
-  await expect(rows.nth(0)).toHaveClass(/focused-row/);
+  await table.expectRowClass(0, 'focused-row');
   await page.keyboard.press('ArrowRight');
-  await expect(rows.nth(0)).toHaveClass(/active-row/);
+  await table.expectRowClass(0, 'active-row');
   // Same reason as above: Tab must start from the action button, not the grid.
-  await expect(rows.nth(0).locator('jig-table-row-actions-bar button').first()).toBeFocused();
+  await expect(table.getRowActionsBarByIndex(0).locator('button').first()).toBeFocused();
   await page.keyboard.press('Tab');
 
   // Back on the grid, the arrows must still move the current row.
-  await grid.focus();
-  await expect(rows.nth(0)).not.toHaveClass(/active-row/);
+  await table.grid.focus();
+  await table.expectRowClass(0, 'active-row', false);
   await page.keyboard.press('ArrowDown');
-  await expect(rows.nth(1)).toHaveClass(/focused-row/);
-  await expect(rows.nth(0)).not.toHaveClass(/focused-row/);
+  await table.expectRowClass(1, 'focused-row');
+  await table.expectRowClass(0, 'focused-row', false);
 });
 
 test('keyboard: tabbing into an action bar adopts its row as the current one', async ({ page }) => {
+  const table = tableHarness(page);
   await loadComponent(
     page,
-    { template: INLINE_TEMPLATE, imports: ['tableModule', 'jigTemplate'] },
+    { template: INLINE_TEMPLATE, imports: ['tableModule', 'template'] },
     { inputs: { rows: ROWS, actions: [{ id: 'edit', label: 'Edit', icon: 'edit' }] } }
   );
-
-  const rows = page.locator('tbody tr[role="row"]');
   // Hover reveals the second row's bar, then focus its button directly.
-  await rows.nth(1).hover();
-  await rows.nth(1).locator('button').first().focus();
-  await expect(rows.nth(1)).toHaveClass(/active-row/);
+  await table.getRowByIndex(1).hover();
+  await table.getRowActionsBarByIndex(1).locator('button').first().focus();
+  await table.expectRowClass(1, 'active-row');
 
   // Escape leaves the bar and navigation continues from that row.
   await page.keyboard.press('Escape');
   await page.keyboard.press('ArrowUp');
-  await expect(rows.nth(0)).toHaveClass(/focused-row/);
+  await table.expectRowClass(0, 'focused-row');
 });
 
 test('keyboard: leaving the table forward hides the action bar', async ({ page }) => {
+  const table = tableHarness(page);
   await loadComponent(
     page,
     {
       // A focusable element after the table, so Tab has somewhere to go.
       template: `${INLINE_TEMPLATE}<button type="button" data-testid="after">after</button>`,
-      imports: ['tableModule', 'jigTemplate'],
+      imports: ['tableModule', 'template'],
     },
     { inputs: { rows: ROWS, actions: [{ id: 'edit', label: 'Edit', icon: 'edit' }] } }
   );
-
-  const rows = page.locator('tbody tr[role="row"]');
-  const bar = rows.nth(0).locator('jig-table-row-actions-bar');
-  await page.locator('jig-table table[role="grid"]').focus();
+  const bar = table.getRowActionsBarByIndex(0);
+  await table.grid.focus();
   await page.keyboard.press('ArrowDown');
-  await expect(rows.nth(0)).toHaveClass(/focused-row/);
+  await table.expectRowClass(0, 'focused-row');
   await page.keyboard.press('ArrowRight');
   await expect(bar).toBeVisible();
   // Focus has to be inside the bar before tabbing: a visible bar alone does not
@@ -506,13 +497,14 @@ test('keyboard: leaving the table forward hides the action bar', async ({ page }
   await page.keyboard.press('Tab');
   await expect(page.getByTestId('after')).toBeFocused();
   await expect(bar).toBeHidden();
-  await expect(rows.nth(0)).not.toHaveClass(/active-row/);
+  await table.expectRowClass(0, 'active-row', false);
 });
 
 test('accessibility (axe)', async ({ page }) => {
+  const table = tableHarness(page);
   await loadComponent(
     page,
-    { template: INLINE_TEMPLATE, imports: ['tableModule', 'jigTemplate'] },
+    { template: INLINE_TEMPLATE, imports: ['tableModule', 'template'] },
     {
       inputs: {
         rows: ROWS,
@@ -523,7 +515,7 @@ test('accessibility (axe)', async ({ page }) => {
     }
   );
 
-  await expect(page.locator('tbody tr[role="row"]')).toHaveCount(ROWS.length);
+  await table.expectRowCount(ROWS.length);
   await expectNoA11yViolations(page);
 });
 
@@ -531,7 +523,7 @@ test('rtl', async ({ page }, testInfo) => {
   await useRtl(page);
   await loadComponent(
     page,
-    { template: TEMPLATE, imports: ['tableModule', 'jigTemplate'] },
+    { template: TEMPLATE, imports: ['tableModule', 'template'] },
     {
       inputs: {
         rows: ROWS,
@@ -545,6 +537,7 @@ test('rtl', async ({ page }, testInfo) => {
 });
 
 test('rtl keyboard: the action bar is entered from the row inline-end', async ({ page }) => {
+  const table = tableHarness(page);
   await useRtl(page);
   const twoActions = [
     { id: 'edit', label: 'Edit', icon: 'edit', testId: 'kb-edit' },
@@ -552,29 +545,26 @@ test('rtl keyboard: the action bar is entered from the row inline-end', async ({
   ];
   await loadComponent(
     page,
-    { template: INLINE_TEMPLATE, imports: ['tableModule', 'jigTemplate'] },
+    { template: INLINE_TEMPLATE, imports: ['tableModule', 'template'] },
     { inputs: { rows: ROWS, actions: twoActions } }
   );
-
-  const table = page.locator('jig-table table[role="grid"]');
-  const firstRow = page.locator('tbody tr[role="row"]').nth(0);
-  await table.focus();
+  await table.grid.focus();
   await page.keyboard.press('ArrowDown');
   // The bar is hidden until the row is focused, and focus() on a hidden element is
   // a no-op — so settle the row state before entering.
-  await expect(firstRow).toHaveClass(/focused-row|table-focused-row/);
+  await table.expectRowClass(0, 'focused-row');
 
   // The bar sits at the row's inline-end, so in RTL ArrowLeft enters it.
   await page.keyboard.press('ArrowLeft');
-  await expect(firstRow).toHaveClass(/active-row|table-active-row/);
-  await expect(firstRow.locator('[data-testid="kb-edit"]')).toBeFocused();
+  await table.expectRowClass(0, 'active-row');
+  await expect(table.getRowActionByIndex(0, 'kb-edit')).toBeFocused();
 
   await page.keyboard.press('ArrowLeft');
-  await expect(firstRow.locator('[data-testid="kb-del"]')).toBeFocused();
+  await expect(table.getRowActionByIndex(0, 'kb-del')).toBeFocused();
   await page.keyboard.press('ArrowRight');
-  await expect(firstRow.locator('[data-testid="kb-edit"]')).toBeFocused();
+  await expect(table.getRowActionByIndex(0, 'kb-edit')).toBeFocused();
 
   // ArrowRight off the first action backs out to row navigation.
   await page.keyboard.press('ArrowRight');
-  await expect(table).toBeFocused();
+  await expect(table.grid).toBeFocused();
 });

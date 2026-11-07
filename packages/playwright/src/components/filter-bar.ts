@@ -27,12 +27,12 @@ export class JigFilterBarHarness extends JigHarness {
     return this.locator.locator(this.classes['chip']['root']);
   }
 
-  public chip(index: number): JigChipHarness {
+  public getChipByIndex(index: number): JigChipHarness {
     return new JigChipHarness(this.chips().nth(index));
   }
 
   public removeChip(index: number): Promise<void> {
-    return this.chip(index).close();
+    return this.getChipByIndex(index).close();
   }
 
   public filterBuilder(): JigFilterBuilderHarness {

@@ -1,4 +1,4 @@
-import test, { expect } from '@playwright/test';
+import test, { expect, type Page } from '@playwright/test';
 import { JigCommandHarness } from '@awdlab/jig-playwright';
 
 import { expectNoA11yViolations } from '../helper/axe';
@@ -39,33 +39,31 @@ const ITEMS = [
   },
 ];
 
-function loadCommand(page: import('@playwright/test').Page, open = true) {
-  return loadComponent(
+async function loadCommand(page: Page, open = true) {
+  const handle = await loadComponent(
     page,
     { template: TEMPLATE, imports: ['command'] },
     { inputs: { items: ITEMS, open } }
   );
+  return { handle, command: new JigCommandHarness(page.locator('jig-command')) };
 }
 
 test('opens as a chromeless modal dialog holding a search field and a grouped list', async ({
   page,
 }) => {
-  await loadCommand(page);
-  const command = new JigCommandHarness(page.locator('jig-command'));
-  const dialog = page.locator('dialog');
+  const { command } = await loadCommand(page);
 
   await command.expectOpened();
   await command.dialog.expectModal();
-  await expect(dialog.locator('header')).toHaveCount(0);
-  await expect(dialog.locator('button')).toHaveCount(0);
+  await expect(command.dialog.header).toHaveCount(0);
+  await expect(command.dialog.wrapper.locator('button')).toHaveCount(0);
   await command.expectItemCount(4);
   await expect(command.listBox.group).toHaveCount(2);
-  await expect(dialog.getByRole('option', { name: 'Home' })).toBeVisible();
+  await expect(command.getItemByLabel('Home')).toBeVisible();
 });
 
 test('focuses the search field on open and filters as you type', async ({ page }) => {
-  await loadCommand(page);
-  const command = new JigCommandHarness(page.locator('jig-command'));
+  const { command } = await loadCommand(page);
 
   await expect(command.search.locator).toBeFocused();
 
@@ -82,10 +80,10 @@ test('focuses the search field on open and filters as you type', async ({ page }
 test('ArrowDown plus Enter activates the highlighted item, emits it and closes', async ({
   page,
 }) => {
-  const handle = await loadCommand(page);
-  const input = page.locator('dialog input');
+  const { handle, command } = await loadCommand(page);
+  const input = command.search;
 
-  await expect(input).toHaveAttribute('aria-activedescendant', /_option_home$/);
+  await expect(input.locator).toHaveAttribute('aria-activedescendant', /_option_home$/);
 
   await input.press('ArrowDown');
   await input.press('Enter');
@@ -93,16 +91,16 @@ test('ArrowDown plus Enter activates the highlighted item, emits it and closes',
   const log = await handle.getOutputLog();
   expect(log['selected']).toEqual(['inbox']);
   expect(log['open']?.at(-1)).toBe(false);
-  await expect(page.locator('dialog')).toBeHidden();
+  await command.expectOpened(false);
 });
 
 test('the first command is highlighted on opening, so Enter runs it straight away', async ({
   page,
 }) => {
-  const handle = await loadCommand(page);
-  const input = page.locator('dialog input');
+  const { handle, command } = await loadCommand(page);
+  const input = command.search;
 
-  await expect(input).toHaveAttribute('aria-activedescendant', /_option_home$/);
+  await expect(input.locator).toHaveAttribute('aria-activedescendant', /_option_home$/);
   await input.press('Enter');
 
   const log = await handle.getOutputLog();
@@ -112,14 +110,14 @@ test('the first command is highlighted on opening, so Enter runs it straight awa
 test('typing a space after highlighting an item types into the query, not activate it', async ({
   page,
 }) => {
-  const handle = await loadCommand(page);
-  const input = page.locator('dialog input');
+  const { handle, command } = await loadCommand(page);
+  const input = command.search;
 
   await input.press('ArrowDown');
   await input.pressSequentially(' ho');
 
-  await expect(input).toHaveValue(' ho');
-  await expect(page.locator('dialog')).toBeVisible();
+  await input.expectValue(' ho');
+  await command.expectOpened();
   const log = await handle.getOutputLog();
   expect(log['selected']).toBeUndefined();
 });
@@ -127,14 +125,14 @@ test('typing a space after highlighting an item types into the query, not activa
 test('Enter runs the first match after filtering, never the item highlighted before it', async ({
   page,
 }) => {
-  const handle = await loadCommand(page);
-  const input = page.locator('dialog input');
+  const { handle, command } = await loadCommand(page);
+  const input = command.search;
 
-  await expect(input).toHaveAttribute('aria-activedescendant', /_option_home$/);
+  await expect(input.locator).toHaveAttribute('aria-activedescendant', /_option_home$/);
 
   await input.fill('file');
-  await expect(page.locator('dialog [role="option"]')).toHaveCount(1);
-  await expect(input).toHaveAttribute('aria-activedescendant', /_option_new-file$/);
+  await command.expectItemCount(1);
+  await expect(input.locator).toHaveAttribute('aria-activedescendant', /_option_new-file$/);
   await input.press('Enter');
 
   const log = await handle.getOutputLog();
@@ -155,72 +153,70 @@ test('clicking an item runs its callback', async ({ page }) => {
     }
   );
 
-  await page.getByRole('option', { name: 'Ping' }).click();
+  await new JigCommandHarness(page.locator('jig-command')).clickItem('Ping');
   await expect.poll(() => page.evaluate(() => (window as any).__jigPing)).toBe('pong');
 });
 
 test('the filter text resets between openings', async ({ page }) => {
-  const handle = await loadCommand(page);
-  const input = page.locator('dialog input');
+  const { handle, command } = await loadCommand(page);
 
-  await input.fill('inb');
-  await expect(page.locator('dialog [role="option"]')).toHaveCount(1);
+  await command.search.fill('inb');
+  await command.expectItemCount(1);
 
   await handle.setInputs({ items: ITEMS, open: false });
-  await expect(page.locator('dialog')).toBeHidden();
-  // see the reopen note above: JigDialog's deferred close would overwrite an immediate reopen
+  await command.expectOpened(false);
+  // JigDialog's deferred close would overwrite an immediate reopen.
   await page.waitForTimeout(50);
 
   await handle.setInputs({ items: ITEMS, open: true });
-  await expect(page.locator('dialog')).toBeVisible();
+  await command.expectOpened();
 
-  await expect(page.locator('dialog input')).toHaveValue('');
-  await expect(page.locator('dialog [role="option"]')).toHaveCount(4);
+  await command.search.expectValue('');
+  await command.expectItemCount(4);
 });
 
 test('renders a keycap for a command that configured a shortcut', async ({ page }) => {
-  await loadCommand(page);
+  const { command } = await loadCommand(page);
 
-  const row = page.getByRole('option', { name: 'New File' });
+  const row = command.getItemByLabel('New File');
   await expect(row.locator('kbd')).toHaveText('⌥N');
   // the keycap is decorative, so it must not leak into the option's accessible name
   await expect(row).toHaveAccessibleName('New File');
-  await expect(page.getByRole('option', { name: 'Home' }).locator('kbd')).toHaveCount(0);
+  await expect(command.getItemByLabel('Home').locator('kbd')).toHaveCount(0);
 
   // the keycap trails the label at the row's end rather than sitting next to it
   const rowBox = (await row.boundingBox())!;
-  const keycapBox = (await row.locator('jig-kbd').boundingBox())!;
-  const labelBox = (await row.locator('[class*="item-label"]').boundingBox())!;
+  const keycapBox = (await row.locator(command.classes['item-shortcut']).boundingBox())!;
+  const labelBox = (await row.locator(command.classes['item-label']).boundingBox())!;
   expect(rowBox.x + rowBox.width - (keycapBox.x + keycapBox.width)).toBeLessThan(20);
   expect(keycapBox.x - (labelBox.x + labelBox.width)).toBeGreaterThan(100);
 });
 
 test('pressing a command shortcut runs it and closes the palette', async ({ page }) => {
-  const handle = await loadCommand(page);
-  const input = page.locator('dialog input');
-  await expect(input).toBeFocused();
+  const { handle, command } = await loadCommand(page);
+  await expect(command.search.locator).toBeFocused();
 
-  await input.press('Alt+n');
+  await command.search.press('Alt+n');
 
   const log = await handle.getOutputLog();
   expect(log['selected']).toEqual(['new-file']);
-  await expect(page.locator('dialog')).toBeHidden();
+  await command.expectOpened(false);
 });
 
 test('a command shortcut fires while the palette is closed', async ({ page }) => {
-  const handle = await loadCommand(page, false);
-  await expect(page.locator('dialog')).toBeHidden();
+  const { handle, command } = await loadCommand(page, false);
+  await expect(command.dialog.wrapper).toBeHidden();
 
   await page.keyboard.press('Alt+n');
 
   const log = await handle.getOutputLog();
   expect(log['selected']).toEqual(['new-file']);
-  await expect(page.locator('dialog')).toBeHidden();
+  await expect(command.dialog.wrapper).toBeHidden();
 });
 
 test('the footer legend lists the keys that drive the palette', async ({ page }) => {
-  await loadCommand(page);
-  const footer = page.locator('dialog footer');
+  const { command } = await loadCommand(page);
+  const footer = command.dialog.footer;
 
   await expect(footer).toBeVisible();
   // the escape glyph is the kbd control's business, so only its presence is asserted here
@@ -231,19 +227,18 @@ test('the footer legend lists the keys that drive the palette', async ({ page })
 });
 
 test('the search field takes focus again on every opening', async ({ page }) => {
-  const handle = await loadCommand(page);
-  await expect(page.locator('dialog input')).toBeFocused();
+  const { handle, command } = await loadCommand(page);
+  await expect(command.search.locator).toBeFocused();
 
   await handle.setInputs({ items: ITEMS, open: false });
-  await expect(page.locator('dialog')).toBeHidden();
-  // JigDialog finishes closing in a requestAnimationFrame that sets `open` to false; reopening
-  // before it lands is overwritten by it, so let the frame pass first.
+  await command.expectOpened(false);
+  // JigDialog's deferred close would overwrite an immediate reopen.
   await page.waitForTimeout(50);
 
   await handle.setInputs({ items: ITEMS, open: true });
-  await expect(page.locator('dialog')).toBeVisible();
+  await command.expectOpened();
 
-  await expect(page.locator('dialog input')).toBeFocused();
+  await expect(command.search.locator).toBeFocused();
 });
 
 // Touch-scrolling the backdrop cancels the pointer instead of releasing it. The
@@ -252,13 +247,13 @@ test('the search field takes focus again on every opening', async ({ page }) => 
 test('a cancelled pointer does not bake the dialog position on the next filter change', async ({
   page,
 }) => {
-  await loadCommand(page);
-  const dialog = page.locator('dialog');
+  const { command } = await loadCommand(page);
+  const dialog = command.dialog.wrapper;
 
   await dialog.dispatchEvent('pointerdown', { pointerType: 'touch' });
   await dialog.dispatchEvent('pointercancel', { pointerType: 'touch' });
-  await dialog.locator('input').fill('new');
-  await expect(dialog.locator('[role="option"]')).toHaveCount(1);
+  await command.search.fill('new');
+  await command.expectItemCount(1);
 
   expect(
     await dialog.evaluate(el => [el.style.top, el.style.left, el.style.height, el.style.maxHeight])
@@ -266,40 +261,34 @@ test('a cancelled pointer does not bake the dialog position on the next filter c
 });
 
 test('visual', async ({ page }, testInfo) => {
-  await loadCommand(page);
-  const dialog = page.locator('dialog');
-  await expect(dialog).toBeVisible();
-  const input = dialog.locator('input');
+  const { command } = await loadCommand(page);
+  await command.expectOpened();
 
   await test.step('opened', async () => {
     await expectScreenshot(page, testInfo, 'opened');
   });
 
   await test.step('filtered', async () => {
-    await input.fill('new');
-    await expect(dialog.locator('[role="option"]')).toHaveCount(1);
+    await command.search.fill('new');
+    await command.expectItemCount(1);
     await expectScreenshot(page, testInfo, 'filtered');
   });
 
   await test.step('no results', async () => {
-    await input.fill('zzz');
-    await expect(page.getByText('No results found')).toBeVisible();
+    await command.search.fill('zzz');
+    await command.expectEmpty();
     await expectScreenshot(page, testInfo, 'no-results');
   });
 });
 
-test('has no accessibility violations while open', async ({ page }) => {
-  await loadCommand(page);
-  await expect(page.locator('dialog')).toBeVisible();
+test('accessibility (axe)', async ({ page }) => {
+  const { command } = await loadCommand(page);
+  await command.expectOpened();
   await expectNoA11yViolations(page);
 });
 
 test('rtl', async ({ page }, testInfo) => {
   await useRtl(page);
-  await loadComponent(
-    page,
-    { template: TEMPLATE, imports: ['command'] },
-    { inputs: { items: ITEMS, open: true } }
-  );
+  await loadCommand(page);
   await expectScreenshot(page, testInfo);
 });

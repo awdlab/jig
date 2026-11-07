@@ -411,173 +411,169 @@ test('invalid', async ({ page }, testInfo) => {
   await expectScreenshot(page, testInfo, 'valid');
 });
 
-test.describe('keyboard navigation', () => {
-  function setupKeyboard(page: import('@playwright/test').Page) {
-    return loadComponent(
-      page,
-      {
-        template: `
-        <jig-input-field style="width: 200px;">
-          <jig-select
-            [options]="inputs().options"
-            [popoverOptions]="inputs().popoverOptions"
-            (valueChange)="output('value', $event)"
-          />
-        </jig-input-field>
-      `,
-        imports: ['select', 'inputField'],
-      },
-      {
-        inputs: {
-          options: exampleData.items.flatPreformatted,
-          popoverOptions: <PopoverOptions>{ sizeConstraints: { maxHeight: '300px' } },
-        },
-      }
-    );
-  }
-
-  test('Enter opens and closes popover', async ({ page }) => {
-    await setupKeyboard(page);
-    const select = new JigSelectHarness(page.locator('jig-select').first());
-
-    await select.combobox.focus();
-    await select.expectOpened(false);
-
-    await page.keyboard.press('Enter');
-    await select.expectOpened(true);
-
-    await page.keyboard.press('Escape');
-    await select.expectOpened(false);
-  });
-
-  test('arrow keys do not change value when popover is closed', async ({ page }) => {
-    await setupKeyboard(page);
-    const select = new JigSelectHarness(page.locator('jig-select').first());
-
-    await select.combobox.focus();
-    await page.keyboard.press('ArrowDown');
-    await page.keyboard.press('ArrowDown');
-    await page.keyboard.press('ArrowUp');
-
-    await select.expectOpened(false);
-    await expect(select.input).toHaveText(/^[\s​]*$/);
-  });
-
-  test('arrow keys navigate and Enter selects when popover is open', async ({ page }) => {
-    const handle = await setupKeyboard(page);
-    const select = new JigSelectHarness(page.locator('jig-select').first());
-
-    await select.combobox.focus();
-    await page.keyboard.press('Enter');
-    await select.expectOpened(true);
-
-    await page.keyboard.press('ArrowDown');
-    await page.keyboard.press('Enter');
-
-    await select.expectOpened(false);
-    await select.expectSelectedItemText('Nigeria');
-    expect(await handle.getOutputLog()).toEqual({ value: ['ng'] });
-  });
-
-  test('Enter re-opens popover after selecting an item', async ({ page }) => {
-    await setupKeyboard(page);
-    const select = new JigSelectHarness(page.locator('jig-select').first());
-
-    await select.combobox.focus();
-    await page.keyboard.press('Enter');
-    await select.expectOpened(true);
-    await page.keyboard.press('ArrowDown');
-    await page.keyboard.press('Enter');
-    await select.expectOpened(false);
-
-    await page.keyboard.press('Enter');
-    await select.expectOpened(true);
-  });
-
-  test('arrow keys do not change value when popover is closed after prior selection', async ({
+function setupKeyboard(page: import('@playwright/test').Page) {
+  return loadComponent(
     page,
-  }) => {
-    await setupKeyboard(page);
-    const select = new JigSelectHarness(page.locator('jig-select').first());
+    {
+      template: `
+      <jig-input-field style="width: 200px;">
+        <jig-select
+          [options]="inputs().options"
+          [popoverOptions]="inputs().popoverOptions"
+          (valueChange)="output('value', $event)"
+        />
+      </jig-input-field>
+    `,
+      imports: ['select', 'inputField'],
+    },
+    {
+      inputs: {
+        options: exampleData.items.flatPreformatted,
+        popoverOptions: <PopoverOptions>{ sizeConstraints: { maxHeight: '300px' } },
+      },
+    }
+  );
+}
 
-    await select.combobox.focus();
-    await page.keyboard.press('Enter');
-    await select.expectOpened(true);
-    await page.keyboard.press('ArrowDown');
-    await page.keyboard.press('Enter');
-    await select.expectSelectedItemText('Nigeria');
+test('Enter opens and closes popover', async ({ page }) => {
+  await setupKeyboard(page);
+  const select = new JigSelectHarness(page.locator('jig-select').first());
 
-    await page.keyboard.press('ArrowDown');
-    await page.keyboard.press('ArrowDown');
-    await select.expectSelectedItemText('Nigeria');
-  });
+  await select.combobox.focus();
+  await select.expectOpened(false);
+
+  await page.keyboard.press('Enter');
+  await select.expectOpened(true);
+
+  await page.keyboard.press('Escape');
+  await select.expectOpened(false);
 });
 
-test.describe('disabled items', () => {
-  const disabledOptions: JigItem<unknown, string>[] = [
-    { label: 'Alpha', value: 'a' },
-    { label: 'Bravo', value: 'b', disabled: true },
-    { label: 'Charlie', value: 'c' },
-    { label: 'Delta', value: 'd', disabled: true },
-    { label: 'Echo', value: 'e' },
-  ];
+test('arrow keys do not change value when popover is closed', async ({ page }) => {
+  await setupKeyboard(page);
+  const select = new JigSelectHarness(page.locator('jig-select').first());
 
-  function setupDisabled(page: import('@playwright/test').Page) {
-    return loadComponent(
-      page,
-      {
-        template: `
-        <jig-input-field style="width: 200px;">
-          <jig-select
-            [options]="inputs().options"
-            [popoverOptions]="inputs().popoverOptions"
-            (valueChange)="output('value', $event)"
-          />
-        </jig-input-field>
-      `,
-        imports: ['select', 'inputField'],
+  await select.combobox.focus();
+  await page.keyboard.press('ArrowDown');
+  await page.keyboard.press('ArrowDown');
+  await page.keyboard.press('ArrowUp');
+
+  await select.expectOpened(false);
+  await expect(select.input).toHaveText(/^[\s​]*$/);
+});
+
+test('arrow keys navigate and Enter selects when popover is open', async ({ page }) => {
+  const handle = await setupKeyboard(page);
+  const select = new JigSelectHarness(page.locator('jig-select').first());
+
+  await select.combobox.focus();
+  await page.keyboard.press('Enter');
+  await select.expectOpened(true);
+
+  await page.keyboard.press('ArrowDown');
+  await page.keyboard.press('Enter');
+
+  await select.expectOpened(false);
+  await select.expectSelectedItemText('Nigeria');
+  expect(await handle.getOutputLog()).toEqual({ value: ['ng'] });
+});
+
+test('Enter re-opens popover after selecting an item', async ({ page }) => {
+  await setupKeyboard(page);
+  const select = new JigSelectHarness(page.locator('jig-select').first());
+
+  await select.combobox.focus();
+  await page.keyboard.press('Enter');
+  await select.expectOpened(true);
+  await page.keyboard.press('ArrowDown');
+  await page.keyboard.press('Enter');
+  await select.expectOpened(false);
+
+  await page.keyboard.press('Enter');
+  await select.expectOpened(true);
+});
+
+test('arrow keys do not change value when popover is closed after prior selection', async ({
+  page,
+}) => {
+  await setupKeyboard(page);
+  const select = new JigSelectHarness(page.locator('jig-select').first());
+
+  await select.combobox.focus();
+  await page.keyboard.press('Enter');
+  await select.expectOpened(true);
+  await page.keyboard.press('ArrowDown');
+  await page.keyboard.press('Enter');
+  await select.expectSelectedItemText('Nigeria');
+
+  await page.keyboard.press('ArrowDown');
+  await page.keyboard.press('ArrowDown');
+  await select.expectSelectedItemText('Nigeria');
+});
+
+const disabledOptions: JigItem<unknown, string>[] = [
+  { label: 'Alpha', value: 'a' },
+  { label: 'Bravo', value: 'b', disabled: true },
+  { label: 'Charlie', value: 'c' },
+  { label: 'Delta', value: 'd', disabled: true },
+  { label: 'Echo', value: 'e' },
+];
+
+function setupDisabled(page: import('@playwright/test').Page) {
+  return loadComponent(
+    page,
+    {
+      template: `
+      <jig-input-field style="width: 200px;">
+        <jig-select
+          [options]="inputs().options"
+          [popoverOptions]="inputs().popoverOptions"
+          (valueChange)="output('value', $event)"
+        />
+      </jig-input-field>
+    `,
+      imports: ['select', 'inputField'],
+    },
+    {
+      inputs: {
+        options: disabledOptions,
+        popoverOptions: <PopoverOptions>{ sizeConstraints: { maxHeight: '300px' } },
       },
-      {
-        inputs: {
-          options: disabledOptions,
-          popoverOptions: <PopoverOptions>{ sizeConstraints: { maxHeight: '300px' } },
-        },
-      }
-    );
-  }
+    }
+  );
+}
 
-  test('keyboard navigation skips disabled items', async ({ page }) => {
-    const handle = await setupDisabled(page);
-    const select = new JigSelectHarness(page.locator('jig-select').first());
+test('keyboard navigation skips disabled items', async ({ page }) => {
+  const handle = await setupDisabled(page);
+  const select = new JigSelectHarness(page.locator('jig-select').first());
 
-    await select.combobox.focus();
-    await page.keyboard.press('Enter');
-    await select.expectOpened(true);
+  await select.combobox.focus();
+  await page.keyboard.press('Enter');
+  await select.expectOpened(true);
 
-    await page.keyboard.press('ArrowDown');
-    await page.keyboard.press('Enter');
-    await select.expectSelectedItemText('Alpha');
+  await page.keyboard.press('ArrowDown');
+  await page.keyboard.press('Enter');
+  await select.expectSelectedItemText('Alpha');
 
-    await select.combobox.focus();
-    await page.keyboard.press('Enter');
-    await select.expectOpened(true);
-    await page.keyboard.press('ArrowDown');
-    await page.keyboard.press('Enter');
-    await select.expectSelectedItemText('Charlie');
-    expect(await handle.getOutputLog()).toEqual({ value: ['a', 'c'] });
-  });
+  await select.combobox.focus();
+  await page.keyboard.press('Enter');
+  await select.expectOpened(true);
+  await page.keyboard.press('ArrowDown');
+  await page.keyboard.press('Enter');
+  await select.expectSelectedItemText('Charlie');
+  expect(await handle.getOutputLog()).toEqual({ value: ['a', 'c'] });
+});
 
-  test('clicking disabled item does not select it', async ({ page }) => {
-    await setupDisabled(page);
-    const select = new JigSelectHarness(page.locator('jig-select').first());
+test('clicking disabled item does not select it', async ({ page }) => {
+  await setupDisabled(page);
+  const select = new JigSelectHarness(page.locator('jig-select').first());
 
-    await select.open();
-    const disabledItem = select.listBox.scroller.getItemByText('Bravo');
-    await expect(disabledItem).toHaveAttribute('aria-disabled', 'true');
-    await disabledItem.click({ force: true });
-    await select.expectOpened(true);
-    await expect(select.input).toHaveText(/^[\s​]*$/);
-  });
+  await select.open();
+  const disabledItem = select.listBox.scroller.getItemByText('Bravo');
+  await expect(disabledItem).toHaveAttribute('aria-disabled', 'true');
+  await disabledItem.click({ force: true });
+  await select.expectOpened(true);
+  await expect(select.input).toHaveText(/^[\s​]*$/);
 });
 
 // A select whose trigger is taken out of the tab order (tabindex="-1", as an editable

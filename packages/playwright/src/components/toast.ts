@@ -59,7 +59,7 @@ export class JigToastHostHarness extends JigHarness {
     super(page.locator('jig-toast-host'));
   }
 
-  public getToast(index: number = 0): JigToastHarness {
+  public getToastByIndex(index: number = 0): JigToastHarness {
     return new JigToastHarness(this.locator.locator('jig-toast').nth(index));
   }
 

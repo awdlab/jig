@@ -21,15 +21,19 @@ export class JigOtpHarness extends JigHarness {
     this.cells = locator.locator('input');
   }
 
+  public getCellByIndex(index: number): Locator {
+    return this.cells.nth(index);
+  }
+
   /** Focus the cell at `index`. */
   public async focusCell(index: number): Promise<void> {
-    await this.cells.nth(index).focus();
+    await this.getCellByIndex(index).focus();
   }
 
   /** Press a single key on the cell at `index`. */
   public async pressCell(index: number, key: string): Promise<void> {
-    await this.cells.nth(index).focus();
-    await this.cells.nth(index).press(key);
+    await this.getCellByIndex(index).focus();
+    await this.getCellByIndex(index).press(key);
   }
 
   /** Type a full code starting at the first cell, letting focus auto-advance. */

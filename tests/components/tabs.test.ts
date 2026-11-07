@@ -46,7 +46,7 @@ async function prepareTest(page: Page, inputs: InputsType = {}) {
         }
       </jig-tabs>
       `,
-      imports: ['tabs', 'tab', 'dummy_component'],
+      imports: ['tabs', 'tab', 'dummyComponent'],
     },
     {
       inputs: {

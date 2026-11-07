@@ -123,7 +123,7 @@ test('a custom label template replaces the legend row', async ({ page }, testInf
             <span class="tpl-value">{{ item.value }} GW · {{ percentage.toFixed(1) }}%</span>
           </ng-template>
         </jig-meter>`,
-      imports: ['meter', 'jigTemplate'],
+      imports: ['meter', 'template'],
     },
     {
       inputs: {

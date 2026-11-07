@@ -126,7 +126,7 @@ test('uploading: a single dismiss button cancels the upload and removes the item
   await upload.expectItemState(0, 'uploading');
 
   // Exactly one per-item action while uploading.
-  await expect(upload.item(0).locator(upload.classes.action)).toHaveCount(1);
+  await expect(upload.getItemByIndex(0).locator(upload.classes.action)).toHaveCount(1);
 
   // Dismissing an in-flight item emits uploadCancelled AND fileRemoved, then drops it.
   await page.evaluate(() => {
@@ -138,7 +138,7 @@ test('uploading: a single dismiss button cancels the upload and removes the item
     component.fileRemoved.subscribe(() => ((window as any).__removed = true));
   });
 
-  await upload.actionButton(0, 'cancel').click();
+  await upload.getActionButtonByIndex(0, 'cancel').click();
 
   await upload.expectItemCount(0);
   expect(await page.evaluate(() => (window as any).__cancelled)).toBe(true);
@@ -156,7 +156,7 @@ test('remove: removing an item drops it from the list', async ({ page }) => {
   await upload.selectFiles([textFile('a.txt'), textFile('b.txt')]);
   await upload.expectItemCount(2);
 
-  await upload.actionButton(0, 'Remove').click();
+  await upload.getActionButtonByIndex(0, 'Remove').click();
 
   await upload.expectItemCount(1);
   await upload.expectItemName(0, 'b.txt');

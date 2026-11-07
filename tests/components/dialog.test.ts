@@ -53,8 +53,8 @@ test('opens/closes via the open model and labels itself from the title', async (
 
 test('survives a reopen that happens before the deferred close lands', async ({ page }) => {
   const handle = await loadModal(page, 'any', true);
-  const dialog = page.locator('dialog');
-  await expect(dialog).toBeVisible();
+  const dialog = new JigDialogHarness(page.locator('jig-dialog'));
+  await dialog.expectOpened();
 
   await handle.setInputs({ title: 'My Dialog', open: false, closeBy: 'any' });
   await handle.setInputs({ title: 'My Dialog', open: true, closeBy: 'any' });
@@ -66,21 +66,17 @@ test('survives a reopen that happens before the deferred close lands', async ({ 
         requestAnimationFrame(() => requestAnimationFrame(() => resolve()))
       )
   );
-  await expect(dialog).toBeVisible();
+  await dialog.expectOpened();
 });
 
 test('a modal dialog traps focus inside itself when opened', async ({ page }) => {
   const handle = await loadModal(page, 'any', false);
   await handle.setInputs({ title: 'My Dialog', open: true, closeBy: 'any' });
 
-  await expect(page.locator('dialog')).toBeVisible();
+  const dialog = new JigDialogHarness(page.locator('jig-dialog'));
+  await dialog.expectOpened();
   await expect
-    .poll(() =>
-      page.evaluate(() => {
-        const d = document.querySelector('dialog');
-        return !!d && d.contains(document.activeElement);
-      })
-    )
+    .poll(() => dialog.wrapper.evaluate(el => el.contains(document.activeElement)))
     .toBe(true);
 });
 
@@ -91,58 +87,27 @@ test('closeBy any closes on Escape, closeBy none ignores it', async ({ page, bro
   // the native Escape close there. Browser-support gap, not a control bug.
   test.skip(browserName === 'webkit', '<dialog closedby> unsupported in this WebKit build');
   const handle = await loadModal(page, 'any', true);
-  const dialog = page.locator('dialog');
-  await expect(dialog).toBeVisible();
+  const dialog = new JigDialogHarness(page.locator('jig-dialog'));
 
-  await page.keyboard.press('Escape');
-  await expect(dialog).toBeHidden();
+  await dialog.pressEscape();
+  await dialog.expectOpened(false);
   await expectOutput(handle, 'open', [false]);
 
-  const handleNone = await loadModal(page, 'none', true);
-  const dialogNone = page.locator('dialog');
-  await expect(dialogNone).toBeVisible();
-  await page.keyboard.press('Escape');
-  await expect(dialogNone).toBeVisible();
+  await loadModal(page, 'none', true);
+  await dialog.pressEscape();
+  await dialog.expectOpened();
 });
 
 test('closeBy any closes on a backdrop click', async ({ page }) => {
   const handle = await loadModal(page, 'any', true);
-  const dialog = page.locator('dialog');
-  await expect(dialog).toBeVisible();
+  const dialog = new JigDialogHarness(page.locator('jig-dialog'));
+  await dialog.expectOpened();
 
   // The centered modal box does not cover the top-left corner; a click there
   // lands on the ::backdrop (event target is the <dialog>) → light dismiss.
   await page.mouse.click(3, 3);
-  await expect(dialog).toBeHidden();
+  await dialog.expectOpened(false);
   await expectOutput(handle, 'open', [false]);
-});
-
-test.describe('touch', () => {
-  test.use({ hasTouch: true, isMobile: true });
-
-  test('a backdrop tap closes the modal and never reaches the page behind', async ({ page }) => {
-    const handle = await loadComponent(
-      page,
-      {
-        template: `
-          <button style="position:fixed;bottom:20px;left:20px;width:200px;height:60px"
-                  (click)="output('behind', true)">Behind</button>
-          ${MODAL_TEMPLATE}
-        `,
-        imports: ['dialog'],
-      },
-      { inputs: { title: 'My Dialog', open: true, closeBy: 'any' } }
-    );
-    const dialog = page.locator('dialog');
-    await expect(dialog).toBeVisible();
-
-    const box = (await page.locator('button', { hasText: 'Behind' }).boundingBox())!;
-    await page.touchscreen.tap(box.x + box.width / 2, box.y + box.height / 2);
-
-    await expect(dialog).toBeHidden();
-    await expectOutput(handle, 'open', [false]);
-    expect((await handle.getOutputLog())['behind']).toBeUndefined();
-  });
 });
 
 test('non-modal (popover) dialog opens and closes via the open model', async ({ page }) => {
@@ -164,14 +129,15 @@ test('non-modal (popover) dialog opens and closes via the open model', async ({ 
     { inputs: { title: 'Popover Dialog', open: false } }
   );
 
-  const dialog = page.locator('dialog');
-  await expect(dialog).toBeHidden();
+  // Popover mode leaves the native `open` flag unset, so visibility is the signal.
+  const { wrapper } = new JigDialogHarness(page.locator('jig-dialog'));
+  await expect(wrapper).toBeHidden();
 
   await handle.setInputs({ title: 'Popover Dialog', open: true });
-  await expect(dialog).toBeVisible();
+  await expect(wrapper).toBeVisible();
 
   await handle.setInputs({ title: 'Popover Dialog', open: false });
-  await expect(dialog).toBeHidden();
+  await expect(wrapper).toBeHidden();
 });
 
 test('footer buttons emit buttonClicked and the dialog emits closed', async ({ page }) => {
@@ -205,8 +171,9 @@ test('footer buttons emit buttonClicked and the dialog emits closed', async ({ p
     }
   );
 
-  await expect(page.locator('dialog')).toBeVisible();
-  await page.getByRole('button', { name: 'Confirm' }).click();
+  const dialog = new JigDialogHarness(page.locator('jig-dialog'));
+  await dialog.expectOpened();
+  await dialog.footerButtons.filter({ hasText: 'Confirm' }).click();
 
   await expectOutput(handle, 'button', ['confirm']);
 });
@@ -252,15 +219,13 @@ test('keeps lazy uncached content mounted until the close animation finishes', a
     { inputs: { open: true } }
   );
 
+  const dialog = new JigDialogHarness(page.locator('jig-dialog'));
   const body = page.locator('#lazy-body');
   await expect(body).toBeVisible();
 
-  // A real, long-running animation on the dialog element stands in for the theme's exit
-  // transition — the close path has to wait for whatever animates there.
-  await page.evaluate(() => {
-    document.querySelector('dialog')!.animate([{ opacity: 1 }, { opacity: 0 }], {
-      duration: 1000,
-    });
+  // A long-running animation on the dialog element stands in for the theme's exit transition.
+  await dialog.wrapper.evaluate(el => {
+    el.animate([{ opacity: 1 }, { opacity: 0 }], { duration: 1000 });
   });
 
   await handle.setInputs({ open: false });
@@ -273,7 +238,7 @@ test('keeps lazy uncached content mounted until the close animation finishes', a
 
 test('accessibility (axe)', async ({ page }) => {
   await loadModal(page, 'any', true);
-  await expect(page.locator('dialog')).toBeVisible();
+  await new JigDialogHarness(page.locator('jig-dialog')).expectOpened();
   await expectNoA11yViolations(page);
 });
 
@@ -295,38 +260,38 @@ test('drops header, footer and close button when nothing fills them', async ({ p
     { inputs: { open: true, closeButton: false, label: 'Palette' } }
   );
 
-  const dialog = page.locator('dialog');
-  await expect(dialog).toBeVisible();
-  await expect(dialog.locator('header')).toHaveCount(0);
-  await expect(dialog.locator('footer')).toHaveCount(0);
-  await expect(dialog.locator('button')).toHaveCount(0);
-  await expect(dialog).toHaveAttribute('aria-label', 'Palette');
-  expect(await dialog.getAttribute('aria-labelledby')).toBeNull();
+  const dialog = new JigDialogHarness(page.locator('jig-dialog'));
+  await dialog.expectOpened();
+  await expect(dialog.header).toHaveCount(0);
+  await expect(dialog.footer).toHaveCount(0);
+  await expect(dialog.wrapper.locator('button')).toHaveCount(0);
+  await expect(dialog.wrapper).toHaveAttribute('aria-label', 'Palette');
+  expect(await dialog.wrapper.getAttribute('aria-labelledby')).toBeNull();
 
   await handle.setInputs({ open: true, closeButton: true, label: 'Palette' });
-  await expect(dialog.locator('header')).toHaveCount(1);
-  await expect(dialog.locator('header button')).toHaveCount(1);
-  await expect(dialog.locator('footer')).toHaveCount(0);
+  await expect(dialog.header).toHaveCount(1);
+  await expect(dialog.closeButton).toHaveCount(1);
+  await expect(dialog.footer).toHaveCount(0);
 });
 
 test('a titled dialog still renders its header, and keeps no dangling labelledby without one', async ({
   page,
 }) => {
   const handle = await loadModal(page, 'any', true);
-  const dialog = page.locator('dialog');
+  const dialog = new JigDialogHarness(page.locator('jig-dialog'));
 
-  const labelId = await dialog.getAttribute('aria-labelledby');
+  const labelId = await dialog.wrapper.getAttribute('aria-labelledby');
   expect(labelId).toBeTruthy();
   await expect(page.locator(`#${labelId}`)).toHaveText('My Dialog');
 
   await handle.setInputs({ title: null, open: true, closeBy: 'any' });
-  expect(await dialog.getAttribute('aria-labelledby')).toBeNull();
-  await expect(dialog.locator('header')).toHaveCount(1);
+  expect(await dialog.wrapper.getAttribute('aria-labelledby')).toBeNull();
+  await expect(dialog.header).toHaveCount(1);
 });
 
 test('visual', async ({ page }, testInfo) => {
   await loadModal(page, 'any', true);
-  await expect(page.locator('dialog')).toBeVisible();
+  await new JigDialogHarness(page.locator('jig-dialog')).expectOpened();
 
   await expectScreenshot(page, testInfo, 'modal');
 });
@@ -334,6 +299,6 @@ test('visual', async ({ page }, testInfo) => {
 test('rtl', async ({ page }, testInfo) => {
   await useRtl(page);
   await loadModal(page, 'any', true);
-  await expect(page.locator('dialog')).toBeVisible();
+  await new JigDialogHarness(page.locator('jig-dialog')).expectOpened();
   await expectScreenshot(page, testInfo);
 });

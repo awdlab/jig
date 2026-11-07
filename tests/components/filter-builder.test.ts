@@ -2,6 +2,7 @@ import test, { expect } from '@playwright/test';
 import { loadComponent } from '../helper/load-component';
 import { JigFilterBuilderHarness, JigCalendarHarness } from '@awdlab/jig-playwright';
 import { expectNoA11yViolations } from '../helper/axe';
+import { useRtl } from '../helper/direction';
 import { expectScreenshot } from '../helper/screenshot';
 
 const USERS = [
@@ -45,16 +46,16 @@ async function setCondition(
   operator: string,
   value?: string
 ) {
-  const attr = filter.propertySelect(index);
+  const attr = filter.getPropertySelectByIndex(index);
   await attr.open();
   await attr.clickItemByText(property);
 
-  const op = filter.operatorSelect(index);
+  const op = filter.getOperatorSelectByIndex(index);
   await op.open();
   await op.clickItemByText(operator);
 
   if (value !== undefined) {
-    await filter.valueInput(index).fill(value);
+    await filter.getValueInputByIndex(index).fill(value);
   }
 }
 
@@ -122,7 +123,7 @@ test('resets operator and value when the row switches to an property of another 
   await setCondition(filter, 0, 'Email', 'Contains', 'ann@');
 
   // Another string property keeps the operator and the typed value.
-  const attr = filter.propertySelect(0);
+  const attr = filter.getPropertySelectByIndex(0);
   await attr.open();
   await attr.clickItemByText('Name');
 
@@ -148,34 +149,34 @@ test('resets operator and value when the row switches to an property of another 
     });
     expect(log['filtered']?.at(-1)).toEqual(USERS);
   }).toPass();
-  await filter.valueInput(0).expectValue('');
+  await filter.getValueInputByIndex(0).expectValue('');
 });
 
 test('renders a calendar value editor for a date property', async ({ page }) => {
   await inlineComponent(page);
   const filter = new JigFilterBuilderHarness(page.locator('jig-filter-builder'));
 
-  const attr = filter.propertySelect(0);
+  const attr = filter.getPropertySelectByIndex(0);
   await attr.open();
   await attr.clickItemByText('Joined');
 
-  await expect(filter.row(0).locator('jig-calendar')).toBeVisible();
-  await expect(filter.valueInput(0).locator).toHaveCount(0);
+  await expect(filter.getRowByIndex(0).locator('jig-calendar')).toBeVisible();
+  await expect(filter.getValueInputByIndex(0).locator).toHaveCount(0);
 });
 
 test('renders an operator select and a multi-select for a list property', async ({ page }) => {
   const handle = await inlineComponent(page);
   const filter = new JigFilterBuilderHarness(page.locator('jig-filter-builder'));
 
-  const attr = filter.propertySelect(0);
+  const attr = filter.getPropertySelectByIndex(0);
   await attr.open();
   await attr.clickItemByText('Role');
 
-  const op = filter.operatorSelect(0);
+  const op = filter.getOperatorSelectByIndex(0);
   await expect(op.locator).toBeVisible();
   await op.expectSelectedItemText('Is one of');
 
-  const values = filter.valueSelect(0);
+  const values = filter.getValueSelectByIndex(0);
   await values.open();
   await values.clickItemByText('Admin', false);
   await values.close();
@@ -194,7 +195,7 @@ test('inline mode renders without a popover', async ({ page }) => {
   await inlineComponent(page);
   const filter = new JigFilterBuilderHarness(page.locator('jig-filter-builder'));
 
-  await expect(filter.propertySelect(0).locator).toBeVisible();
+  await expect(filter.getPropertySelectByIndex(0).locator).toBeVisible();
   await expect(filter.trigger).toHaveCount(0);
   await filter.expectOpened(false);
 });
@@ -273,17 +274,17 @@ test('manual mode commits only on apply and restores on cancel', async ({ page }
     expect(log['filtered']?.at(-1)).toEqual([USERS[0], USERS[2]]);
   }).toPass();
 
-  await filter.valueInput(0).fill('@work');
+  await filter.getValueInputByIndex(0).fill('@work');
   await filter.cancelButton().click();
 
-  await filter.valueInput(0).expectValue('@gmail');
+  await filter.getValueInputByIndex(0).expectValue('@gmail');
   await expect(async () => {
     const log = await handle.getOutputLog();
     expect(log['filtered']?.at(-1)).toEqual([USERS[0], USERS[2]]);
   }).toPass();
 });
 
-test('has no axe violations with the popover open', async ({ page }) => {
+test('accessibility (axe)', async ({ page }) => {
   await loadComponent(
     page,
     {
@@ -366,7 +367,7 @@ test('reflects an external config change in the rows while the popover is open',
 
   const filter = new JigFilterBuilderHarness(page.locator('jig-filter-builder'));
   await filter.open();
-  await expect(filter.row(1)).toBeVisible();
+  await expect(filter.getRowByIndex(1)).toBeVisible();
 
   // Something else in the app drops the second condition while the popover is open.
   await handle.setInputs({
@@ -375,9 +376,9 @@ test('reflects an external config change in the rows while the popover is open',
     config: { matchMode: 'all', conditions: [GMAIL] },
   });
 
-  await expect(filter.row(1)).toHaveCount(0);
-  await filter.propertySelect(0).expectSelectedItemText('Email');
-  await filter.valueInput(0).expectValue('@gmail');
+  await expect(filter.getRowByIndex(1)).toHaveCount(0);
+  await filter.getPropertySelectByIndex(0).expectSelectedItemText('Email');
+  await filter.getValueInputByIndex(0).expectValue('@gmail');
 });
 
 test('keeps a value being typed when the config changes from outside', async ({ page }) => {
@@ -407,17 +408,17 @@ test('keeps a value being typed when the config changes from outside', async ({ 
   );
 
   const filter = new JigFilterBuilderHarness(page.locator('jig-filter-builder'));
-  await filter.valueInput(0).expectValue('@gmail');
+  await filter.getValueInputByIndex(0).expectValue('@gmail');
 
   // Type, then let the app write a different config while the commit is still pending.
-  await filter.valueInput(0).fill('@work');
+  await filter.getValueInputByIndex(0).fill('@work');
   await handle.setInputs({
     data: USERS,
     properties: PROPERTIES,
     config: { matchMode: 'all', conditions: [OVER_25] },
   });
 
-  await filter.valueInput(0).expectValue('@work');
+  await filter.getValueInputByIndex(0).expectValue('@work');
   await expect(async () => {
     const config = (await handle.getOutputLog())['config']?.at(-1);
     expect(config.conditions[0]).toEqual({ ...GMAIL, rawValue: '@work' });
@@ -448,7 +449,7 @@ test('leaves manual mode edits pending when the config changes from outside', as
   await setCondition(filter, 0, 'Email', 'Contains', '@gmail');
   await filter.applyButton().click();
 
-  await filter.valueInput(0).fill('@work');
+  await filter.getValueInputByIndex(0).fill('@work');
   await handle.setInputs({
     data: USERS,
     properties: PROPERTIES,
@@ -456,7 +457,7 @@ test('leaves manual mode edits pending when the config changes from outside', as
   });
 
   // The pending edit survives, and apply commits it rather than the external config.
-  await filter.valueInput(0).expectValue('@work');
+  await filter.getValueInputByIndex(0).expectValue('@work');
   await filter.applyButton().click();
 
   await expect(async () => {
@@ -465,9 +466,9 @@ test('leaves manual mode edits pending when the config changes from outside', as
   }).toPass();
 
   // Cancel still restores the applied snapshot.
-  await filter.valueInput(0).fill('@other');
+  await filter.getValueInputByIndex(0).fill('@other');
   await filter.cancelButton().click();
-  await filter.valueInput(0).expectValue('@work');
+  await filter.getValueInputByIndex(0).expectValue('@work');
 });
 
 test('the trigger summary renders the parsed value, not the raw storage string', async ({
@@ -544,8 +545,8 @@ test('manual mode renders a bound config and applies it untouched', async ({ pag
   const filter = new JigFilterBuilderHarness(page.locator('jig-filter-builder'));
 
   // The editor shows the bound config rather than an empty default row.
-  await filter.propertySelect(0).expectSelectedItemText('Email');
-  await filter.valueInput(0).expectValue('@gmail');
+  await filter.getPropertySelectByIndex(0).expectSelectedItemText('Email');
+  await filter.getValueInputByIndex(0).expectValue('@gmail');
 
   // Apply without touching a row commits that same config, it does not discard it.
   await filter.applyButton().click();
@@ -556,9 +557,9 @@ test('manual mode renders a bound config and applies it untouched', async ({ pag
   }).toPass();
 
   // Cancel restores the bound config too.
-  await filter.valueInput(0).fill('@work');
+  await filter.getValueInputByIndex(0).fill('@work');
   await filter.cancelButton().click();
-  await filter.valueInput(0).expectValue('@gmail');
+  await filter.getValueInputByIndex(0).expectValue('@gmail');
 });
 
 test('the date editor keeps the month the user navigates to', async ({ page }) => {
@@ -566,12 +567,12 @@ test('the date editor keeps the month the user navigates to', async ({ page }) =
   await inlineComponent(page);
   const filter = new JigFilterBuilderHarness(page.locator('jig-filter-builder'));
 
-  const attr = filter.propertySelect(0);
+  const attr = filter.getPropertySelectByIndex(0);
   await attr.open();
   await attr.clickItemByText('Joined');
 
-  const calendar = new JigCalendarHarness(filter.row(0).locator('jig-calendar'));
-  await filter.row(0).locator('jig-calendar jig-mask-input').click();
+  const calendar = new JigCalendarHarness(filter.getRowByIndex(0).locator('jig-calendar'));
+  await filter.getRowByIndex(0).locator('jig-calendar jig-mask-input').click();
   await calendar.selectDay(15);
   await calendar.currentMonth.expectSelectedItemText('August');
 
@@ -657,4 +658,12 @@ test('the input-mode summary is a labelled, focusable button', async ({ page }) 
   await page.getByRole('button', { name: 'before' }).focus();
   await page.keyboard.press('Tab');
   await expect(summary).toBeFocused();
+});
+
+test('rtl', async ({ page }, testInfo) => {
+  await useRtl(page);
+  await inlineComponent(page);
+  const filter = new JigFilterBuilderHarness(page.locator('jig-filter-builder'));
+  await setCondition(filter, 0, 'Email', 'Contains', '@gmail');
+  await expectScreenshot(page, testInfo);
 });

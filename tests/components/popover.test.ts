@@ -36,7 +36,7 @@ test('lazy', async ({ page }, testInfo) => {
         </ng-template>
       </jig-popover>
     `,
-    imports: ['popover', 'dummy_component'],
+    imports: ['popover', 'dummyComponent'],
   });
   const popover = new JigPopoverHarness(page.locator('jig-popover').first());
   await popover.expectRendered(false);

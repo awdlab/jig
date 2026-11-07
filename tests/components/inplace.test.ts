@@ -55,7 +55,7 @@ test('lazy loading', async ({ page }, testInfo) => {
         </ng-template>
       </jig-inplace>
     `,
-    imports: ['inplace', 'dummy_component'],
+    imports: ['inplace', 'dummyComponent'],
   });
 
   const inplace = new JigInplaceHarness(page.locator('jig-inplace'));

@@ -51,8 +51,13 @@ export class JigCommandHarness extends JigHarness {
     return expect(this.empty).toBeVisible({ visible: empty });
   }
 
+  /** An option by accessible name. */
+  public getItemByLabel(label: string): Locator {
+    return this.locator.getByRole('option', { name: label });
+  }
+
   public clickItem(label: string): Promise<void> {
-    return this.page.getByRole('option', { name: label }).click();
+    return this.getItemByLabel(label).click();
   }
 
   public expectActiveItem(label: string): Promise<void> {

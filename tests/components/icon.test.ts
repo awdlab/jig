@@ -1,4 +1,5 @@
 import test, { expect } from '@playwright/test';
+import { JigIconHarness } from '@awdlab/jig-playwright';
 import { loadComponent } from '../helper/load-component';
 import { useRtl } from '../helper/direction';
 import { expectScreenshot } from '../helper/screenshot';
@@ -14,14 +15,10 @@ test('renders an inlined, aria-hidden svg for an Iconify icon', async ({ page })
     { inputs: { icon: ICONIFY } }
   );
 
-  const host = page.locator('jig-icon');
-  await expect(host).toHaveClass(/jig-icon-root/);
-
-  const svg = host.locator('svg');
-  await expect(svg).toHaveCount(1);
-  // Icons are decorative and must be hidden from assistive technology.
-  await expect(svg).toHaveAttribute('aria-hidden', 'true');
-  await expect(svg).toHaveAttribute('viewBox', '0 0 24 24');
+  const icon = new JigIconHarness(page.locator('jig-icon'));
+  await expect(icon.locator.and(page.locator(icon.classes.root))).toHaveCount(1);
+  await icon.expectDecorative();
+  await icon.expectViewBox('0 0 24 24');
 });
 
 test('applies scale by insetting the viewBox', async ({ page }) => {
@@ -32,7 +29,7 @@ test('applies scale by insetting the viewBox', async ({ page }) => {
   );
 
   // scale 2 on a 24x24 icon insets each side by 6, leaving a 12x12 viewBox.
-  await expect(page.locator('jig-icon svg')).toHaveAttribute('viewBox', '6 6 12 12');
+  await new JigIconHarness(page.locator('jig-icon')).expectViewBox('6 6 12 12');
 });
 
 test('resolves a registered default icon', async ({ page }) => {
@@ -42,9 +39,7 @@ test('resolves a registered default icon', async ({ page }) => {
     { inputs: {} }
   );
 
-  const svg = page.locator('jig-icon svg');
-  await expect(svg).toHaveCount(1);
-  await expect(svg).toHaveAttribute('aria-hidden', 'true');
+  await new JigIconHarness(page.locator('jig-icon')).expectDecorative();
 });
 
 test('icon takes precedence over defaultIcon', async ({ page }) => {
@@ -59,7 +54,7 @@ test('icon takes precedence over defaultIcon', async ({ page }) => {
 
   // The explicit [icon] wins, so we get its 24x24 viewBox rather than the
   // scaled default-icon viewBox.
-  await expect(page.locator('jig-icon svg')).toHaveAttribute('viewBox', '0 0 24 24');
+  await new JigIconHarness(page.locator('jig-icon')).expectViewBox('0 0 24 24');
 });
 
 test('accessibility (axe)', async ({ page }) => {

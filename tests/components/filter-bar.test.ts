@@ -2,6 +2,7 @@ import test, { expect } from '@playwright/test';
 import { loadComponent } from '../helper/load-component';
 import { JigFilterBarHarness } from '@awdlab/jig-playwright';
 import { expectNoA11yViolations } from '../helper/axe';
+import { useRtl } from '../helper/direction';
 import { expectScreenshot } from '../helper/screenshot';
 
 const USERS = [
@@ -92,13 +93,13 @@ test('narrows by a condition and the search text together', async ({ page }) => 
   const builder = bar.filterBuilder();
   await builder.expectOpened(true);
 
-  const property = builder.propertySelect(0);
+  const property = builder.getPropertySelectByIndex(0);
   await property.open();
   await property.clickItemByText('Email');
-  const operator = builder.operatorSelect(0);
+  const operator = builder.getOperatorSelectByIndex(0);
   await operator.open();
   await operator.clickItemByText('Contains');
-  await builder.valueInput(0).fill('gmail');
+  await builder.getValueInputByIndex(0).fill('gmail');
 
   await expect(async () => {
     const log = await handle.getOutputLog();
@@ -118,10 +119,10 @@ test('shows the active condition count on the trigger badge', async ({ page }) =
 
   await bar.filterTrigger().click();
   const builder = bar.filterBuilder();
-  const property = builder.propertySelect(0);
+  const property = builder.getPropertySelectByIndex(0);
   await property.open();
   await property.clickItemByText('Email');
-  await builder.valueInput(0).fill('gmail');
+  await builder.getValueInputByIndex(0).fill('gmail');
 
   await expect(bar.badge()).toHaveText('1');
 });
@@ -132,10 +133,10 @@ test('renders one removable chip per active condition', async ({ page }) => {
 
   await bar.filterTrigger().click();
   const builder = bar.filterBuilder();
-  const property = builder.propertySelect(0);
+  const property = builder.getPropertySelectByIndex(0);
   await property.open();
   await property.clickItemByText('Email');
-  await builder.valueInput(0).fill('gmail');
+  await builder.getValueInputByIndex(0).fill('gmail');
 
   await expect(bar.chips()).toHaveCount(1);
   await expect(bar.chips().first()).toContainText('Email');
@@ -171,10 +172,10 @@ test('emits config and leaves the data untouched when filterLocally is false', a
   const bar = new JigFilterBarHarness(page.locator('jig-filter-bar'));
   await bar.filterTrigger().click();
   const builder = bar.filterBuilder();
-  const property = builder.propertySelect(0);
+  const property = builder.getPropertySelectByIndex(0);
   await property.open();
   await property.clickItemByText('Email');
-  await builder.valueInput(0).fill('gmail');
+  await builder.getValueInputByIndex(0).fill('gmail');
 
   await expect(bar.chips()).toHaveCount(1);
   const log = await handle.getOutputLog();
@@ -196,16 +197,16 @@ test('holds the typed text back until the debounce elapses', async ({ page }) =>
   }).toPass({ timeout: 5000 });
 });
 
-test('has no axe violations with chips and the popover open', async ({ page }) => {
+test('accessibility (axe)', async ({ page }) => {
   await load(page);
   const bar = new JigFilterBarHarness(page.locator('jig-filter-bar'));
 
   await bar.filterTrigger().click();
   const builder = bar.filterBuilder();
-  const property = builder.propertySelect(0);
+  const property = builder.getPropertySelectByIndex(0);
   await property.open();
   await property.clickItemByText('Email');
-  await builder.valueInput(0).fill('gmail');
+  await builder.getValueInputByIndex(0).fill('gmail');
 
   await expectNoA11yViolations(page);
 });
@@ -216,10 +217,10 @@ test('matches the screenshot with search text and a chip', async ({ page }, test
 
   await bar.filterTrigger().click();
   const builder = bar.filterBuilder();
-  const property = builder.propertySelect(0);
+  const property = builder.getPropertySelectByIndex(0);
   await property.open();
   await property.clickItemByText('Email');
-  await builder.valueInput(0).fill('gmail');
+  await builder.getValueInputByIndex(0).fill('gmail');
   // The chip only appears once auto-apply commits, so close after it lands.
   await expect(bar.chips()).toHaveCount(1);
   await page.keyboard.press('Escape');
@@ -267,11 +268,18 @@ test('a projected filter template replaces the popover rows', async ({ page }) =
   await bar(page).filterTrigger().click();
   await expect(page.getByTestId('ann-only')).toBeVisible();
   // The condition rows are gone — no property select is rendered for row 0.
-  await expect(builder.propertySelect(0).locator).toHaveCount(0);
+  await expect(builder.getPropertySelectByIndex(0).locator).toHaveCount(0);
 
   await page.getByTestId('ann-only').click();
   await expect(async () => {
     const log = await handle.getOutputLog();
     expect(names(log['filtered']?.at(-1))).toEqual(['Ann']);
   }).toPass();
+});
+
+test('rtl', async ({ page }, testInfo) => {
+  await useRtl(page);
+  await load(page);
+  await bar(page).searchInput().fill('Ann');
+  await expectScreenshot(page, testInfo);
 });

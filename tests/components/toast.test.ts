@@ -35,7 +35,7 @@ test('creates a toast with correct content and notification ARIA', async ({ page
   await show.click();
   await host.expectToastCount(1);
 
-  const toast = host.getToast(0);
+  const toast = host.getToastByIndex(0);
   await toast.expectVisible();
   await toast.expectHeader('Notification');
   await toast.expectContent('This is a basic toast message.');
@@ -83,7 +83,7 @@ test('the region stays in the top layer until the last toast has animated out', 
     requestAnimationFrame(sample);
   });
 
-  await host.getToast(0).close();
+  await host.getToastByIndex(0).close();
   await expect(page.locator('jig-toast')).not.toBeAttached({ timeout: 4000 });
 
   expect(
@@ -103,7 +103,7 @@ test('dismisses via the close button when closable', async ({ page }) => {
   });
 
   await show.click();
-  const toast = host.getToast(0);
+  const toast = host.getToastByIndex(0);
   await toast.expectClosable(true);
 
   await toast.close();
@@ -149,8 +149,8 @@ test('keyboard: F6 focuses newest toast, arrows rove, Escape dismisses', async (
   await show.click();
   await host.expectToastCount(2);
 
-  const first = host.getToast(0);
-  const second = host.getToast(1);
+  const first = host.getToastByIndex(0);
+  const second = host.getToastByIndex(1);
 
   // F6 jumps focus into the region, onto the newest (last) toast.
   await page.keyboard.press('F6');
@@ -194,7 +194,7 @@ test('visual', async ({ page }, testInfo) => {
 
   await show.click();
   await host.expectToastCount(1);
-  await host.getToast(0).expectVisible();
+  await host.getToastByIndex(0).expectVisible();
 
   await expectScreenshot(page, testInfo, 'toast');
 });

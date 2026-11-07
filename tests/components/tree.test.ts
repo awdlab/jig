@@ -106,53 +106,51 @@ test('multiselect cascade checkboxes', async ({ page }, testInfo) => {
   await expectScreenshot(page, testInfo, 'indeterminate');
 });
 
-test.describe('disabled nodes', () => {
-  const disabledTree: JigTreeItem[] = [
-    {
-      label: 'Fruit',
-      value: 'fruit',
-      items: [
-        { label: 'Apple', value: 'apple' },
-        { label: 'Banana', value: 'banana', disabled: true },
-      ],
-    },
-    {
-      label: 'Archived',
-      value: 'archived',
-      disabled: true,
-      items: [{ label: 'Old', value: 'old' }],
-    },
-  ];
+const disabledTree: JigTreeItem[] = [
+  {
+    label: 'Fruit',
+    value: 'fruit',
+    items: [
+      { label: 'Apple', value: 'apple' },
+      { label: 'Banana', value: 'banana', disabled: true },
+    ],
+  },
+  {
+    label: 'Archived',
+    value: 'archived',
+    disabled: true,
+    items: [{ label: 'Old', value: 'old' }],
+  },
+];
 
-  test('disabled items are not selectable but still show a disabled checkbox', async ({
+test('disabled items are not selectable but still show a disabled checkbox', async ({
+  page,
+}, testInfo) => {
+  // Disabled nodes are pointer-inert, so both branches are expanded via the
+  // API to exercise a disabled leaf and a disabled subtree.
+  const handle = await loadComponent(
     page,
-  }, testInfo) => {
-    // Disabled nodes are pointer-inert, so both branches are expanded via the
-    // API to exercise a disabled leaf and a disabled subtree.
-    const handle = await loadComponent(
-      page,
-      treeTmpl(
-        `[multiple]="true" [expandedValues]="inputs().expanded" (valueChange)="output('value', $event)"`
-      ),
-      { inputs: { items: disabledTree, expanded: ['fruit', 'archived'] } }
-    );
-    const tree = harness(page);
+    treeTmpl(
+      `[multiple]="true" [expandedValues]="inputs().expanded" (valueChange)="output('value', $event)"`
+    ),
+    { inputs: { items: disabledTree, expanded: ['fruit', 'archived'] } }
+  );
+  const tree = harness(page);
 
-    await tree.expectExpanded('Fruit', true);
-    await tree.expectNodeDisabled('Apple', false);
-    await tree.expectNodeDisabled('Banana', true);
-    // A disabled node keeps its checkbox (disabled) for column alignment.
-    await expect(tree.getNode('Banana').locator('jig-checkbox')).toHaveCount(1);
+  await tree.expectExpanded('Fruit', true);
+  await tree.expectNodeDisabled('Apple', false);
+  await tree.expectNodeDisabled('Banana', true);
+  // A disabled node keeps its checkbox (disabled) for column alignment.
+  await expect(tree.getNode('Banana').locator('jig-checkbox')).toHaveCount(1);
 
-    // Clicking a disabled leaf does not select it.
-    await tree.getNode('Banana').click({ force: true });
-    expect(await handle.getOutputLog()).toEqual({});
+  // Clicking a disabled leaf does not select it.
+  await tree.getNode('Banana').click({ force: true });
+  expect(await handle.getOutputLog()).toEqual({});
 
-    // A disabled branch cascades disabled state to its whole subtree.
-    await tree.expectNodeDisabled('Archived', true);
-    await tree.expectNodeDisabled('Old', true);
-    await expectScreenshot(page, testInfo, 'disabled');
-  });
+  // A disabled branch cascades disabled state to its whole subtree.
+  await tree.expectNodeDisabled('Archived', true);
+  await tree.expectNodeDisabled('Old', true);
+  await expectScreenshot(page, testInfo, 'disabled');
 });
 
 test('filter auto-expands matches and keeps the ancestor path', async ({ page }, testInfo) => {

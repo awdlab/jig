@@ -36,7 +36,7 @@ const TABLE_TEMPLATE: TemplateType = {
         </tr>
       </ng-template>
     </jig-table>`,
-  imports: ['tableModule', 'jigTemplate'],
+  imports: ['tableModule', 'template'],
 };
 
 function generateRows(count: number) {

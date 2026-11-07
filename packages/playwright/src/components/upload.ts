@@ -20,12 +20,12 @@ export class JigUploadHarness extends JigHarness {
   }
 
   /** Item `<li>` at the given index. */
-  public item(index: number = 0): Locator {
+  public getItemByIndex(index: number = 0): Locator {
     return this.items.nth(index);
   }
 
-  public name(index: number = 0): Locator {
-    return this.item(index).locator(this.classes.name);
+  public getNameByIndex(index: number = 0): Locator {
+    return this.getItemByIndex(index).locator(this.classes.name);
   }
 
   public async expectItemCount(count: number): Promise<void> {
@@ -33,7 +33,7 @@ export class JigUploadHarness extends JigHarness {
   }
 
   public async expectItemName(index: number, text: string): Promise<void> {
-    await expect(this.name(index)).toHaveText(text);
+    await expect(this.getNameByIndex(index)).toHaveText(text);
   }
 
   public async expectItemState(
@@ -41,7 +41,7 @@ export class JigUploadHarness extends JigHarness {
     state: 'pending' | 'uploading' | 'done' | 'failed'
   ): Promise<void> {
     const stateClass = this.classes[`item-${state}`].slice(1); // strip leading '.'
-    await expect(this.item(index)).toHaveClass(new RegExp(stateClass));
+    await expect(this.getItemByIndex(index)).toHaveClass(new RegExp(stateClass));
   }
 
   /** Select files through the projected native input (click-select path). */
@@ -52,8 +52,8 @@ export class JigUploadHarness extends JigHarness {
   }
 
   /** Action button ('upload' | 'cancel' | 'retry' | 'remove') on an item. */
-  public actionButton(index: number, label: string): Locator {
-    return this.item(index).getByLabel(new RegExp(`^${label}`, 'i'));
+  public getActionButtonByIndex(index: number, label: string): Locator {
+    return this.getItemByIndex(index).getByLabel(new RegExp(`^${label}`, 'i'));
   }
 
   /** The "Upload" button rendered in confirm mode (`confirmTrigger: 'all'`). */

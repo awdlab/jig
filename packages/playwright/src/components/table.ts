@@ -46,21 +46,21 @@ export class JigTableHarness extends JigHarness {
     this.paginator = new JigPaginatorHarness(locator.locator('jig-paginator'));
   }
 
-  public row(index: number): Locator {
+  public getRowByIndex(index: number): Locator {
     return this.rows.nth(index);
   }
 
   /** A data cell by row and column index. */
-  public cell(row: number, column: number): Locator {
-    return this.row(row).locator(this.classes.cell).nth(column);
+  public getCellByIndex(row: number, column: number): Locator {
+    return this.getRowByIndex(row).locator(this.classes.cell).nth(column);
   }
 
   /** Every data cell of one row, in column order. */
-  public rowCells(row: number): Locator {
-    return this.row(row).locator(this.classes.cell);
+  public getRowCellsByIndex(row: number): Locator {
+    return this.getRowByIndex(row).locator(this.classes.cell);
   }
 
-  public headerCell(column: number): Locator {
+  public getHeaderCellByIndex(column: number): Locator {
     return this.headerCells.nth(column);
   }
 
@@ -70,11 +70,22 @@ export class JigTableHarness extends JigHarness {
 
   /** Asserts the visible text of every data cell of a row, in column order. */
   public expectRowTexts(index: number, texts: string[]): Promise<void> {
-    return expect(this.row(index).locator(this.classes.cell)).toHaveText(texts);
+    return expect(this.getRowByIndex(index).locator(this.classes.cell)).toHaveText(texts);
   }
 
   public expectSelected(index: number, selected = true): Promise<void> {
-    return expect(this.row(index)).toHaveAttribute('aria-selected', String(selected));
+    return expect(this.getRowByIndex(index)).toHaveAttribute('aria-selected', String(selected));
+  }
+
+  /** Asserts a row state class such as `focused-row` or `active-row`. */
+  public expectRowClass(
+    index: number,
+    className: 'focused-row' | 'active-row' | 'selected-row',
+    present = true
+  ): Promise<void> {
+    const row = expect(this.getRowByIndex(index));
+    const name = this.classes[className].slice(1);
+    return present ? row.toContainClass(name) : row.not.toContainClass(name);
   }
 
   public expectSelectedCount(count: number): Promise<void> {
@@ -83,7 +94,7 @@ export class JigTableHarness extends JigHarness {
 
   /** Asserts the row the grid's `aria-activedescendant` points at. */
   public async expectFocusedRow(index: number): Promise<void> {
-    const id = await this.row(index).getAttribute('id');
+    const id = await this.getRowByIndex(index).getAttribute('id');
     await expect(this.grid).toHaveAttribute('aria-activedescendant', id ?? '');
   }
 
@@ -102,27 +113,29 @@ export class JigTableHarness extends JigHarness {
     );
   }
 
-  public rowCheckbox(index: number): JigCheckboxHarness {
-    return new JigCheckboxHarness(this.row(index).locator(this.classes['selection-checkbox']));
+  public getRowCheckboxByIndex(index: number): JigCheckboxHarness {
+    return new JigCheckboxHarness(
+      this.getRowByIndex(index).locator(this.classes['selection-checkbox'])
+    );
   }
 
   // --- sorting / filtering -------------------------------------------------
 
-  public sortControl(column: number): Locator {
-    return this.headerCell(column).locator(this.classes['sort-control']);
+  public getSortControlByIndex(column: number): Locator {
+    return this.getHeaderCellByIndex(column).locator(this.classes['sort-control']);
   }
 
   public sortBy(column: number): Promise<void> {
-    return this.headerCell(column).click();
+    return this.getHeaderCellByIndex(column).click();
   }
 
   public expectSort(column: number, sort: JigTableSort): Promise<void> {
-    return expect(this.headerCell(column)).toHaveAttribute('aria-sort', sort);
+    return expect(this.getHeaderCellByIndex(column)).toHaveAttribute('aria-sort', sort);
   }
 
   /** The filter popover of a `jigTableFilterableColumn` header. */
-  public columnFilter(column: number): JigFilterFieldHarness {
-    return new JigFilterFieldHarness(this.headerCell(column).locator('jig-filter-field'));
+  public getColumnFilterByIndex(column: number): JigFilterFieldHarness {
+    return new JigFilterFieldHarness(this.getHeaderCellByIndex(column).locator('jig-filter-field'));
   }
 
   // --- column resize / reorder --------------------------------------------
@@ -140,15 +153,15 @@ export class JigTableHarness extends JigHarness {
   }
 
   public async columnWidth(column: number): Promise<number> {
-    const box = await this.headerCell(column).boundingBox();
+    const box = await this.getHeaderCellByIndex(column).boundingBox();
     if (!box) throw new Error(`column ${column} has no box`);
     return box.width;
   }
 
   /** Drag a header onto another header's position — the column reorder path. */
   public async reorderColumn(from: number, to: number): Promise<void> {
-    const source = await this.headerCell(from).boundingBox();
-    const target = await this.headerCell(to).boundingBox();
+    const source = await this.getHeaderCellByIndex(from).boundingBox();
+    const target = await this.getHeaderCellByIndex(to).boundingBox();
     if (!source || !target) throw new Error('header has no box');
     await this.page.mouse.move(source.x + source.width / 2, source.y + source.height / 2);
     await this.page.mouse.down();
@@ -164,7 +177,7 @@ export class JigTableHarness extends JigHarness {
 
   // --- grouping ------------------------------------------------------------
 
-  public groupHeader(index: number): Locator {
+  public getGroupHeaderByIndex(index: number): Locator {
     return this.groupHeaders.nth(index);
   }
 
@@ -173,20 +186,24 @@ export class JigTableHarness extends JigHarness {
   }
 
   public toggleGroup(index: number): Promise<void> {
-    return this.groupHeader(index).click();
+    return this.getGroupHeaderByIndex(index).click();
   }
 
   /** `aria-expanded` sits on the group header's cell, not on its row. */
   public expectGroupExpanded(index: number, expanded = true): Promise<void> {
     return expect(
-      this.groupHeader(index).locator(this.classes['group-header-cell'])
+      this.getGroupHeaderByIndex(index).locator(this.classes['group-header-cell'])
     ).toHaveAttribute('aria-expanded', String(expanded));
   }
 
   // --- row actions ---------------------------------------------------------
 
-  public rowAction(index: number, testId: string): Locator {
-    return this.row(index).locator(`[data-testid="${testId}"]`);
+  public getRowActionByIndex(index: number, testId: string): Locator {
+    return this.getRowByIndex(index).locator(`[data-testid="${testId}"]`);
+  }
+
+  public getRowActionsBarByIndex(index: number): Locator {
+    return this.getRowByIndex(index).locator('jig-table-row-actions-bar');
   }
 
   public expectRowActionsBarVisible(visible = true): Promise<void> {

@@ -1,4 +1,5 @@
-import test, { expect } from '@playwright/test';
+import test, { expect, type Page } from '@playwright/test';
+import { JigMenuHarness } from '@awdlab/jig-playwright';
 
 import { loadComponent, evalValue } from '../helper/load-component';
 import { useRtl } from '../helper/direction';
@@ -10,6 +11,11 @@ const ITEMS = [
   { id: '2', label: 'Item 2' },
   { id: '3', label: 'Item 3' },
 ];
+
+/** The outermost menu; submenus nest their own `jig-menu` inside it. */
+function rootMenu(page: Page) {
+  return new JigMenuHarness(page.locator('jig-menu').first());
+}
 
 const POPOVER_TEMPLATE = `
   <button #anchor (click)="menu.show()">Open Menu</button>
@@ -29,10 +35,10 @@ test('inline menu renders role=menu with a menuitem per item', async ({ page }) 
     { inputs: { items: ITEMS } }
   );
 
-  await expect(page.locator('[role="menu"]')).toBeVisible();
-  const items = page.locator('[role="menuitem"]');
-  await expect(items).toHaveCount(3);
-  await expect(items.first()).toHaveText(/Item 1/);
+  const menu = rootMenu(page);
+  await menu.expectOpened();
+  await menu.expectItemCount(3);
+  await expect(menu.getItemByIndex(0)).toHaveText(/Item 1/);
 });
 
 test('popover menu wires aria on the anchor and opens/closes', async ({ page }) => {
@@ -48,14 +54,15 @@ test('popover menu wires aria on the anchor and opens/closes', async ({ page }) 
   await expect(anchor).toHaveAttribute('aria-controls', /.+/);
 
   // Content is lazy — the menu role only exists once opened.
-  await expect(page.locator('[role="menu"]')).toHaveCount(0);
+  const menu = rootMenu(page);
+  await menu.expectOpened(false);
 
   await anchor.click();
-  await expect(page.locator('[role="menu"]')).toBeVisible();
+  await menu.expectOpened();
   await expect(anchor).toHaveAttribute('aria-expanded', 'true');
 
   await page.keyboard.press('Escape');
-  await expect(page.locator('[role="menu"]')).toHaveCount(0);
+  await menu.expectOpened(false);
   await expect(anchor).toHaveAttribute('aria-expanded', 'false');
 });
 
@@ -72,13 +79,14 @@ test('clicking a popover menu item runs its callback and closes the menu', async
     }
   );
 
+  const menu = rootMenu(page);
   await page.locator('button').first().click();
-  await expect(page.locator('[role="menu"]')).toBeVisible();
+  await menu.expectOpened();
 
-  await page.getByRole('menuitem', { name: 'Item 1' }).click();
+  await menu.getItemByLabel('Item 1').click();
 
   expect(await page.evaluate(() => (window as any).__calls ?? [])).toContain('1');
-  await expect(page.locator('[role="menu"]')).toHaveCount(0);
+  await menu.expectOpened(false);
   expect(await handle.getOutputLog()).toEqual({ closed: [true] });
 });
 
@@ -95,22 +103,22 @@ test('keyboard: arrows move focus, Enter activates, Escape closes', async ({ pag
     }
   );
 
+  const menu = rootMenu(page);
   await page.locator('button').first().click();
-  const items = page.locator('[role="menuitem"]');
-  await expect(items.first()).toBeVisible();
+  await expect(menu.getItemByIndex(0)).toBeVisible();
 
-  await items.first().focus();
-  await expect(items.nth(0)).toBeFocused();
+  await menu.getItemByIndex(0).focus();
+  await expect(menu.getItemByIndex(0)).toBeFocused();
 
   await page.keyboard.press('ArrowDown');
-  await expect(items.nth(1)).toBeFocused();
+  await expect(menu.getItemByIndex(1)).toBeFocused();
 
   await page.keyboard.press('ArrowUp');
-  await expect(items.nth(0)).toBeFocused();
+  await expect(menu.getItemByIndex(0)).toBeFocused();
 
   await page.keyboard.press('Enter');
   expect(await page.evaluate(() => (window as any).__calls ?? [])).toContain('1');
-  await expect(page.locator('[role="menu"]')).toHaveCount(0);
+  await menu.expectOpened(false);
 });
 
 test('submenu: parent item advertises a submenu and opens it on click', async ({ page }) => {
@@ -134,13 +142,14 @@ test('submenu: parent item advertises a submenu and opens it on click', async ({
     }
   );
 
-  const parent = page.getByRole('menuitem', { name: 'Parent' });
+  const menu = rootMenu(page);
+  const parent = menu.getItemByLabel('Parent');
   await expect(parent).toHaveAttribute('aria-haspopup', 'menu');
   await expect(parent).toHaveAttribute('aria-expanded', 'false');
 
   await parent.click();
   await expect(parent).toHaveAttribute('aria-expanded', 'true');
-  await expect(page.getByRole('menuitem', { name: 'Child 1' })).toBeVisible();
+  await expect(menu.getItemByLabel('Child 1')).toBeVisible();
 });
 
 test('item callback that destroys the menu does not warn', async ({ page }) => {
@@ -175,9 +184,10 @@ test('item callback that destroys the menu does not warn', async ({ page }) => {
     }
   );
 
+  const menu = rootMenu(page);
   await page.locator('button').first().click();
-  await page.getByRole('menuitem', { name: 'Item 1' }).click();
-  await expect(page.locator('jig-menu')).toHaveCount(0);
+  await menu.getItemByLabel('Item 1').click();
+  await menu.expectAttached(false);
 
   // Let the deferred allClosed frame run — the warning would land there.
   await page.waitForTimeout(150);
@@ -193,7 +203,7 @@ test('accessibility (axe)', async ({ page }) => {
 
   // The menu is a lazy popover — open it so the scan covers the opened content.
   await page.locator('button').first().click();
-  await expect(page.locator('[role="menu"]')).toBeVisible();
+  await rootMenu(page).expectOpened();
 
   await expectNoA11yViolations(page);
 });
@@ -205,7 +215,7 @@ test('visual', async ({ page }, testInfo) => {
     { inputs: { items: ITEMS } }
   );
 
-  await expect(page.locator('[role="menu"]')).toBeVisible();
+  await rootMenu(page).expectOpened();
   await expectScreenshot(page, testInfo, 'inline');
 });
 
@@ -241,19 +251,21 @@ test('rtl keyboard: submenus open away from the parent along the inline axis', a
     }
   );
 
-  const parent = page.getByRole('menuitem', { name: 'Parent' });
+  const menu = rootMenu(page);
+  const parent = menu.getItemByLabel('Parent');
+  const child = menu.getItemByLabel('Child 1');
   await parent.focus();
   await expect(parent).toHaveAttribute('aria-expanded', 'false');
 
   // Nesting runs along the inline axis, so in RTL ArrowLeft opens the submenu.
   await page.keyboard.press('ArrowLeft');
   await expect(parent).toHaveAttribute('aria-expanded', 'true');
-  await expect(page.getByRole('menuitem', { name: 'Child 1' })).toBeVisible();
+  await expect(child).toBeVisible();
 
   // ArrowRight (back toward the parent) closes it again.
-  await page.getByRole('menuitem', { name: 'Child 1' }).focus();
+  await child.focus();
   await page.keyboard.press('ArrowRight');
-  await expect(page.getByRole('menuitem', { name: 'Child 1' })).not.toBeVisible();
+  await expect(child).not.toBeVisible();
 });
 
 test('popover menu focuses its first item on open', async ({ page }) => {
@@ -264,5 +276,5 @@ test('popover menu focuses its first item on open', async ({ page }) => {
   );
 
   await page.locator('button').first().click();
-  await expect(page.getByRole('menuitem', { name: 'Item 1' })).toBeFocused();
+  await expect(rootMenu(page).getItemByLabel('Item 1')).toBeFocused();
 });

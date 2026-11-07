@@ -31,8 +31,8 @@ test('base', async ({ page }, testInfo) => {
   await expectScreenshot(page, testInfo, 'base');
 
   // Select first option
-  await selectButton.clickButtonAt(0);
-  await selectButton.expectSelectedAt(0);
+  await selectButton.clickButtonByIndex(0);
+  await selectButton.expectSelected(0);
   await expectScreenshot(page, testInfo, 'selected-first');
 
   // Verify output event
@@ -40,9 +40,9 @@ test('base', async ({ page }, testInfo) => {
   expect(outputs['value']).toEqual([1]);
 
   // Select second option
-  await selectButton.clickButtonAt(1);
-  await selectButton.expectSelectedAt(1);
-  await selectButton.getButtonAt(0).expectActive(false);
+  await selectButton.clickButtonByIndex(1);
+  await selectButton.expectSelected(1);
+  await selectButton.getButtonByIndex(0).expectActive(false);
 
   const outputs2 = await handle.getOutputLog();
   expect(outputs2['value']).toEqual([1, 2]);
@@ -63,11 +63,11 @@ test('prevent unselect', async ({ page }, testInfo) => {
   );
 
   const selectButton = new JigSelectButtonHarness(page.locator('jig-select-button'));
-  await selectButton.expectSelectedAt(0);
+  await selectButton.expectSelected(0);
 
   // Click selected option — readonly prevents interaction
-  await selectButton.clickButtonAt(0, true);
-  await selectButton.expectSelectedAt(0);
+  await selectButton.clickButtonByIndex(0, true);
+  await selectButton.expectSelected(0);
 
   // Verify no output emitted
   expect(await handle.getOutputLog()).toEqual({});
@@ -89,15 +89,15 @@ test('allow unselect', async ({ page }, testInfo) => {
   );
 
   const selectButton = new JigSelectButtonHarness(page.locator('jig-select-button'));
-  await selectButton.expectSelectedAt(0);
+  await selectButton.expectSelected(0);
 
   // Click selected option — allowUnselect removes readonly so click deactivates
-  await selectButton.clickButtonAt(0);
-  await selectButton.getButtonAt(0).expectActive(false);
+  await selectButton.clickButtonByIndex(0);
+  await selectButton.getButtonByIndex(0).expectActive(false);
 
   // Select another option
-  await selectButton.clickButtonAt(1);
-  await selectButton.expectSelectedAt(1);
+  await selectButton.clickButtonByIndex(1);
+  await selectButton.expectSelected(1);
 
   const outputs = await handle.getOutputLog();
   expect(outputs['value']).toEqual([2]);
@@ -137,7 +137,7 @@ test('states', async ({ page }, testInfo) => {
   await expectScreenshot(page, testInfo, 'disabled');
 
   // Try click while disabled — should not work
-  await selectButton.clickButtonAt(1, true);
+  await selectButton.clickButtonByIndex(1, true);
   expect(await handle.getOutputLog()).toEqual({});
 
   // Readonly state
@@ -145,7 +145,7 @@ test('states', async ({ page }, testInfo) => {
   await expectScreenshot(page, testInfo, 'readonly');
 
   // Try click while readonly — should not work
-  await selectButton.clickButtonAt(1, true);
+  await selectButton.clickButtonByIndex(1, true);
   expect(await handle.getOutputLog()).toEqual({});
 
   // Invalid state — touch the control so invalidOn='touched' surfaces it.
@@ -172,12 +172,12 @@ test('value updates via input', async ({ page }, testInfo) => {
 
   // Set value programmatically
   await handle.setInputs({ value: 2 });
-  await selectButton.expectSelectedAt(1);
+  await selectButton.expectSelected(1);
 
   // Change to different value
   await handle.setInputs({ value: 3 });
-  await selectButton.expectSelectedAt(2);
-  await selectButton.getButtonAt(1).expectActive(false);
+  await selectButton.expectSelected(2);
+  await selectButton.getButtonByIndex(1).expectActive(false);
 
   // No output emitted for programmatic changes
   expect(await handle.getOutputLog()).toEqual({});

@@ -30,10 +30,10 @@ test('base (string contains) emits filtered result', async ({ page }) => {
   const filter = new JigFilterFieldHarness(page.locator('jig-filter-field'));
   await filter.open();
 
-  const op1 = filter.operatorSelect(0);
+  const op1 = filter.getOperatorSelectByIndex(0);
   await op1.open();
   await op1.clickItemByText('Contains');
-  await filter.valueInput(0).fill('ger');
+  await filter.getValueInputByIndex(0).fill('ger');
 
   await expect(async () => {
     const log = await handle.getOutputLog();
@@ -66,10 +66,10 @@ test('string notContains excludes matching values', async ({ page }) => {
   const filter = new JigFilterFieldHarness(page.locator('jig-filter-field'));
   await filter.open();
 
-  const op1 = filter.operatorSelect(0);
+  const op1 = filter.getOperatorSelectByIndex(0);
   await op1.open();
   await op1.clickItemByText('Does not contain');
-  await filter.valueInput(0).fill('ger');
+  await filter.getValueInputByIndex(0).fill('ger');
 
   await expect(async () => {
     const log = await handle.getOutputLog();
@@ -104,13 +104,13 @@ test('inline mode renders without popover', async ({ page }) => {
   const filter = new JigFilterFieldHarness(page.locator('jig-filter-field'));
 
   // Inline mode: operator select and value input should be visible without opening
-  const op = filter.operatorSelect(0);
+  const op = filter.getOperatorSelectByIndex(0);
   await expect(op.locator).toBeVisible();
 
   // Select "Contains" and type value
   await op.open();
   await op.clickItemByText('Contains');
-  await filter.valueInput(0).fill('an');
+  await filter.getValueInputByIndex(0).fill('an');
 
   await expect(async () => {
     const log = await handle.getOutputLog();
@@ -155,17 +155,17 @@ test('multiple conditions with AND/OR divider toggle', async ({ page }) => {
   const filter = new JigFilterFieldHarness(page.locator('jig-filter-field'));
 
   // Set first condition: contains "ap"
-  const op1 = filter.operatorSelect(0);
+  const op1 = filter.getOperatorSelectByIndex(0);
   await op1.open();
   await op1.clickItemByText('Contains');
-  await filter.valueInput(0).fill('ap');
+  await filter.getValueInputByIndex(0).fill('ap');
 
   // Add second condition: contains "bl"
   await filter.addConditionButton().click();
-  const op2 = filter.operatorSelect(1);
+  const op2 = filter.getOperatorSelectByIndex(1);
   await op2.open();
   await op2.clickItemByText('Contains');
-  await filter.valueInput(1).fill('bl');
+  await filter.getValueInputByIndex(1).fill('bl');
 
   // Default is "all" (AND) — nothing matches both "ap" AND "bl"
   await expect(async () => {
@@ -219,14 +219,14 @@ test('remove condition button works', async ({ page }) => {
 
   // Add a second condition
   await filter.addConditionButton().click();
-  await expect(filter.row(1)).toBeVisible();
+  await expect(filter.getRowByIndex(1)).toBeVisible();
 
   // Remove first condition
-  await filter.removeButton(0).click();
+  await filter.getRemoveButtonByIndex(0).click();
 
   // Should only have one row now
-  await expect(filter.row(1)).not.toBeVisible();
-  await expect(filter.row(0)).toBeVisible();
+  await expect(filter.getRowByIndex(1)).not.toBeVisible();
+  await expect(filter.getRowByIndex(0)).toBeVisible();
 });
 
 test('manual apply mode: apply commits, cancel restores', async ({ page }) => {
@@ -262,10 +262,10 @@ test('manual apply mode: apply commits, cancel restores', async ({ page }) => {
   await expect(filter.clearButton()).not.toBeVisible();
 
   // Set operator and value
-  const op = filter.operatorSelect(0);
+  const op = filter.getOperatorSelectByIndex(0);
   await op.open();
   await op.clickItemByText('Contains');
-  await filter.valueInput(0).fill('ap');
+  await filter.getValueInputByIndex(0).fill('ap');
 
   // Filter should NOT be applied yet (still showing all items)
   await expect(async () => {
@@ -285,7 +285,7 @@ test('manual apply mode: apply commits, cancel restores', async ({ page }) => {
   }).toPass();
 
   // Change value to something else
-  await filter.valueInput(0).fill('ban');
+  await filter.getValueInputByIndex(0).fill('ban');
 
   // Click Cancel — should restore to previously applied state ("ap")
   await filter.cancelButton().click();
@@ -324,7 +324,7 @@ test('boolean filter uses Yes/No labels', async ({ page }) => {
   const filter = new JigFilterFieldHarness(page.locator('jig-filter-field'));
 
   // Boolean uses valueSelect (operator with value ptClass since no value input)
-  const boolSelect = filter.valueSelect(0);
+  const boolSelect = filter.getValueSelectByIndex(0);
   await expect(boolSelect.locator).toBeVisible();
 
   // Select "No" to trigger the filter (initial state has no filter applied yet)
@@ -377,10 +377,10 @@ test('popover mode summary text shows quoted value', async ({ page }) => {
 
   // Open, set filter, close
   await filter.open();
-  const op = filter.operatorSelect(0);
+  const op = filter.getOperatorSelectByIndex(0);
   await op.open();
   await op.clickItemByText('Contains');
-  await filter.valueInput(0).fill('app');
+  await filter.getValueInputByIndex(0).fill('app');
 
   // Close the popover by clicking Clear won't work since that clears;
   // The summary text updates after debounce, let's just check the trigger text
@@ -501,7 +501,7 @@ test('operators restricts the list and defaultOperator seeds new conditions', as
   );
 
   const filter = new JigFilterFieldHarness(page.locator('jig-filter-field'));
-  const op = filter.operatorSelect(0);
+  const op = filter.getOperatorSelectByIndex(0);
   await op.expectSelectedItemText('Contains');
 
   await op.open();
@@ -509,7 +509,7 @@ test('operators restricts the list and defaultOperator seeds new conditions', as
   await op.close();
 
   await filter.addConditionButton().click();
-  await filter.operatorSelect(1).expectSelectedItemText('Contains');
+  await filter.getOperatorSelectByIndex(1).expectSelectedItemText('Contains');
 });
 
 test('accessibility (axe)', async ({ page }) => {
@@ -525,7 +525,7 @@ test('accessibility (axe)', async ({ page }) => {
   );
 
   const filter = new JigFilterFieldHarness(page.locator('jig-filter-field'));
-  await expect(filter.operatorSelect(0).locator).toBeVisible();
+  await expect(filter.getOperatorSelectByIndex(0).locator).toBeVisible();
 
   await expectNoA11yViolations(page);
 });
@@ -549,7 +549,7 @@ test('visual', async ({ page }, testInfo) => {
   );
 
   const filter = new JigFilterFieldHarness(page.locator('jig-filter-field'));
-  await expect(filter.operatorSelect(0).locator).toBeVisible();
+  await expect(filter.getOperatorSelectByIndex(0).locator).toBeVisible();
 
   await expectScreenshot(page, testInfo, 'inline');
 });

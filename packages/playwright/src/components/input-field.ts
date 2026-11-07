@@ -11,6 +11,8 @@ export class JigInputFieldHarness<
   /** Harnesses for the controls projected into the field, as built by the factory. */
   public readonly children: T;
 
+  /** The field chrome wrapping the projected control. */
+  public readonly root: Locator;
   public readonly label: Locator;
   public readonly requiredMarker: Locator;
   public readonly clearButton: Locator;
@@ -18,6 +20,7 @@ export class JigInputFieldHarness<
   constructor(locator: Locator, children?: (locator: Locator) => T) {
     super(locator);
     this.children = children?.(locator) ?? ({} as T);
+    this.root = locator.locator(this.classes.root);
     this.label = locator.locator(this.classes.label);
     this.requiredMarker = locator.locator(this.classes['required-marker']);
     this.clearButton = locator.locator(this.classes['clear-button']);

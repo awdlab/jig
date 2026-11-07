@@ -1,42 +1,51 @@
 import { type Locator, expect } from '@playwright/test';
+import { radioControlTemplate } from '@awdlab/jig-themes/templates/radio';
+import { radioGroupControlTemplate } from '@awdlab/jig-themes/templates/radio-group';
+import { themeClasses } from '../utils/theme.js';
 import { JigHarness } from '../harness.js';
 
+export class JigRadioHarness extends JigHarness {
+  public readonly classes = themeClasses(radioControlTemplate);
+
+  public expectChecked(checked = true): Promise<void> {
+    return expect(this.locator).toHaveAttribute('aria-checked', String(checked));
+  }
+}
+
 export class JigRadioGroupHarness extends JigHarness {
+  public readonly classes = themeClasses(radioGroupControlTemplate);
+
   /** All radio options in the group, in DOM order. */
   public readonly radios: Locator;
 
   constructor(locator: Locator) {
     super(locator);
-    this.radios = locator.locator('jig-radio');
+    this.radios = locator.locator(themeClasses(radioControlTemplate).root);
   }
 
-  public radio(index: number): Locator {
-    return this.radios.nth(index);
+  public getRadioByIndex(index: number): JigRadioHarness {
+    return new JigRadioHarness(this.radios.nth(index));
   }
 
   /** Click the radio at `index` to select it. */
   public async select(index: number, force = false) {
-    await this.radio(index).click({ force });
+    await this.getRadioByIndex(index).click({ force });
   }
 
   public async expectSelected(index: number) {
-    await expect(this.radio(index)).toHaveAttribute('aria-checked', 'true');
+    await this.getRadioByIndex(index).expectChecked();
   }
 
   public async expectNotSelected(index: number) {
-    await expect(this.radio(index)).toHaveAttribute('aria-checked', 'false');
+    await this.getRadioByIndex(index).expectChecked(false);
   }
 
   public async expectRadioDisabled(index: number, disabled = true) {
-    if (disabled) {
-      await expect(this.radio(index)).toHaveAttribute('aria-disabled', 'true');
-    } else {
-      await expect(this.radio(index)).not.toHaveAttribute('aria-disabled', 'true');
-    }
+    await this.getRadioByIndex(index).expectDisabled(disabled);
   }
 
   /** Focus the currently active radio (the group's single tab stop). */
   public async focusActive() {
-    await this.locator.locator('jig-radio[tabindex="0"]').focus();
+    await this.radios.and(this.page.locator('[tabindex="0"]')).focus();
   }
 }

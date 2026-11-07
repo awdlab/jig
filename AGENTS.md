@@ -93,6 +93,8 @@ Always check **all** parts when making changes to a control — a rename or new 
 - **Unit**: Vitest with Angular TestBed — `.spec.ts` files next to source (rare; mostly utilities)
 - **Component/E2E**: Playwright — `tests/components/{name}.test.ts`, driven through the
   `apps/test-wrapper` app and the `@awdlab/jig-playwright` harnesses
+- **Feature/E2E**: cross-cutting behaviour (forms, labels, pass-through, reduced motion …) lives in `tests/features/{name}.test.ts`
+- Harness indexed accessors are named `get{X}ByIndex(index)`; tests go through a harness rather than raw selectors
 
 ## User Preferences
 
