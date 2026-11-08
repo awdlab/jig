@@ -35,7 +35,7 @@
   "dependencies": {
     "@iconify/types": "^2.0.0",
     "@awdlab/jig-custom-types": "workspace:*",
-    "tslib": "^2.8.1"
+    "tslib": "^2.9.1"
   },
   "peerDependencies": {
     "@angular/common": "catalog:",
@@ -60,9 +60,9 @@
     "@angular/cli": "catalog:",
     "@angular/compiler-cli": "catalog:",
     "@iconify/icons-tabler": "^1.2.95",
-    "ng-packagr": "^22.2.4",
+    "ng-packagr": "^22.2.6",
     "typescript": "catalog:",
-    "vitest": "^5.0.5"
+    "vitest": "^5.1.0"
   },
   "sideEffects": false
 }
