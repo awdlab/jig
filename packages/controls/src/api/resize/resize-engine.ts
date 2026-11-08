@@ -1,4 +1,5 @@
 import { afterRenderEffect, computed, signal, type Signal, untracked } from '@angular/core';
+import { clamp } from '@awdlab/jig/utils';
 
 import {
   expandResizeLimit,
@@ -125,12 +126,7 @@ export class ResizeEngine {
     const constrained = this.containerConstrained();
     const mode = this.distributionMode();
 
-    // Resolve strategy:
-    // - adjacent (constrained): resolve ALL to px — CSS grid can't constrain adjacent resizing with fr.
-    // - push (unconstrained): keep original units until first movement bakes to px, then resolve for scrolling.
-    // - proportional: NEVER resolve fr→px. Use minmax(floor, size) so CSS grid handles min widths
-    //   natively, both during and after drag. This allows columns that still have room to shrink
-    //   while already-at-minimum columns stay at the floor.
+    // Adjacent resolves all sizes to px, push resolves after the first resize, and proportional keeps fr with a minmax() floor.
     const shouldResolve =
       containerSize > 0 &&
       ((constrained && mode === 'adjacent') || (!constrained && this.hasBeenResized()));
@@ -290,11 +286,7 @@ export class ResizeEngine {
     if (items.length === 0) return;
 
     const containerSize = this.containerSize();
-    // Container not measured yet (e.g. the splitter is mounted inside a hidden tab, so its
-    // ResizeObserver reports 0). The fr clamping below divides by the available fr area, which
-    // is degenerate at size 0 and would collapse fr items to `0fr` — a value then written back
-    // and persisted, so the pane stays at 0 even after the container becomes visible. Nothing
-    // meaningful to clamp until we have a real size; `gridTemplateSizes` guards the same way.
+    // Skip clamping until measured, since a 0-size container would collapse fr items to a persisted `0fr`.
     if (containerSize <= 0) return;
 
     const itemSizes = items.map(item => {
@@ -732,11 +724,6 @@ export class ResizeEngine {
 }
 
 // --- Module-level helpers ---
-
-/** Clamps a value between min and max. */
-function clamp(value: number, min: number, max: number): number {
-  return Math.max(min, Math.min(max, value));
-}
 
 /** Resolves an expanded limit to px. */
 function limitToPx(limit: ExpandedResizeLimit, containerSize: number): number {

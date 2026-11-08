@@ -57,11 +57,7 @@ export class JigBadge {
   private readonly _platform = inject(Platform);
 
   constructor() {
-    // Ensure the host can anchor the absolutely-positioned indicator. This must run in
-    // `afterNextRender` (browser-only, never during SSR): in the constructor the host is
-    // not yet connected, so `getComputedStyle(host).position` returns '' (not 'static')
-    // and the guard would silently skip — leaving the badge to position against the
-    // viewport instead of the host.
+    // Runs after render because an unconnected host reports '' instead of 'static' for `position`.
     afterNextRender(() => {
       if (getComputedStyle(this._host).position === 'static') {
         this._host.style.position = 'relative';

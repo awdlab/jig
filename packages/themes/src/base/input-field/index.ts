@@ -24,13 +24,7 @@ export const inputFieldStyles = createThemePart({
           resize: both;
         }
 
-        /* The input covers the field's padding via negative margins, so clicks in
-           the padding hit the input and the browser places the caret and starts
-           selections itself. Themes publish their padding as --fieldPadX/Y. Width
-           grows by exactly what the margins pull back, keeping the input's outer
-           box — and the text area inside it — where it was. Matched at any depth so
-           a nested input (editable select) claims the padding too. A label rendered
-           inside the field grows the top padding, published as --fieldPadTop. */
+        /* The input claims the field padding (--fieldPadX/Y/Top) via negative margins so clicks in the padding reach it. */
         & ${d('input', 'root')} {
           background: transparent;
           border: none;

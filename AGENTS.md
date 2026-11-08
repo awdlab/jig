@@ -13,7 +13,8 @@
 - Theme injection via `this.injectThemeTemplate(controlTemplate, classMapping)`
 - No component-level CSS/SCSS — all styling flows through the theme system
 - Tailwind CSS for utility classes in templates
-- Barrel exports via `index.ts` in every feature folder
+- Barrel exports via `index.ts` in every feature folder under `packages/` (apps need no barrels)
+- Helpers meant for consumers (e.g. `domEventHandler`, `elementSizeSignal`) live in `@awdlab/jig/api/ng`; helpers only controls use (e.g. `toggleIdRefs`, `classSignal`) live in `@awdlab/jig/utils-ng` — never in both.
 - Use `@awdlab/*` path aliases for imports, never relative cross-package imports
 - 2-space indentation, single quotes (oxfmt formats `.ts`/`.json`/`.md`; Prettier + `@ngneers/prettier-config` formats `.html`)
 - Linting via oxlint with type-aware rules (tsgolint, `--type-aware`); config in root `.oxlintrc.json`. No ESLint.
@@ -26,19 +27,27 @@ _Decided 2026-07-08 (repo-wide audit). Apply to all new/edited controls; migrate
 
 - Extract a `{Name}Templates` base class (extending `JigBase` / `ValueControlBase`) **only for controls that expose template or `contentChild` projection inputs**. The component then `extends {Name}Templates` so template wiring stays out of the component class. Reference: `dialog` → `DialogTemplates`.
 - Controls with **no** template inputs stay flat: component extends the base directly and calls `injectThemeTemplate` inline. Do **not** create empty template base classes.
+- Host state is exposed as `data-*` attributes (`data-open`, `data-position`, `data-jig-motion`), never as host classes; theme classes from `ptClass` / `theme.class()` are not host state.
 
 ### Naming
 
 - Control folder name and `jig-` element selector are kebab-case and identical: folder `x-y` ⇒ selector `jig-x-y`.
-- The "input" family is **modifier-first**: `number-input`, `mask-input` (rename `input-mask` → `mask-input`). The bare `input` directive keeps its name. **Exception:** `input-field` stays input-first (`JigInputField`, `jig-input-field`) — it composes/projects other controls rather than being a variant of `input`, so the family rule does not apply to it.
+- The "input" family is **modifier-first**: `number-input`, `mask-input`. The bare `input` directive keeps its name. **Exception:** `input-field` stays input-first (`JigInputField`, `jig-input-field`) — it composes/projects other controls rather than being a variant of `input`, so the family rule does not apply to it.
 - Attribute directives applied to native elements (`jigButton`, `jigInput`) intentionally keep camelCase attribute selectors — this is **not** a violation.
 - Every control ships all anatomy parts (see below), including a theme template, docs page, and demos.
 
 ### Input / output properties
 
 - **Icon** inputs use an `icon` **prefix**: `iconClose`, `iconFilter`, `iconDropdown` — never `closeIcon` / `filterIcon`.
-- **Boolean** inputs always use the transform: `input(false, { transform: booleanAttribute })`.
-- **Directive** inputs expose a public alias `jig{Directive}{Prop}`. `@angular-eslint/no-input-rename` only permits an alias that is **exactly** the selector, or the selector + `PascalCase(propertyName)` — so the alias suffix must equal the property name. Pick the property name so the alias reads well (e.g. property `container` → alias `jigScrollAmountContainer`, not property `scrollContainer` which would force `jigScrollAmountScrollContainer`). Reference: `tooltip` — property `size` aliased to `jigTooltipSize`.
+- **Boolean** inputs always use the transform: `input(false, { transform: booleanAttribute })`. Tri-state booleans where unset means "inherit" use `optionalBooleanAttribute` from `@awdlab/jig/utils-ng`.
+- **Directive** inputs expose a public alias `jig{Directive}{Prop}`. The alias is either **exactly** the selector, or the selector + `PascalCase(propertyName)` — so the alias suffix must equal the property name. Pick the property name so the alias reads well (e.g. property `container` → alias `jigScrollAmountContainer`, not property `scrollContainer` which would force `jigScrollAmountScrollContainer`). Reference: `tooltip` — property `size` aliased to `jigTooltipSize`.
+  - Add an `@alias jig{Directive}{Prop}` TSDoc tag to every aliased input — the API docs and the MCP pack list inputs by that name.
+  - **Exception:** directives on native elements (`input`, `number-input`) mirror the native attribute names without a prefix (`id`, `min`, `max`, `step`).
+- **Template** inputs use a `template` **prefix**: `templateHeader`, `templateIndicator` — never `headerTemplate`. **Exception:** inputs for the main projected content may be named `content` (`lazyContent` for deferred content).
+- **Outputs** follow the first rule that applies:
+  - `*Change` — a piece of state moved, paired with a `model()` where it can be written back (`openChange`, `stateChange`).
+  - Past participle — something happened and is done, subject first (`closed`, `itemClicked`, `fileRemoved`, `uploadRequested`).
+  - Present participle — the "before" half of a bracketed pair (`closing` before `closed`). Never a bare verb (`upload`) or bare noun (`value`).
 
 ### TSDoc (reference: `select`)
 
@@ -69,19 +78,28 @@ When creating or modifying a control, be aware that each control spans these par
 | Material theme | `packages/themes/src/material/{name}/index.ts`  | `createThemePart()` — Material-flavoured styling                             |
 | Test harness   | `packages/playwright/src/components/{name}.ts`  | `Jig{Name}Harness` + export from `components/index.ts`                       |
 | Test registry  | `apps/test-wrapper/src/app/imports.ts`          | `{name}: () => import('@awdlab/jig/{name}')` — enables `imports: ['{name}']` |
-| Tests          | `tests/components/{name}.test.ts`               | Playwright + screenshot snapshots, snapshot dir alongside                    |
+| Tests          | `tests/components/{name}.test.ts`               | Playwright + screenshot snapshots in `tests/snapshots/`                      |
 | Docs page      | `apps/docs/src/app/docs/components/{name}/`     | `page.ts`, `index.md`, `api.md`, `a11y.md`, `playground.ts`                  |
 | Demos          | `apps/docs/src/app/demos/{name}/`               | Scenario-based standalone Angular components                                 |
 
+Directive docs pages (autofocus, defer, drag, errors, label, movable, resizable, roving-group, scroll-amount, scroll-shadow) have no `playground.ts`.
+
+Demos are named `jig-demo-{folder}-{file}` / `Demo_{Folder}_{File}` (the docs derive the source path from the class name); helper components are `Demo_{Folder}_{File}_{Part}`. Demos not tied to one control live in `demos/_shared/{folder}/`.
+
 New controls must be registered in `packages/themes/src/templates/index.ts` (`ThemeTemplate`), each theme's `index.ts`, and `apps/docs/src/app/docs/components/index.ts` (`COMPONENT_GROUPS`).
+
+`number-input` reuses `inputControlTemplate` (`ThemeTemplate.numberInput`), so it has no theme part of its own; `spin-buttons` is its sub-part and is documented on the number-input page (Spin Buttons API tab), not on its own docs page.
 
 Always check **all** parts when making changes to a control — a rename or new input affects templates, themes, tests, docs, and demos.
 
 ## Testing
 
-- **Unit**: Vitest with Angular TestBed — `.spec.ts` files next to source (rare; mostly utilities)
+- **Unit**: Vitest — `.spec.ts` files next to source (controls use Angular TestBed); `pnpm unit-test` runs the package specs, `pnpm test:tools` the `tools/` specs
+- **Prerequisite**: the e2e tests need a Playwright browser server on `ws://127.0.0.1:3000` — start it with `pnpm playwright-docker`
 - **Component/E2E**: Playwright — `tests/components/{name}.test.ts`, driven through the
   `apps/test-wrapper` app and the `@awdlab/jig-playwright` harnesses
+- **Feature/E2E**: cross-cutting behaviour (forms, labels, pass-through, reduced motion …) lives in `tests/features/{name}.test.ts`
+- Harness indexed accessors are named `get{X}ByIndex(index)`; tests go through a harness rather than raw selectors
 
 ## User Preferences
 

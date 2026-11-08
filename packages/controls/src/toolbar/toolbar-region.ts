@@ -6,13 +6,12 @@ import {
   ElementRef,
   inject,
   input,
-  TemplateRef,
   viewChildren,
 } from '@angular/core';
-import { templateTypesFn } from '@awdlab/jig/api/ng';
-import { JIG_CONTROL, JigBase, JigPt, provideSelf } from '@awdlab/jig/base';
+import { JIG_CONTROL, JigPt, provideSelf } from '@awdlab/jig/base';
 import { toolbarRegionControlTemplate } from '@awdlab/jig-themes/templates/toolbar-region';
 
+import { ToolbarRegionTemplates } from './toolbar-region-templates';
 import { TOOLBAR_CONTROL, type ToolbarPlacement, type ToolbarRegionRef } from './types';
 
 /**
@@ -34,7 +33,7 @@ import { TOOLBAR_CONTROL, type ToolbarPlacement, type ToolbarRegionRef } from '.
     '[attr.data-placement]': 'placement()',
   },
 })
-export class JigToolbarRegion extends JigBase<'toolbarRegion'> implements ToolbarRegionRef {
+export class JigToolbarRegion extends ToolbarRegionTemplates implements ToolbarRegionRef {
   protected readonly theme = this.injectThemeTemplate(toolbarRegionControlTemplate, 'root');
 
   /**
@@ -43,7 +42,7 @@ export class JigToolbarRegion extends JigBase<'toolbarRegion'> implements Toolba
    * Must be set as a **static attribute** (`placement="end"`), not a binding —
    * the toolbar projects regions into fixed slots, and Angular's content
    * projection is resolved statically at compile time.
-   * @default 'start'
+   * @default start
    */
   public readonly placement = input<ToolbarPlacement>('start');
   /**
@@ -53,22 +52,6 @@ export class JigToolbarRegion extends JigBase<'toolbarRegion'> implements Toolba
    * @default 0
    */
   public readonly priority = input(0);
-
-  /**
-   * Template types for the toolbar region.
-   * Can be used with the {@link JigTemplate} directive for type safe ng-templates.
-   */
-  public readonly templateTypes = templateTypesFn<{
-    item: {
-      $implicit: {
-        /** `true` while rendering inside the overflow popover. */
-        overflowed: boolean;
-      };
-    };
-  }>();
-
-  /** One `<ng-template #item>` per collapsible item, in DOM order. */
-  public readonly itemTemplates = contentChildren('item', { read: TemplateRef });
 
   private readonly _itemRefs = viewChildren<ElementRef<HTMLElement>>('itemRef');
   /** The in-bar element of each item, used by the toolbar for measurement. */

@@ -1,5 +1,14 @@
 import { NgTemplateOutlet } from '@angular/common';
-import { Component, computed, ElementRef, inject, input, output, type OnInit } from '@angular/core';
+import {
+  booleanAttribute,
+  Component,
+  computed,
+  ElementRef,
+  inject,
+  input,
+  output,
+  type OnInit,
+} from '@angular/core';
 import { provideSelf, JigPt } from '@awdlab/jig/base';
 import { JigButton } from '@awdlab/jig/button';
 import { I18n } from '@awdlab/jig/i18n';
@@ -72,7 +81,7 @@ export class JigToast extends ToastTemplates implements OnInit {
    * (e.g. via the close button or `Escape`).
    * @default false
    */
-  public readonly closable = input<boolean | undefined>(DEFAULT_TOAST_OPTIONS.closable);
+  public readonly closable = input(DEFAULT_TOAST_OPTIONS.closable, { transform: booleanAttribute });
   /**
    * Time in milliseconds before the toast auto-hides, or `false` to disable
    * auto-hiding. The timer pauses while the toast is hovered or focused.
@@ -81,7 +90,7 @@ export class JigToast extends ToastTemplates implements OnInit {
   public readonly autoHide = input<number | false | undefined>(DEFAULT_TOAST_OPTIONS.autoHide);
 
   /** Emitted when the toast is dismissed, whether by the user or the auto-hide timer. */
-  public readonly closeToast = output<void>();
+  public readonly closed = output<void>();
 
   private _closeTimeout?: number;
   private _remaining = 0;
@@ -142,7 +151,7 @@ export class JigToast extends ToastTemplates implements OnInit {
 
   protected close() {
     this.restoreFocus();
-    this.closeToast.emit();
+    this.closed.emit();
     if (this._closeTimeout) {
       clearTimeout(this._closeTimeout);
     }

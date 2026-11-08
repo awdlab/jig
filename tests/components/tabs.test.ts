@@ -46,7 +46,7 @@ async function prepareTest(page: Page, inputs: InputsType = {}) {
         }
       </jig-tabs>
       `,
-      imports: ['tabs', 'tab', 'dummy_component'],
+      imports: ['tabs', 'tab', 'dummyComponent'],
     },
     {
       inputs: {
@@ -384,10 +384,7 @@ test('rtl: overflow buttons sit on the inline edges and scroll along the inline 
   page,
   browserName,
 }) => {
-  // Chromium only: the overflow buttons' visibility re-settles as the header row is
-  // re-measured after the viewport change, and firefox/webkit hide them again mid-test.
-  // That timing is pre-existing tabs behaviour; the scroll direction under test is not
-  // browser-specific (all three engines use the same negative RTL scrollLeft model).
+  // Chromium only: the overflow buttons re-settle mid-test elsewhere; the RTL scroll model is engine-agnostic.
   test.skip(browserName !== 'chromium', 'overflow re-measure timing is browser-specific');
   await useRtl(page);
   const manyTabs = Array.from({ length: 10 }, (_, i) => ({

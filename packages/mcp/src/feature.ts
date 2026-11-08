@@ -1,12 +1,8 @@
 import { z } from 'zod';
 
-import { type KnowledgePack, queryTerms, recipeListLine, scoreControl } from './render.js';
+import { type KnowledgePack, queryTerms, recipeListLine, scoreControl, text } from './render.js';
 
 import type { McpServer } from '@modelcontextprotocol/sdk/server/mcp.js';
-
-function text(body: string) {
-  return { content: [{ type: 'text' as const, text: body }] };
-}
 
 /**
  * Feature development (capability 3). Recommends which controls to reach for a

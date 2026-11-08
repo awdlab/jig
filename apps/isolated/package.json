@@ -1,5 +1,5 @@
 {
-  "name": "@awdlab/isolated",
+  "name": "@awdlab/jig-isolated",
   "version": "0.0.0",
   "scripts": {
     "ng": "ng",

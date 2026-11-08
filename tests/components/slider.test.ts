@@ -135,7 +135,7 @@ test('track press follows the pointer and commits on release', async ({ page }) 
   const handle = await loadComponent(
     page,
     {
-      template: `<jig-slider style="width: 300px;" [value]="inputs().value" (valueCommit)="output('valueCommit', $event)" />`,
+      template: `<jig-slider style="width: 300px;" [value]="inputs().value" (valueCommitted)="output('valueCommitted', $event)" />`,
       imports: ['slider'],
     },
     {
@@ -157,7 +157,7 @@ test('track press follows the pointer and commits on release', async ({ page }) 
   expect(await handle.getOutputLog()).toEqual({});
 
   await page.mouse.up();
-  await expect.poll(handle.getOutputLog).toEqual({ valueCommit: [75] });
+  await expect.poll(handle.getOutputLog).toEqual({ valueCommitted: [75] });
 });
 
 test('vertical track press follows the pointer', async ({ page }) => {
@@ -189,7 +189,7 @@ test('track press ignores non-primary buttons', async ({ page }) => {
   const handle = await loadComponent(
     page,
     {
-      template: `<jig-slider style="width: 300px;" [value]="inputs().value" (valueChange)="output('value', $event)" (valueCommit)="output('valueCommit', $event)" />`,
+      template: `<jig-slider style="width: 300px;" [value]="inputs().value" (valueChange)="output('value', $event)" (valueCommitted)="output('valueCommitted', $event)" />`,
       imports: ['slider'],
     },
     {
@@ -214,7 +214,7 @@ test('pressing a thumb off-center keeps the value', async ({ page }) => {
   const handle = await loadComponent(
     page,
     {
-      template: `<jig-slider style="width: 300px;" [value]="inputs().value" (valueCommit)="output('valueCommit', $event)" />`,
+      template: `<jig-slider style="width: 300px;" [value]="inputs().value" (valueCommitted)="output('valueCommitted', $event)" />`,
       imports: ['slider'],
     },
     {
@@ -233,7 +233,7 @@ test('pressing a thumb off-center keeps the value', async ({ page }) => {
   await page.mouse.up();
 
   await slider.expectValue(50);
-  await expect.poll(handle.getOutputLog).toEqual({ valueCommit: [50] });
+  await expect.poll(handle.getOutputLog).toEqual({ valueCommitted: [50] });
 });
 
 test('the press area reaches past the visible track', async ({ page }) => {
@@ -859,7 +859,7 @@ test('range track press drags the nearest handle until release', async ({ page }
   const handle = await loadComponent(
     page,
     {
-      template: `<jig-slider style="width: 300px;" [range]="true" [value]="inputs().value" (valueCommit)="output('valueCommit', $event)" />`,
+      template: `<jig-slider style="width: 300px;" [range]="true" [value]="inputs().value" (valueCommitted)="output('valueCommitted', $event)" />`,
       imports: ['slider'],
     },
     {
@@ -883,7 +883,7 @@ test('range track press drags the nearest handle until release', async ({ page }
   await slider.expectRangeValue([60, 60]);
 
   await page.mouse.up();
-  await expect.poll(handle.getOutputLog).toEqual({ valueCommit: [[60, 60]] });
+  await expect.poll(handle.getOutputLog).toEqual({ valueCommitted: [[60, 60]] });
 });
 
 test('range readonly & disabled', async ({ page }, testInfo) => {
@@ -1095,11 +1095,11 @@ test('negative minRangeDistance is clamped to zero and reported', async ({ page 
   await slider.expectRangeValue([10, 10]);
 });
 
-test('valueCommit - single mode', async ({ page }) => {
+test('valueCommitted - single mode', async ({ page }) => {
   const handle = await loadComponent(
     page,
     {
-      template: `<jig-slider style="width: 300px;" [value]="inputs().value" (valueCommit)="output('valueCommit', $event)" />`,
+      template: `<jig-slider style="width: 300px;" [value]="inputs().value" (valueCommitted)="output('valueCommitted', $event)" />`,
       imports: ['slider'],
     },
     {
@@ -1126,16 +1126,16 @@ test('valueCommit - single mode', async ({ page }) => {
   await slider.clickTrack({ x: 10 });
 
   const outputs = await handle.getOutputLog();
-  expect(outputs['valueCommit'].slice(0, 3)).toEqual([51, 0, 100]);
-  expect(outputs['valueCommit']).toHaveLength(4);
-  expect(outputs['valueCommit'][3]).toBeLessThan(20);
+  expect(outputs['valueCommitted'].slice(0, 3)).toEqual([51, 0, 100]);
+  expect(outputs['valueCommitted']).toHaveLength(4);
+  expect(outputs['valueCommitted'][3]).toBeLessThan(20);
 });
 
-test('valueCommit - range mode', async ({ page }) => {
+test('valueCommitted - range mode', async ({ page }) => {
   const handle = await loadComponent(
     page,
     {
-      template: `<jig-slider style="width: 300px;" [range]="true" [value]="inputs().value" (valueCommit)="output('valueCommit', $event)" />`,
+      template: `<jig-slider style="width: 300px;" [range]="true" [value]="inputs().value" (valueCommitted)="output('valueCommitted', $event)" />`,
       imports: ['slider'],
     },
     {
@@ -1155,18 +1155,18 @@ test('valueCommit - range mode', async ({ page }) => {
   await slider.pressKey('ArrowUp', 'end');
 
   const outputs = await handle.getOutputLog();
-  expect(outputs['valueCommit']).toHaveLength(2);
-  const [start] = outputs['valueCommit'][0];
+  expect(outputs['valueCommitted']).toHaveLength(2);
+  const [start] = outputs['valueCommitted'][0];
   expect(start).toBeGreaterThan(20);
-  expect(outputs['valueCommit'][0]).toEqual([start, 60]);
-  expect(outputs['valueCommit'][1]).toEqual([start, 61]);
+  expect(outputs['valueCommitted'][0]).toEqual([start, 60]);
+  expect(outputs['valueCommitted'][1]).toEqual([start, 61]);
 });
 
-test('valueCommit - readonly and disabled emit nothing', async ({ page }) => {
+test('valueCommitted - readonly and disabled emit nothing', async ({ page }) => {
   const handle = await loadComponent(
     page,
     {
-      template: `<jig-slider style="width: 300px;" [value]="inputs().value" [readonly]="inputs().readonly" [disabled]="inputs().disabled" (valueCommit)="output('valueCommit', $event)" />`,
+      template: `<jig-slider style="width: 300px;" [value]="inputs().value" [readonly]="inputs().readonly" [disabled]="inputs().disabled" (valueCommitted)="output('valueCommitted', $event)" />`,
       imports: ['slider'],
     },
     {

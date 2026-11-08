@@ -22,10 +22,14 @@ pnpm install
 | `pnpm docs:build`    | Production build of the docs — the broadest type check.    |
 | `pnpm build`         | Build every package.                                       |
 | `pnpm unit-test`     | Vitest unit tests across packages.                         |
+| `pnpm test:tools`    | Vitest specs for the repo tooling in `tools/`.             |
 | `pnpm test`          | Playwright end-to-end tests (starts its own dev server).   |
 | `pnpm lint`          | oxlint with type-aware rules.                              |
 | `pnpm format`        | Format the repo (oxfmt for TS/JSON/MD, Prettier for HTML). |
 | `pnpm check:changed` | Lint + format check, restricted to changed files.          |
+
+The e2e tests connect to a Playwright browser server on `ws://127.0.0.1:3000`;
+start it once with `pnpm playwright-docker` (needs Docker) before running them.
 
 `pnpm test` runs the full e2e suite and takes a while. During development,
 target a single spec:
@@ -47,31 +51,19 @@ apps/test-wrapper          host app the e2e tests mount controls into
 tests/components           the e2e tests
 ```
 
-## A control is eight parts
+## A control spans many parts
 
-This is the thing to internalise before changing anything. A control is not one
-folder — a rename or a new input touches all of these:
-
-| #   | Part               | Location                                                    |
-| --- | ------------------ | ----------------------------------------------------------- |
-| 1   | Control source     | `packages/controls/src/{name}/`                             |
-| 2   | Theme template     | `packages/themes/src/templates/{name}/index.ts`             |
-| 3   | Base theme         | `packages/themes/src/base/{name}/index.ts`                  |
-| 4   | Themed parts       | `packages/themes/src/{nova,shade,material}/{name}/index.ts` |
-| 5   | Tests              | `tests/components/{name}.test.ts`                           |
-| 6   | Playwright harness | `packages/playwright/src/components/{name}.ts`              |
-| 7   | Docs page          | `apps/docs/src/app/docs/components/{name}/`                 |
-| 8   | Demos              | `apps/docs/src/app/demos/{name}/`                           |
+A control is not one folder — a rename or a new input touches its source, theme
+template, every theme, harness, tests, docs page and demos. The
+[Control Anatomy](AGENTS.md#control-anatomy) table in `AGENTS.md` lists every
+part and where it lives.
 
 The [Creating a Control](https://jig.awdlab.dev/guides/creating-a-control) guide
 walks through building one end to end.
 
-A new theme part folder also needs an empty `package.json` marker and a themes
-build (`pnpm themes:build`) before the e2e tests can resolve it.
-
 ## Conventions
 
-These are enforced by review, and mostly by lint:
+These are enforced by review:
 
 - **Signals only** — `input()`, `model()`, `output()`. Never `@Input()` /
   `@Output()` decorators.
@@ -116,7 +108,7 @@ the source from that path to render the code view.
 ## Commits and changesets
 
 - Conventional Commits (`feat:`, `fix:`, `docs:`, `chore:`…).
-- Every user-facing change needs a **changeset**; CI fails the PR without one:
+- Every PR needs a **changeset**; CI fails the PR without one:
 
   ```bash
   pnpm changeset
@@ -126,6 +118,10 @@ the source from that path to render the code view.
   consumer's point of view — the text ends up in the changelog. The result is a
   markdown file under `.changeset/`; commit it with your change.
 
+  For changes that publish nothing (docs app, tooling, CI), add an **empty**
+  changeset: no package lines between the `---` fences, then a bold one-line
+  summary ending with "No published package changes."
+
 ## Pull requests
 
 Before opening one:
@@ -133,9 +129,9 @@ Before opening one:
 1. `pnpm check:changed` — lint and formatting.
 2. `pnpm docs:build` — the broadest type check in the repo.
 3. Tests for the behaviour you changed, and the e2e spec for that control.
-4. A changeset, if the change is user-facing.
+4. A changeset — an empty one if nothing published changes.
 
-Keep PRs focused. A rename that touches all eight parts of one control is a
+Keep PRs focused. A rename that touches every part of one control is a
 good PR; a rename across twelve controls plus a refactor is three PRs.
 
 ## Reporting bugs and requesting features

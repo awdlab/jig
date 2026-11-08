@@ -13,7 +13,7 @@ import { withToasts } from '@awdlab/jig/toast';
 import { nova } from '@awdlab/jig-themes/nova';
 
 import { App } from './app';
-import { LeakTestComponent } from './leak-test.component';
+import { LeakTestComponent } from './leak-test';
 
 // Tests run without animations for determinism; `?animations` keeps them for motion assertions.
 const animationsEnabled =

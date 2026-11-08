@@ -2,6 +2,7 @@ import { createThemePart, css } from '@awdlab/jig-themes/api';
 import { baseStyles } from '@awdlab/jig-themes/base';
 import {
   animationTemplate,
+  backdropTemplate,
   colorsTemplate,
   fontTemplate,
   shadowTemplate,
@@ -12,7 +13,14 @@ import { drawerControlTemplate } from '@awdlab/jig-themes/templates/drawer';
 export const drawerStyles = createThemePart({
   controlTemplate: drawerControlTemplate,
   base: baseStyles.drawer,
-  dependencies: [colorsTemplate, sizesTemplate, fontTemplate, animationTemplate, shadowTemplate],
+  dependencies: [
+    colorsTemplate,
+    sizesTemplate,
+    fontTemplate,
+    animationTemplate,
+    shadowTemplate,
+    backdropTemplate,
+  ],
   root: {
     css: ({ v, c }) => css`
       ${c('root')} {
@@ -28,7 +36,7 @@ export const drawerStyles = createThemePart({
           transition: background-color ${v('anim.time.fade')};
         }
         &:popover-open::backdrop {
-          background-color: rgba(from ${v('color.text')} r g b / 0.1);
+          background-color: ${v('backdrop.scrim')};
           @starting-style {
             background-color: transparent;
           }

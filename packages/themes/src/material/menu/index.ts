@@ -1,12 +1,17 @@
 import { createThemePart, css } from '@awdlab/jig-themes/api';
 import { baseStyles } from '@awdlab/jig-themes/base';
-import { colorsTemplate, shadowTemplate, sizesTemplate } from '@awdlab/jig-themes/material/base';
+import {
+  animationTemplate,
+  colorsTemplate,
+  shadowTemplate,
+  sizesTemplate,
+} from '@awdlab/jig-themes/material/base';
 import { menuControlTemplate } from '@awdlab/jig-themes/templates/menu';
 
 export const menuStyles = createThemePart({
   controlTemplate: menuControlTemplate,
   base: baseStyles.menu,
-  dependencies: [colorsTemplate, sizesTemplate, shadowTemplate],
+  dependencies: [colorsTemplate, sizesTemplate, shadowTemplate, animationTemplate],
   root: {
     css: ({ v, c, d }) => css`
       ${c('root')} {
@@ -27,7 +32,7 @@ export const menuStyles = createThemePart({
         background: transparent;
         color: ${v('color.text')};
         border: none;
-        transition: background 0.2s ease;
+        transition: background ${v('anim.time.fade')} ease;
         &:not(:disabled) {
           cursor: pointer;
           &:hover {

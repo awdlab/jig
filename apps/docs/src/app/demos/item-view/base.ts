@@ -2,7 +2,7 @@ import { Component } from '@angular/core';
 import { JigTemplate } from '@awdlab/jig/api/ng';
 import { JigItemView } from '@awdlab/jig/item-view';
 
-import { exampleData } from '../../helper/data';
+import { exampleData } from '../../utils/sample-data/data';
 
 @Component({
   imports: [JigItemView, JigTemplate],

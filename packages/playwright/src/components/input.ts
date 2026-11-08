@@ -6,7 +6,7 @@ import { JigHarness } from '../harness.js';
 export class JigInputHarness extends JigHarness {
   public readonly classes = themeClasses(inputControlTemplate);
 
-  public expectValue(value: string): Promise<void> {
+  public expectValue(value: string | RegExp): Promise<void> {
     return expect(this.locator).toHaveValue(value);
   }
   public clear(): Promise<void> {

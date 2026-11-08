@@ -2,7 +2,7 @@ import { Component, signal } from '@angular/core';
 import { JigAccordion, JigAccordionPanel } from '@awdlab/jig/accordion';
 import { JigButton } from '@awdlab/jig/button';
 
-import { exampleData } from '../../helper/data';
+import { exampleData } from '../../utils/sample-data/data';
 
 @Component({
   selector: 'jig-demo-accordion-disabled',

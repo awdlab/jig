@@ -37,6 +37,6 @@ import { JigScrollShadow } from '@awdlab/jig/scroll-shadow';
     }
   `,
 })
-export class Demo_Scroll_Shadow_Both {
+export class Demo_ScrollShadow_Both {
   protected readonly cells = Array.from({ length: 40 }, (_, i) => i + 1);
 }

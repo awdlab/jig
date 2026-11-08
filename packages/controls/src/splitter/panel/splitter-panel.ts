@@ -15,7 +15,7 @@ import type { SplitterPanelSize, SplitterPanelSizeLimit } from '../types';
   host: {
     role: 'region',
     '[style.grid-area]': 'gridArea()',
-    '[aria-label]': 'ariaLabel()',
+    '[attr.aria-label]': 'ariaLabel()',
     '[attr.aria-labelledby]': 'ariaLabelledBy()',
   },
 })

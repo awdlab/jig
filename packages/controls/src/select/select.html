@@ -17,7 +17,7 @@
         role="combobox"
         aria-autocomplete="list"
         autocomplete="off"
-        [aria-expanded]="dropdown.open()"
+        [attr.aria-expanded]="dropdown.open()"
         aria-haspopup="listbox"
         [attr.aria-controls]="inputId() + '_listbox'"
         [attr.aria-activedescendant]="dropdown.highlightedOptionId()"
@@ -35,7 +35,7 @@
       role="combobox"
       [ptInt]="this"
       [ptClass]="{ combobox: true, empty: empty() }"
-      [aria-expanded]="dropdown.open()"
+      [attr.aria-expanded]="dropdown.open()"
       aria-haspopup="listbox"
       [attr.aria-controls]="inputId() + '_listbox'"
       [attr.aria-activedescendant]="dropdown.highlightedOptionId()"
@@ -46,7 +46,7 @@
       [attr.aria-labelledby]="labelledBy()"
       [attr.disabled]="disabled() ? '' : null"
       [id]="inputId()"
-      [tabindex]="disabled() ? -1 : tabindex()"
+      [attr.tabindex]="disabled() ? -1 : tabindex()"
     >
       @if (multiple()) {
         @if (selectedItems().length) {

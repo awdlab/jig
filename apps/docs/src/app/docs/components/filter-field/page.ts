@@ -3,7 +3,7 @@ import { Demo_FilterField_CustomTemplate } from '../../../demos/filter-field/cus
 import { Demo_FilterField_ApplyMode } from '../../../demos/filter-field/apply-mode';
 import { Demo_FilterField_Base } from '../../../demos/filter-field/base';
 import { Demo_FilterField_Custom } from '../../../demos/filter-field/custom';
-import { Demo_FilterField_DataTypes } from '../../../demos/filter-field/datatypes';
+import { Demo_FilterField_DataTypes } from '../../../demos/filter-field/data-types';
 import { Demo_FilterField_Headless } from '../../../demos/filter-field/headless';
 import { Demo_FilterField_Inline } from '../../../demos/filter-field/inline';
 import { Demo_FilterField_Multiple } from '../../../demos/filter-field/multiple';

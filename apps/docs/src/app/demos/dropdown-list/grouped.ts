@@ -2,7 +2,7 @@ import { Component } from '@angular/core';
 import { JigButton } from '@awdlab/jig/button';
 import { JigDropdownList } from '@awdlab/jig/dropdown-list';
 
-import { exampleData } from '../../helper/data';
+import { exampleData } from '../../utils/sample-data/data';
 
 @Component({
   selector: 'jig-demo-dropdown-list-grouped',

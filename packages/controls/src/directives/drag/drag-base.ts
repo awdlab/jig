@@ -29,11 +29,11 @@ export abstract class JigDragBase {
    * Emits once when a drag gesture begins, i.e. after the pointer has moved past
    * the small activation threshold following a pointerdown.
    */
-  public readonly dragStart = output<void>();
+  public readonly dragStarted = output<void>();
   /**
    * Emits once when the drag gesture ends (pointer released).
    */
-  public readonly dragEnd = output<void>();
+  public readonly dragEnded = output<void>();
   /**
    * Emits on every pointer move while dragging, carrying the frame delta and
    * absolute pointer position. See {@link JigDragInfo}.
@@ -86,7 +86,7 @@ export abstract class JigDragBase {
         this._startY = undefined;
         this.isDragging.set(false);
         this.suppressSelection(false);
-        this.dragEnd.emit();
+        this.dragEnded.emit();
       });
 
       this._pointerMoveEvent.subscribe(event => {
@@ -138,7 +138,7 @@ export abstract class JigDragBase {
       this.isDragging.set(true);
       this.suppressSelection(true);
       this._dragged = true;
-      this.dragStart.emit();
+      this.dragStarted.emit();
     }
     if (!this.isDragging()) {
       return;

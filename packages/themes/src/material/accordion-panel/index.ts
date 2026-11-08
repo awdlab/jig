@@ -1,12 +1,17 @@
 import { createThemePart, css } from '@awdlab/jig-themes/api';
 import { baseStyles } from '@awdlab/jig-themes/base';
-import { colorsTemplate, fontTemplate, sizesTemplate } from '@awdlab/jig-themes/material/base';
+import {
+  animationTemplate,
+  colorsTemplate,
+  fontTemplate,
+  sizesTemplate,
+} from '@awdlab/jig-themes/material/base';
 import { accordionPanelControlTemplate } from '@awdlab/jig-themes/templates/accordion-panel';
 
 export const accordionPanelStyles = createThemePart({
   controlTemplate: accordionPanelControlTemplate,
   base: baseStyles.accordionPanel,
-  dependencies: [colorsTemplate, sizesTemplate, fontTemplate],
+  dependencies: [colorsTemplate, sizesTemplate, fontTemplate, animationTemplate],
   root: {
     css: ({ v, c }) => css`
       ${c('root')} {
@@ -17,7 +22,7 @@ export const accordionPanelStyles = createThemePart({
       }
       ${c('content-expander')} {
         color: ${v('color.text')};
-        transition: grid-template-rows 0.2s ease-in-out;
+        transition: grid-template-rows ${v('anim.time.fade')} ease-in-out;
       }
       ${c('content')} {
         jig-defer {
@@ -33,11 +38,11 @@ export const accordionPanelStyles = createThemePart({
         padding: 0;
         cursor: pointer;
         user-select: none;
-        transition: background 0.2s ease-in-out;
+        transition: background ${v('anim.time.fade')} ease-in-out;
         jig-icon {
           color: ${v('color.surface.500')};
           margin: 0 ${v('size.padding.md')};
-          transition: color 0.2s ease-in-out;
+          transition: color ${v('anim.time.fade')} ease-in-out;
         }
         &:hover {
           background: color-mix(in srgb, ${v('color.text')} 8%, transparent);
@@ -73,7 +78,7 @@ export const accordionPanelStyles = createThemePart({
         font-weight: ${v('font.weight.medium')};
         /* MD expansion-panel title is on-surface (near-black), not grey */
         color: ${v('color.text')};
-        transition: color 0.2s ease-in-out;
+        transition: color ${v('anim.time.fade')} ease-in-out;
       }
     `,
   },

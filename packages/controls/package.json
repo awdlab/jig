@@ -25,9 +25,9 @@
   },
   "scripts": {
     "ng": "ng",
-    "prebuild": "cpy package.json src/",
-    "build": "ng build",
-    "postbuild": "tsx ../../tools/controls-post-build.ts",
+    "build:pre": "cpy package.json src/",
+    "build": "pnpm build:pre && ng build && pnpm build:post",
+    "build:post": "tsx ../../tools/controls-post-build.ts",
     "test": "ng test --watch=false",
     "test:watch": "ng test",
     "api-docs:generate": "tsx ../../tools/api-docs-gen.ts"
@@ -44,9 +44,9 @@
     "@angular/forms": "catalog:",
     "@angular/platform-browser": "catalog:",
     "@angular/router": "catalog:",
-    "@floating-ui/dom": "^1.7.1",
+    "@floating-ui/dom": "^1.8.0",
     "@iconify/icons-tabler": "^1.0.0",
-    "@awdlab/jig-themes": "workspace:",
+    "@awdlab/jig-themes": "workspace:*",
     "@ngneers/signal-translate": "^22.0.0",
     "rxjs": "~7.8.0"
   },
@@ -60,7 +60,6 @@
     "@angular/cli": "catalog:",
     "@angular/compiler-cli": "catalog:",
     "@iconify/icons-tabler": "^1.2.95",
-    "@iconify/types": "^2.0.0",
     "ng-packagr": "^22.2.4",
     "typescript": "catalog:",
     "vitest": "^5.0.5"

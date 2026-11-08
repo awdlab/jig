@@ -3,6 +3,7 @@ import { baseStyles } from '@awdlab/jig-themes/base';
 import {
   animationTemplate,
   colorsTemplate,
+  focusRing,
   fontTemplate,
   shadowTemplate,
   sizesTemplate,
@@ -22,7 +23,6 @@ export const buttonStyles = createThemePart({
         --padding: ${v('size.padding.md')} ${v('size.padding.lg')};
         border-radius: ${v('size.rounded.md')};
         border-style: none;
-        font-family: ${v('font.family')};
         font-weight: ${v('font.weight.medium')};
         padding: var(--padding);
         gap: ${v('size.padding.md')};
@@ -35,9 +35,14 @@ export const buttonStyles = createThemePart({
           color: ${v('color.disabled.text')};
         }
         &:focus-visible {
-          outline: 2px solid color-mix(in srgb, var(--theme-color-500) 50%, transparent);
-          outline-offset: 2px;
+          ${focusRing(v, 'var(--theme-color-500)')}
         }
+      }
+
+      /* Single-line buttons share the field height; inline, link and icon buttons size to content. */
+      ${c('root')}:not(${c('inline')}):not(${c('kind-link')}):not(${c('kind-icon')}) {
+        height: ${v('size.height.control')};
+        padding-block: 0;
       }
 
       ${c('kind-primary')} {

@@ -1,6 +1,6 @@
 import { createThemePart, css } from '@awdlab/jig-themes/api';
 import { baseStyles } from '@awdlab/jig-themes/base';
-import { colorsTemplate, sizesTemplate } from '@awdlab/jig-themes/shade/base';
+import { colorsTemplate, focusRingStyles, sizesTemplate } from '@awdlab/jig-themes/shade/base';
 import { ratingControlTemplate } from '@awdlab/jig-themes/templates/rating';
 
 export const ratingStyles = createThemePart({
@@ -21,8 +21,7 @@ export const ratingStyles = createThemePart({
       ${c('root')}:focus-visible {
         outline: none;
         ${c('symbol')} {
-          outline: 2px solid ${v('color.ring')};
-          outline-offset: 2px;
+          ${focusRingStyles(v)}
           border-radius: ${v('size.rounded.sm')};
         }
       }

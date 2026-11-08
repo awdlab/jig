@@ -45,7 +45,7 @@ async function prepareTest(page: Page, inputs: InputsType = {}) {
         }
       </jig-accordion>
       `,
-      imports: ['accordion', 'accordionPanel', 'dummy_component'],
+      imports: ['accordion', 'accordionPanel', 'dummyComponent'],
     },
     {
       inputs: {

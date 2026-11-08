@@ -32,18 +32,18 @@ export class JigTagInputHarness extends JigHarness {
     return this.locator.locator(this.classes['tag']);
   }
 
-  public tag(index: number): Locator {
+  public getTagByIndex(index: number): Locator {
     return this.tags.nth(index);
   }
 
-  public removeButton(index: number): Locator {
-    return this.tag(index).locator(this.classes['tag-remove']);
+  public getRemoveButtonByIndex(index: number): Locator {
+    return this.getTagByIndex(index).locator(this.classes['tag-remove']);
   }
 
   public async expectTags(labels: string[]): Promise<void> {
     await expect(this.tags).toHaveCount(labels.length);
     for (const [index, label] of labels.entries()) {
-      await expect(this.tag(index)).toContainText(label);
+      await expect(this.getTagByIndex(index)).toContainText(label);
     }
   }
 

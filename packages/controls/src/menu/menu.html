@@ -46,7 +46,7 @@
       #menuItem
       role="menuitem"
       aria-haspopup="menu"
-      [aria-expanded]="childMenu.open()"
+      [attr.aria-expanded]="childMenu.open()"
       tabindex="-1"
       [attr.tabindex]="index === tabStopIndex() ? 0 : -1"
       (focus)="focusedIndex.set(index)"
@@ -71,7 +71,7 @@
       [popover]="true"
       [isSubMenu]="true"
       (closing)="menuItem.focus()"
-      (closeAll)="doCloseAll()"
+      (allClosed)="doCloseAll()"
       [elementId]="elementId() + '_submenu_' + item.id"
       [openSubmenuOnHover]="openSubmenuOnHover()"
     />

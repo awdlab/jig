@@ -354,8 +354,10 @@ export abstract class JigBase<T extends ControlName | null> {
     const theme = injectThemeTemplate(template, opts);
     this._controlScope.set(theme.scope);
 
-    const defaults = injectThemeControlDefaults(theme.scope)();
-    const kinds = injectThemeControlKinds(theme.scope)();
+    // Theme kinds and defaults are keyed by the camelCase control name, scopes are kebab-case.
+    const controlName = theme.scope.replace(/-([a-z])/g, (_, char: string) => char.toUpperCase());
+    const defaults = injectThemeControlDefaults(controlName)();
+    const kinds = injectThemeControlKinds(controlName)();
     if (defaults.kind !== undefined) {
       this._defaultKind.set(defaults.kind as CustomKind<T>);
     } else if (kinds.length) {

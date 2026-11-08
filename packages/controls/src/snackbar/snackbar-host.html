@@ -13,6 +13,6 @@
     [templateContent]="snackbar.contentTemplate"
     [templateHeader]="snackbar.headerTemplate"
     [closable]="!!snackbar.closable"
-    (closeSnackbar)="removeSnackbar(snackbar.id)"
+    (closed)="removeSnackbar(snackbar.id)"
   />
 }

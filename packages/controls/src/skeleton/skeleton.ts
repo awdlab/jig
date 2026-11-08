@@ -19,11 +19,11 @@ function cssLength(value: number | string): string {
  */
 @Component({
   selector: 'jig-skeleton',
-  template: '',
+  templateUrl: './skeleton.html',
   providers: [provideSelf(JigSkeleton)],
   host: {
     'aria-hidden': 'true',
-    class: 'jig-motion-cosmetic',
+    'data-jig-motion': 'cosmetic',
     '[style.--jig-skeleton-width]': 'cssWidth()',
     '[style.--jig-skeleton-height]': 'cssHeight()',
     '[style.--jig-skeleton-radius]': 'cssRadius()',
@@ -36,7 +36,7 @@ export class JigSkeleton extends JigBase<'skeleton'> {
   /**
    * Whether the placeholder is a rectangle or a circle. The shape decides which
    * dimension inputs apply.
-   * @default 'rect'
+   * @default rect
    */
   public readonly shape = input<SkeletonShape>('rect');
   /**

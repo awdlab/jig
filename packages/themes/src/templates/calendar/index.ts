@@ -22,8 +22,6 @@ export const calendarControlTemplate = createControlTemplate({
     'day-today',
     'day-other-month',
     'day-disabled',
-    'months',
-    'month',
     'time',
     'input-field',
   ],

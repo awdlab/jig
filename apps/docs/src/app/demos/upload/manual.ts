@@ -14,7 +14,7 @@ import { JigUpload, type JigUploadFile } from '@awdlab/jig/upload';
   selector: 'jig-demo-upload-manual',
   template: `
     <div style="display: flex; flex-direction: column; gap: 1rem; align-items: flex-start;">
-      <jig-upload #up="jigUpload" mode="manual" (upload)="onUpload($event, up)">
+      <jig-upload #up="jigUpload" mode="manual" (uploadRequested)="onUpload($event, up)">
         <input type="file" multiple />
         Add files — upload is triggered from code
       </jig-upload>

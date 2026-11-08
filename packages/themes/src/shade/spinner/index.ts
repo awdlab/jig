@@ -1,6 +1,6 @@
 import { createThemePart, css } from '@awdlab/jig-themes/api';
 import { baseStyles } from '@awdlab/jig-themes/base';
-import { colorsTemplate, sizesTemplate } from '@awdlab/jig-themes/shade/base';
+import { colorsTemplate, sizesTemplate, slotColors } from '@awdlab/jig-themes/shade/base';
 import { spinnerControlTemplate } from '@awdlab/jig-themes/templates/spinner';
 
 export const spinnerStyles = createThemePart({
@@ -8,9 +8,16 @@ export const spinnerStyles = createThemePart({
   base: baseStyles.spinner,
   dependencies: [colorsTemplate, sizesTemplate],
   root: {
-    css: ({ c }) => css`
+    css: ({ v, c }) => css`
+      ${slotColors(c, v)}
+
       ${c('root')} {
-        color: var(--color, currentColor);
+        color: var(--theme-bg, currentColor);
+      }
+
+      /* The surface slot's base is the page background, so the spinner keeps the text color. */
+      ${c('color-surface')} {
+        color: inherit;
       }
 
       ${c('svg')} {
@@ -18,8 +25,11 @@ export const spinnerStyles = createThemePart({
         transform-origin: 50% 50%;
       }
       ${c('circle')} {
-        --strokeWidth: var(--thickness, calc(var(--size) * 1px / 90 + 32px / 9));
-        --r: calc(var(--size) * 1px / 2 - var(--strokeWidth) / 2);
+        --strokeWidth: var(
+          --jig-spinner-thickness,
+          calc(var(--jig-spinner-size) * 1px / 90 + 32px / 9)
+        );
+        --r: calc(var(--jig-spinner-size) * 1px / 2 - var(--strokeWidth) / 2);
         --1deg: calc(2 * pi * var(--r) / 360);
         r: var(--r);
         stroke-width: var(--strokeWidth);

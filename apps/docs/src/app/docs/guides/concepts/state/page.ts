@@ -1,4 +1,4 @@
-import { Demo_ControlState_Flags } from '../../../../demos/control-state/flags';
+import { Demo_ControlState_Flags } from '../../../../demos/_shared/control-state/flags';
 
 import type { JigDocsPage } from '../../../../utils/page/types';
 

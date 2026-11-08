@@ -1,26 +1,19 @@
 import { Injector, runInInjectionContext } from '@angular/core';
-import { injectOrThrow } from '@awdlab/jig/utils-ng';
+import { injectOrThrow, NotificationCreator } from '@awdlab/jig/utils-ng';
 
 import { JigToastManager } from './toast-manager';
 
-import type { JigToastOptions, JigToastRef } from './types';
+import type { JigToastOptions } from './types';
 
-class ToastCreator {
-  private readonly _manager: JigToastManager;
-
+class ToastCreator extends NotificationCreator<JigToastOptions> {
   constructor() {
-    this._manager = injectOrThrow(
-      JigToastManager,
-      'injectToastCreator',
-      'JigToastManager not found. Make sure to use withToasts() to provide jig toasts!'
+    super(
+      injectOrThrow(
+        JigToastManager,
+        'injectToastCreator',
+        'JigToastManager not found. Make sure to use withToasts() to provide jig toasts!'
+      )
     );
-  }
-
-  public show(options: JigToastOptions): JigToastRef {
-    const id = this._manager.addToast(options);
-    return {
-      hide: () => this._manager.removeToast(id),
-    };
   }
 }
 

@@ -33,10 +33,7 @@ export function createControlTemplate<
   const C extends string[],
   const Deps extends readonly Dependency[] = readonly [],
 >(init: { scope: S; classNames: C; readonly dependencies?: Deps }) {
-  // Default `dependencies` to an empty array so templates that omit it resolve
-  // `Deps` to `readonly []` (no dep keys) rather than the unconstrained
-  // `readonly Dependency[]`, which would pollute `ThemeClasses`/`JigPassthrough`
-  // with an index signature for leaf controls.
+  // Defaults `dependencies` to `[]` so leaf templates infer `readonly []` instead of an index-signature type.
   return { ...init, dependencies: init.dependencies ?? [] } as ControlTemplate<
     S,
     ResolveWildcards<C>,

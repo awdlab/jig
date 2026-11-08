@@ -274,6 +274,20 @@ test('collapsed items are not tab stops', async ({ page }) => {
   await expect(toolbar.itemOverflowing.first()).toHaveAttribute('aria-hidden', 'true');
 });
 
+test('accessibility (axe)', async ({ page }) => {
+  await loadComponent(page, {
+    template: `<jig-toolbar style="width: 600px">
+      <span>Document</span>
+      <button jigButton>Bold</button>
+      <div placement="center">Center</div>
+      <div placement="end"><button jigButton>Save</button></div>
+    </jig-toolbar>`,
+    imports: IMPORTS,
+  });
+  await new JigToolbarHarness(page.locator('jig-toolbar')).expectVisible();
+  await expectNoA11yViolations(page);
+});
+
 test('rtl', async ({ page }, testInfo) => {
   await useRtl(page);
   await loadComponent(page, {

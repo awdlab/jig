@@ -38,6 +38,8 @@
         <button
           jigButton
           [kind]="'icon'"
+          [ptInt]="this"
+          [ptClass]="'close-button'"
           [attr.aria-label]="i18n['dialog_close']()"
           (click)="closeWithButton()"
           tabindex="-1"

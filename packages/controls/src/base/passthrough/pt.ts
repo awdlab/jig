@@ -102,12 +102,7 @@ export class JigPt<T extends JigBaseSafe<Name>, Name extends ControlName> {
       }
       return;
     }
-    // Forward the parent's dependency slice into the nested control's own `pt`
-    // input, so the child's existing engine(s) resolve it against its theme.
-    // Reactive to parent `pt` changes; torn down with the directive/child. Writes
-    // on every run (even `undefined`) so a slice that disappears (e.g. `ptDep`
-    // cleared) clears the child's `pt` instead of leaving it stale; the child's
-    // own engine already treats a falsy `pt` as a no-op.
+    // Forwards the parent's dependency slice to the child's `pt`, writing `undefined` too so a cleared slice clears the child.
     effect(() => {
       setInputSignalValue(self.pt, this._depSlice());
     });

@@ -190,7 +190,7 @@ test('accessibility (axe)', async ({ page }) => {
   await expectNoA11yViolations(page);
 });
 
-test('indicatorTemplate receives fillRatio and index, replaces default icons', async ({ page }) => {
+test('templateIndicator receives fillRatio and index, replaces default icons', async ({ page }) => {
   await loadComponent(
     page,
     {
@@ -216,7 +216,7 @@ test('indicatorTemplate receives fillRatio and index, replaces default icons', a
   await expect(page.locator('jig-rating jig-icon')).toHaveCount(0);
 });
 
-test('content-child #indicator takes precedence over the indicatorTemplate input', async ({
+test('content-child #indicator takes precedence over the templateIndicator input', async ({
   page,
 }) => {
   await loadComponent(
@@ -224,7 +224,7 @@ test('content-child #indicator takes precedence over the indicatorTemplate input
     {
       template: `
         <ng-template #alt let-ratio><span class="alt-ind" [attr.data-ratio]="ratio"></span></ng-template>
-        <jig-rating [value]="2.5" [indicatorTemplate]="alt">
+        <jig-rating [value]="2.5" [templateIndicator]="alt">
           <ng-template #indicator let-ratio><span class="ind" [attr.data-ratio]="ratio"></span></ng-template>
         </jig-rating>
       `,

@@ -3,6 +3,7 @@ import { baseStyles } from '@awdlab/jig-themes/base';
 import {
   animationTemplate,
   colorsTemplate,
+  focusRingStyles,
   fontTemplate,
   sizesTemplate,
 } from '@awdlab/jig-themes/shade/base';
@@ -18,7 +19,6 @@ export const tableStyles = createThemePart({
 
       ${c('root')} {
         gap: ${v('size.padding.md')};
-        font-family: ${v('font.family')};
         font-size: ${v('font.size.sm')};
         color: ${v('color.foreground')};
         ${d('popover', 'root')} {
@@ -101,8 +101,7 @@ export const tableStyles = createThemePart({
       /* The grid is the tab stop; sortable header text is a button. */
       ${c('table')}:focus-visible,
       ${c('sortable-column')} ${c('cell-text')}:focus-visible {
-        outline: 2px solid color-mix(in srgb, ${v('color.ring')} 50%, transparent);
-        outline-offset: 2px;
+        ${focusRingStyles(v)}
       }
 
       /* ── Sorting ─────────────────────────────────────────────────────── */
@@ -192,6 +191,26 @@ export const tableStyles = createThemePart({
         background: ${v('color.ring')};
       }
 
+      /* ── Row actions ─────────────────────────────────────────────────── */
+
+      /* Opaque so cell text doesn't show through the sticky bar; redraws the row border it covers. */
+      ${c('row-actions')} {
+        gap: ${v('size.padding.sm')};
+        padding: 0 ${v('size.padding.sm')};
+        background: ${v('color.background')};
+        box-shadow: -8px 0 8px -4px ${v('color.background')};
+        border-bottom: 1px solid ${v('color.border')};
+      }
+
+      /* ── Skeleton & error rows ───────────────────────────────────────── */
+
+      ${c('skeleton-row')} {
+        padding: ${v('size.padding.sm')} ${v('size.padding.lg')};
+      }
+      ${c('error-row')} {
+        color: ${v('color.destructive.base')};
+      }
+
       /* ── Sticky Columns ──────────────────────────────────────────── */
 
       ${c('sticky-start')}, ${c('sticky-end')}, ${c('selection-column')} {
@@ -202,10 +221,7 @@ export const tableStyles = createThemePart({
       ${c('head')} ${c('selection-column')} {
         background: ${v('color.background')};
       }
-      /* Scroll shadows anchored to the sticky-column edges (a table-specific placement the generic
-         scroll-shadow overlay can't do — it's disabled here via jigScrollShadowUnstyled). The tint
-         is the shared --jig-scroll-shadow-color (dark mode included), so it stays identical to the
-         generic overlay. */
+      /* Sticky-column edge shadows using the shared --jig-scroll-shadow-color tint. */
       ${c('sticky-start-edge')},
       ${c('sticky-end-edge')},
       ${c('selection-column')} {

@@ -11,7 +11,8 @@ import {
   untracked,
 } from '@angular/core';
 import { domEventHandler, domEventSignal } from '@awdlab/jig/api/ng';
-import { JigBase } from '@awdlab/jig/base';
+import { JigBase, provideSelf } from '@awdlab/jig/base';
+import { clamp } from '@awdlab/jig/utils';
 import { signalWithPrevious } from '@awdlab/jig/utils-ng';
 import { movableDirectiveTemplate } from '@awdlab/jig-themes/templates/api';
 
@@ -27,10 +28,11 @@ import { movableDirectiveTemplate } from '@awdlab/jig-themes/templates/api';
  */
 @Directive({
   selector: '[jigMovable]',
+  providers: [provideSelf(JigMovable)],
 })
 export class JigMovable extends JigBase<'movable'> {
   protected readonly theme = this.injectThemeTemplate(movableDirectiveTemplate, {
-    movable: () => this.jigMovable(),
+    movable: () => this.enabled(),
     moved: () => this.dragged(),
   });
   private readonly _el = inject<ElementRef<HTMLElement>>(ElementRef<HTMLElement>);
@@ -39,34 +41,41 @@ export class JigMovable extends JigBase<'movable'> {
   /**
    * Whether the element is movable.
    * @default true
+   * @alias jigMovable
    */
-  public readonly jigMovable = input(true, { transform: booleanAttribute });
+  public readonly enabled = input(true, { transform: booleanAttribute, alias: 'jigMovable' });
 
   /**
    * The handle element used to drag the element. If omitted, the entire element will be used as the drag handle.
    * @default null
+   * @alias jigMovableDragHandle
    */
-  public readonly jigMovableDragHandle = input<HTMLElement | null>(null);
+  public readonly dragHandle = input<HTMLElement | null>(null, { alias: 'jigMovableDragHandle' });
 
   /**
    * When `true`, the cursor will change to indicate that the element / drag handle is movable.
    * @default true
+   * @alias jigMovableChangeCursor
    */
-  public readonly jigMovableChangeCursor = input(true, { transform: booleanAttribute });
+  public readonly changeCursor = input(true, {
+    transform: booleanAttribute,
+    alias: 'jigMovableChangeCursor',
+  });
 
   /**
    * When `true`, the movement will be limited to the viewport.
    * @default true
+   * @alias jigMovableLimitToViewport
    */
-  public readonly jigMovableLimitToViewport = input(true, { transform: booleanAttribute });
+  public readonly limitToViewport = input(true, {
+    transform: booleanAttribute,
+    alias: 'jigMovableLimitToViewport',
+  });
 
-  private readonly _jigMovableDragHandleWithPrevious = signalWithPrevious(
-    this.jigMovableDragHandle,
-    null
-  );
+  private readonly _jigMovableDragHandleWithPrevious = signalWithPrevious(this.dragHandle, null);
 
   private readonly _eventElement = computed(() => {
-    const handle = this.jigMovableDragHandle();
+    const handle = this.dragHandle();
     return handle ?? this._el.nativeElement;
   });
 
@@ -86,7 +95,7 @@ export class JigMovable extends JigBase<'movable'> {
     super();
 
     domEventHandler(this._el.nativeElement, 'touchmove', e => {
-      if (!this.jigMovable()) {
+      if (!this.enabled()) {
         return;
       }
       if (e.cancelable) {
@@ -95,7 +104,7 @@ export class JigMovable extends JigBase<'movable'> {
     });
 
     effect(() => {
-      if (!this.jigMovable()) {
+      if (!this.enabled()) {
         return;
       }
       const pointerDown = this._pointerDownSignal();
@@ -111,7 +120,7 @@ export class JigMovable extends JigBase<'movable'> {
     });
 
     effect(() => {
-      if (!this.jigMovable()) {
+      if (!this.enabled()) {
         return;
       }
       const pointerMove = this._pointerMoveSignal();
@@ -120,12 +129,12 @@ export class JigMovable extends JigBase<'movable'> {
         const newLeft = pointerMove.clientX - this._startX;
         const newTop = pointerMove.clientY - this._startY;
 
-        if (this.jigMovableLimitToViewport()) {
+        if (this.limitToViewport()) {
           const documentRect = this._document.documentElement.getBoundingClientRect();
           const elRect = this._el.nativeElement.getBoundingClientRect();
 
-          const clampedLeft = Math.min(Math.max(newLeft, 0), documentRect.width - elRect.width);
-          const clampedTop = Math.min(Math.max(newTop, 0), documentRect.height - elRect.height);
+          const clampedLeft = clamp(newLeft, 0, documentRect.width - elRect.width);
+          const clampedTop = clamp(newTop, 0, documentRect.height - elRect.height);
 
           this._el.nativeElement.style.left = `${clampedLeft}px`;
           this._el.nativeElement.style.top = `${clampedTop}px`;
@@ -147,7 +156,7 @@ export class JigMovable extends JigBase<'movable'> {
     });
 
     effect(() => {
-      if (!this.jigMovable()) {
+      if (!this.enabled()) {
         return;
       }
       // touch scrolling takes the pointer over and fires pointercancel instead of pointerup
@@ -158,7 +167,7 @@ export class JigMovable extends JigBase<'movable'> {
     });
 
     effect(() => {
-      if (!this.jigMovable()) {
+      if (!this.enabled()) {
         this._isDragging.set(false);
       }
     });
@@ -195,7 +204,7 @@ export class JigMovable extends JigBase<'movable'> {
         this.theme.class('drag-handle-grabbing')
       );
     }
-    if (!this.jigMovable() || !this.jigMovableChangeCursor()) {
+    if (!this.enabled() || !this.changeCursor()) {
       handle.current?.classList.remove(
         this.theme.class('drag-handle-grab'),
         this.theme.class('drag-handle-grabbing')

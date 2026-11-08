@@ -8,7 +8,7 @@ import {
   JigTableSelectionColumn,
 } from '@awdlab/jig/table';
 
-import { exampleData } from '../../../helper/data';
+import { exampleData } from '../../../utils/sample-data/data';
 import { JigDocsPlayground } from '../../../utils/playground/playground';
 
 import type { JigTable } from '@awdlab/jig/table';

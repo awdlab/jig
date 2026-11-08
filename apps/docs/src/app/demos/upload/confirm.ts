@@ -3,14 +3,19 @@ import { JigUpload, type JigUploadFile } from '@awdlab/jig/upload';
 
 /**
  * Confirm mode: selected files queue up as `pending`. Nothing is uploaded until
- * the rendered "Upload" button is pressed. One `(upload)` fires with every
+ * the rendered "Upload" button is pressed. One `(uploadRequested)` fires with every
  * pending file.
  */
 @Component({
   imports: [JigUpload],
   selector: 'jig-demo-upload-confirm',
   template: `
-    <jig-upload #up="jigUpload" mode="confirm" confirmTrigger="all" (upload)="onUpload($event, up)">
+    <jig-upload
+      #up="jigUpload"
+      mode="confirm"
+      confirmTrigger="all"
+      (uploadRequested)="onUpload($event, up)"
+    >
       <input type="file" multiple />
       Add files, then press Upload
     </jig-upload>

@@ -18,8 +18,8 @@ export abstract class RatingTemplates extends ValueControlBase<'rating', number 
    * 0..1) and `index`. Can also be set with an `<ng-template #indicator>`.
    * When set, it replaces the default full/empty icon rendering per symbol.
    */
-  public readonly indicatorTemplate = input<TemplateRef<RatingIndicatorContext> | null>(null);
+  public readonly templateIndicator = input<TemplateRef<RatingIndicatorContext> | null>(null);
   protected readonly resolvedIndicatorTemplate = computed(
-    () => this._userIndicatorTemplate() ?? this.indicatorTemplate()
+    () => this._userIndicatorTemplate() ?? this.templateIndicator()
   );
 }

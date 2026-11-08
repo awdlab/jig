@@ -9,7 +9,7 @@ import type { JigActionItem } from '@awdlab/jig/api';
 
 @Component({
   imports: [JigCommand, JigButton],
-  selector: 'jig-demo-command-base-demo',
+  selector: 'jig-demo-command-base',
   template: `
     <button jigButton (click)="open.set(true)">Open palette</button>
     <jig-command [items]="items" [(open)]="open" (commandSelected)="last.set($event.id)" />

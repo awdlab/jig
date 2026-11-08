@@ -2,7 +2,7 @@ import { Component, viewChild } from '@angular/core';
 import { JigFilterBar } from '@awdlab/jig/filter-bar';
 import type { JigFilterProperty } from '@awdlab/jig/filter-builder';
 
-import { type Person, people, ROLES } from '../../../helper/people';
+import { type Person, people, ROLES } from '../../../utils/sample-data/people';
 import { JigDocsPlayground } from '../../../utils/playground/playground';
 
 @Component({

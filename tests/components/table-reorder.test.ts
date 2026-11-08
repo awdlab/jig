@@ -1,4 +1,5 @@
-import test, { expect } from '@playwright/test';
+import test, { expect, type Locator, type Page } from '@playwright/test';
+import { JigTableHarness } from '@awdlab/jig-playwright';
 
 import { loadComponent } from '../helper/load-component';
 import { useRtl } from '../helper/direction';
@@ -34,7 +35,7 @@ const TABLE_TEMPLATE: TemplateType = {
         </tr>
       </ng-template>
     </jig-table>`,
-  imports: ['tableModule', 'jigTemplate'],
+  imports: ['tableModule', 'template'],
 };
 
 function generateRows(count: number) {
@@ -54,53 +55,29 @@ const DEFAULT_INPUTS = {
   columnOrder: [] as string[],
 };
 
-async function loadTable(
-  page: import('@playwright/test').Page,
-  inputOverrides?: Partial<typeof DEFAULT_INPUTS>
-) {
-  const handle = await loadComponent(page, TABLE_TEMPLATE, {
+async function loadTable(page: Page, inputOverrides?: Partial<typeof DEFAULT_INPUTS>) {
+  await loadComponent(page, TABLE_TEMPLATE, {
     inputs: { ...DEFAULT_INPUTS, ...inputOverrides },
   });
-  await expect(page.locator('jig-table')).toBeVisible({ timeout: 10000 });
+  const table = new JigTableHarness(page.locator('jig-table'));
+  await expect(table.locator).toBeVisible({ timeout: 10000 });
   await page.waitForTimeout(200);
-  return handle;
+  return table;
 }
 
-async function getHeaderTexts(page: import('@playwright/test').Page) {
-  return page.evaluate(() => {
-    const table = document.querySelector('jig-table table');
-    if (!table) return [];
-    const headers = table.querySelectorAll('th');
-    // Sort by computed grid-column-start to get visual order
-    const headerData = Array.from(headers).map(h => ({
-      text: h.textContent?.trim() || '',
-      colStart: parseInt(getComputedStyle(h).getPropertyValue('--jig-table-column-index') || '0'),
-    }));
-    headerData.sort((a, b) => a.colStart - b.colStart);
-    return headerData.map(h => h.text);
-  });
+/** The `--jig-table-column-index` of each cell, in DOM order. */
+function columnIndices(cells: Locator) {
+  return cells.evaluateAll(els =>
+    els.map(el =>
+      parseInt((el as HTMLElement).style.getPropertyValue('--jig-table-column-index') || '0')
+    )
+  );
 }
 
-async function getColumnStarts(page: import('@playwright/test').Page) {
-  return page.evaluate(() => {
-    const table = document.querySelector('jig-table table');
-    if (!table) return [];
-    const headers = table.querySelectorAll('th');
-    return Array.from(headers).map(h => {
-      const style = h.style.getPropertyValue('--jig-table-column-index');
-      return parseInt(style || '0');
-    });
-  });
-}
-
-async function dragHeader(
-  page: import('@playwright/test').Page,
-  fromIndex: number,
-  toIndex: number
-) {
-  const headers = page.locator('jig-table th');
-  const fromHeader = headers.nth(fromIndex);
-  const toHeader = headers.nth(toIndex);
+async function dragHeader(table: JigTableHarness, fromIndex: number, toIndex: number) {
+  const page = table.page;
+  const fromHeader = table.getHeaderCellByIndex(fromIndex);
+  const toHeader = table.getHeaderCellByIndex(toIndex);
 
   await fromHeader.scrollIntoViewIfNeeded();
   await page.waitForTimeout(100);
@@ -136,12 +113,12 @@ async function dragHeader(
 // ── Tests ────────────────────────────────────────────────────────────────────
 
 test('table column reorder - basic drag reorders columns', async ({ page }) => {
-  await loadTable(page);
+  const table = await loadTable(page);
 
   // Drag "department" (index 2) before "name" (index 1)
-  await dragHeader(page, 2, 1);
+  await dragHeader(table, 2, 1);
 
-  const colStarts = await getColumnStarts(page);
+  const colStarts = await columnIndices(table.headerCells);
   // ID=1, Name should shift right, Department should be at 2
   // th[0]=id, th[1]=name, th[2]=department, th[3]=location
   // After reorder: id(1), department(2), name(3), location(4)
@@ -152,10 +129,9 @@ test('table column reorder - basic drag reorders columns', async ({ page }) => {
 });
 
 test('table column reorder - drop indicator visible during drag', async ({ page }) => {
-  await loadTable(page);
+  const table = await loadTable(page);
 
-  const headers = page.locator('jig-table th');
-  const fromHeader = headers.nth(2); // Department
+  const fromHeader = table.getHeaderCellByIndex(2); // Department
 
   const fromBox = await fromHeader.boundingBox();
   expect(fromBox).not.toBeNull();
@@ -173,7 +149,7 @@ test('table column reorder - drop indicator visible during drag', async ({ page 
   }
 
   // Check that drop indicator exists
-  const indicator = page.locator('[class*="drop-indicator"]');
+  const indicator = table.dropIndicator;
   await expect(indicator).toBeAttached();
 
   await page.mouse.up();
@@ -184,12 +160,11 @@ test('table column reorder - drop indicator visible during drag', async ({ page 
 });
 
 test('table column reorder - cancel via Escape', async ({ page }) => {
-  await loadTable(page);
+  const table = await loadTable(page);
 
-  const initialColStarts = await getColumnStarts(page);
+  const initialColStarts = await columnIndices(table.headerCells);
 
-  const headers = page.locator('jig-table th');
-  const fromHeader = headers.nth(2); // Department
+  const fromHeader = table.getHeaderCellByIndex(2); // Department
 
   const fromBox = await fromHeader.boundingBox();
   expect(fromBox).not.toBeNull();
@@ -212,29 +187,28 @@ test('table column reorder - cancel via Escape', async ({ page }) => {
   await page.waitForTimeout(200);
 
   // Column order should be unchanged
-  const afterColStarts = await getColumnStarts(page);
+  const afterColStarts = await columnIndices(table.headerCells);
   expect(afterColStarts).toEqual(initialColStarts);
 });
 
 test('table column reorder - no reorder when disabled', async ({ page }) => {
-  await loadTable(page, { reorderable: false });
+  const table = await loadTable(page, { reorderable: false });
 
-  const initialColStarts = await getColumnStarts(page);
+  const initialColStarts = await columnIndices(table.headerCells);
 
   // Try to drag
-  await dragHeader(page, 2, 0);
+  await dragHeader(table, 2, 0);
 
-  const afterColStarts = await getColumnStarts(page);
+  const afterColStarts = await columnIndices(table.headerCells);
   expect(afterColStarts).toEqual(initialColStarts);
 });
 
 test('table column reorder - dead zone prevents accidental drag', async ({ page }) => {
-  await loadTable(page);
+  const table = await loadTable(page);
 
-  const initialColStarts = await getColumnStarts(page);
+  const initialColStarts = await columnIndices(table.headerCells);
 
-  const headers = page.locator('jig-table th');
-  const fromHeader = headers.nth(1);
+  const fromHeader = table.getHeaderCellByIndex(1);
 
   const fromBox = await fromHeader.boundingBox();
   expect(fromBox).not.toBeNull();
@@ -252,28 +226,18 @@ test('table column reorder - dead zone prevents accidental drag', async ({ page 
   await page.waitForTimeout(200);
 
   // Column order unchanged
-  const afterColStarts = await getColumnStarts(page);
+  const afterColStarts = await columnIndices(table.headerCells);
   expect(afterColStarts).toEqual(initialColStarts);
 });
 
 test('table column reorder - body cells follow header order', async ({ page }) => {
-  await loadTable(page);
+  const table = await loadTable(page);
 
   // Drag "department" (index 2) before "id" (index 0)
-  await dragHeader(page, 2, 0);
+  await dragHeader(table, 2, 0);
 
   // Check that body cells also have reordered column indices
-  const bodyCellStarts = await page.evaluate(() => {
-    const table = document.querySelector('jig-table table');
-    if (!table) return [];
-    const firstRow = table.querySelector('tbody tr');
-    if (!firstRow) return [];
-    const cells = firstRow.querySelectorAll('td');
-    return Array.from(cells).map(c => {
-      const style = c.style.getPropertyValue('--jig-table-column-index');
-      return parseInt(style || '0');
-    });
-  });
+  const bodyCellStarts = await columnIndices(table.getRowCellsByIndex(0));
 
   // td[0]=id, td[1]=name, td[2]=department, td[3]=location
   // After reorder: department(1), id(2), name(3), location(4)
@@ -286,26 +250,16 @@ test('table column reorder - body cells follow header order', async ({ page }) =
 test('table column reorder - body cells stay vertically aligned after reorder', async ({
   page,
 }) => {
-  await loadTable(page);
+  const table = await loadTable(page);
 
   // Move "id" (index 0) one position to the right (past "name").
-  await dragHeader(page, 0, 2);
+  await dragHeader(table, 0, 2);
 
-  // After a reorder the DOM order of the cells (id, name, …) no longer matches
-  // their visual column order. Each cell must still render on the same row — a
-  // missing explicit grid-row let CSS grid auto-placement push the mis-ordered
-  // cell onto an implicit extra row, offsetting it vertically.
-  const tops = await page.evaluate(() => {
-    const table = document.querySelector('jig-table table');
-    if (!table) return [];
-    const firstRow = Array.from(table.querySelectorAll('tbody tr')).find(tr =>
-      tr.querySelector('td')
-    );
-    if (!firstRow) return [];
-    return Array.from(firstRow.querySelectorAll('td')).map(c =>
-      Math.round(c.getBoundingClientRect().top)
-    );
-  });
+  // The DOM order of the cells no longer matches their visual column order, yet each cell
+  // must still render on the same grid row.
+  const tops = await table
+    .getRowCellsByIndex(0)
+    .evaluateAll(els => els.map(el => Math.round(el.getBoundingClientRect().top)));
 
   expect(tops.length).toBe(4);
   // All cells of the row share a single vertical position.
@@ -313,9 +267,9 @@ test('table column reorder - body cells stay vertically aligned after reorder', 
 });
 
 test('table column reorder - empty columnOrder uses natural order', async ({ page }) => {
-  await loadTable(page, { columnOrder: [] });
+  const table = await loadTable(page, { columnOrder: [] });
 
-  const colStarts = await getColumnStarts(page);
+  const colStarts = await columnIndices(table.headerCells);
   // Natural registration order: id(1), name(2), department(3), location(4)
   expect(colStarts).toEqual([1, 2, 3, 4]);
 });

@@ -2,7 +2,7 @@ import { Component, signal } from '@angular/core';
 import type { JigFilterProperty } from '@awdlab/jig/filter-builder';
 import { JigFilterBar } from '@awdlab/jig/filter-bar';
 
-import { people, ROLES, type Person } from '../../helper/people';
+import { people, ROLES, type Person } from '../../utils/sample-data/people';
 
 @Component({
   selector: 'jig-demo-filter-bar-properties',

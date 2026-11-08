@@ -13,7 +13,7 @@ import { JigDocsPlayground } from '../../../utils/playground/playground';
       [controls]="[{ componentName: 'JigUpload', component: component() }]"
     >
       <div class="flex flex-col items-center gap-2">
-        <jig-upload #ref="jigUpload" (upload)="onUpload($event)">
+        <jig-upload #ref="jigUpload" (uploadRequested)="onUpload($event)">
           <input type="file" multiple />
           Drag files here or click to browse
         </jig-upload>

@@ -63,6 +63,9 @@ export const filterBuilderStyles = createThemePart({
         display: flex;
         margin-inline-start: auto;
       }
+      ${d('input-field')} {
+        position: relative;
+      }
       ${c('active-indicator')} {
         position: absolute;
         pointer-events: none;

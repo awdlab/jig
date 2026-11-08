@@ -18,8 +18,8 @@ export const spinnerStyles = createThemePart({
       }
       ${c('root')} {
         display: inline-block;
-        width: calc(1px * var(--size));
-        height: calc(1px * var(--size));
+        width: calc(1px * var(--jig-spinner-size));
+        height: calc(1px * var(--jig-spinner-size));
       }
       ${c('svg')} {
         width: 100%;

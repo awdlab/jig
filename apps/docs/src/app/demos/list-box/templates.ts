@@ -1,11 +1,11 @@
 import { Component } from '@angular/core';
 import { JigListBox } from '@awdlab/jig/list-box';
 
-import { exampleData } from '../../helper/data';
+import { exampleData } from '../../utils/sample-data/data';
 
 @Component({
   imports: [JigListBox],
-  selector: 'jig-demo-list-box-templates-demo',
+  selector: 'jig-demo-list-box-templates',
   template: `<jig-list-box [items]="items" style="display: block; height: 300px;">
     <ng-template #item let-option>
       <span>🏳️{{ option.label }}</span>

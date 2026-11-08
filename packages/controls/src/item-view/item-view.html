@@ -46,7 +46,8 @@
       />
       @if (!$last) {
         <span
-          [style.visibility]="item.hasSeparator ? 'visible' : 'hidden'"
+          [ptInt]="this"
+          [ptClass]="{ 'hidden-separator': !item.hasSeparator }"
           style="display: contents"
         >
           <ng-container

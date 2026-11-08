@@ -11,8 +11,8 @@ Closes #
 
 ## Control parts touched
 
-<!-- A control spans eight parts. Tick what this PR updates, and delete the ones
-     that genuinely do not apply. -->
+<!-- A control spans every part of the Control Anatomy table in AGENTS.md. Tick
+     what this PR updates, and delete the ones that genuinely do not apply. -->
 
 - [ ] Control source (`packages/controls/src/…`)
 - [ ] Theme template (`packages/themes/src/templates/…`)
@@ -30,7 +30,7 @@ Closes #
 - [ ] Tests cover the changed behaviour
 - [ ] Keyboard interaction verified, and `a11y.md` updated if it changed
 - [ ] Public classes carry `@category control` / `@category directive`
-- [ ] Changeset added (`pnpm changeset`) for user-facing changes
+- [ ] Changeset added (`pnpm changeset`) — an empty one if nothing published changes
 
 ## Breaking changes
 

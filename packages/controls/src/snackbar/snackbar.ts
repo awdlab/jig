@@ -61,7 +61,9 @@ export class JigSnackbar extends SnackbarTemplates implements OnInit {
    * Whether to render a close button that lets the user dismiss the snackbar.
    * @default false
    */
-  public readonly closable = input<boolean | undefined>(DEFAULT_SNACKBAR_OPTIONS.closable);
+  public readonly closable = input(DEFAULT_SNACKBAR_OPTIONS.closable, {
+    transform: booleanAttribute,
+  });
   /**
    * Time in ms before the snackbar auto-dismisses, or `false` to keep it open
    * until dismissed manually.
@@ -70,14 +72,14 @@ export class JigSnackbar extends SnackbarTemplates implements OnInit {
   public readonly autoHide = input<number | false | undefined>(DEFAULT_SNACKBAR_OPTIONS.autoHide);
 
   /** Emitted when the snackbar is dismissed (by the timer, close button, or an action). */
-  public readonly closeSnackbar = output<void>();
+  public readonly closed = output<void>();
 
+  // ponytail: snackbar has no [jigKeyboardShortcut] scope, so a config `shortcut` is inert here; add a scope host if needed.
   /**
    * Action buttons rendered at the end of the snackbar. Clicking any action always
    * dismisses the snackbar; its `action` callback fires first. Import the config
    * type from `@awdlab/jig/api`.
    */
-  // ponytail: snackbar has no [jigKeyboardShortcut] scope, so a config `shortcut` is inert here; add a scope host if needed.
   public readonly actions = input<JigActionButtonConfig[]>();
   /**
    * Shows a thin progress bar at the bottom of the snackbar that depletes over the
@@ -229,7 +231,7 @@ export class JigSnackbar extends SnackbarTemplates implements OnInit {
   // snackbar mounted.
   protected close() {
     this.restoreFocus();
-    this.closeSnackbar.emit();
+    this.closed.emit();
     if (this._closeTimeout !== undefined) {
       clearTimeout(this._closeTimeout);
     }

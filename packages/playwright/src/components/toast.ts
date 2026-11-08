@@ -13,8 +13,8 @@ export class JigToastHarness extends JigHarness {
 
   constructor(locator: Locator) {
     super(locator);
-    this.header = locator.locator(this.classes.defaultHeader);
-    this.content = locator.locator(this.classes.defaultContent);
+    this.header = locator.locator(this.classes['default-header']);
+    this.content = locator.locator(this.classes['default-content']);
     this.icon = this.header.locator('jig-icon').first();
     this.closeButton = this.header.locator('button');
   }
@@ -59,7 +59,7 @@ export class JigToastHostHarness extends JigHarness {
     super(page.locator('jig-toast-host'));
   }
 
-  public getToast(index: number = 0): JigToastHarness {
+  public getToastByIndex(index: number = 0): JigToastHarness {
     return new JigToastHarness(this.locator.locator('jig-toast').nth(index));
   }
 

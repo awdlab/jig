@@ -132,7 +132,7 @@ export function rgbToCss({ r, g, b }: RGB): string {
 
 /**
  * Pure-CSS auto-contrast foreground for an ARBITRARY runtime background —
- * custom colors (e.g. a user-supplied `--color`) or consumer var overrides —
+ * custom colors (e.g. a user-supplied `--jig-avatar-color`) or consumer var overrides —
  * where a value cannot be precomputed. Picks black or white via a relative
  * OKLCH lightness threshold, resolved live by the browser.
  *
@@ -140,7 +140,7 @@ export function rgbToCss({ r, g, b }: RGB): string {
  * miss AA on mid-tone saturated colors. For the fixed theme palette, prefer the
  * precomputed, WCAG-measured `-contrast` variables instead.
  *
- * @param background any CSS color expression, e.g. `var(--color, #4557ba)`
+ * @param background any CSS color expression, e.g. `var(--jig-avatar-color, #4557ba)`
  * @param threshold OKLCH lightness cutoff (0..1) above which black is chosen
  */
 export function autoContrast(background: string, threshold = 0.62): string {

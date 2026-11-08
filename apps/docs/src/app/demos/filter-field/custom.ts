@@ -8,7 +8,7 @@ type Country = {
 };
 
 @Component({
-  selector: 'jig-demo-filter-custom',
+  selector: 'jig-demo-filter-field-custom',
   imports: [JigFilterField],
   template: `
     <div class="flex flex-col gap-2">

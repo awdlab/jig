@@ -15,6 +15,9 @@ export const sizesTemplate = createVariableTemplate({
       lg: null,
       xl: null,
     },
+    height: {
+      control: null,
+    },
   },
 });
 
@@ -34,6 +37,10 @@ export const sizes = createThemePart({
         md: '0.5rem',
         lg: '0.75rem',
         xl: '1rem',
+      },
+      /** Line height + vertical field padding + border; `lh` resolves where it's used. */
+      height: {
+        control: 'calc(1lh + 0.5rem + 2px)',
       },
     },
   },

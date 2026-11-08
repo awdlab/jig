@@ -6,7 +6,7 @@ import { JigDrawer } from '@awdlab/jig/drawer';
 import { JigSelectButton } from '@awdlab/jig/select-button';
 
 import { ALL_DOCS_TABS } from '../../docs';
-import { AppLocation } from '../../helper/app-location';
+import { AppLocation } from '../../utils/app-location';
 import { safeRoutePath } from '../../utils/routing';
 import { FrameState } from '../frame-state';
 import { JigDocsTopbarActions } from '../topbar/actions';

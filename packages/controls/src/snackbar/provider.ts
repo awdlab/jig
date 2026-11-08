@@ -1,4 +1,5 @@
 import { InjectionToken, type Provider } from '@angular/core';
+import { provideNotifications } from '@awdlab/jig/utils-ng';
 
 import { JigSnackbarManager } from './snackbar-manager';
 
@@ -14,12 +15,6 @@ export const JIG_SNACKBAR_USER_DEFAULTS = new InjectionToken<JigSnackbarOptionsM
 
 export function withSnackbars(defaultOptions?: JigSnackbarOptionsMeta): JigSnackbarFeature {
   return {
-    providers: [
-      JigSnackbarManager,
-      {
-        provide: JIG_SNACKBAR_USER_DEFAULTS,
-        useValue: defaultOptions || {},
-      },
-    ],
+    providers: provideNotifications(JigSnackbarManager, JIG_SNACKBAR_USER_DEFAULTS, defaultOptions),
   };
 }

@@ -8,7 +8,7 @@ backed by more rows than fit on one screen.
 
 The current page is a zero-based `page` model (default `0`) and the page size a
 `pageSize` model. Whenever either changes, the paginator emits a
-`PaginationState` from its `value` output, giving you both a page view
+`PaginationState` from its `stateChange` output, giving you both a page view
 (`{ current, size }`) and a ready-to-use slice (`{ skip, take }`):
 
 ```ts

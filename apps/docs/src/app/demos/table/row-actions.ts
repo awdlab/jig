@@ -8,7 +8,7 @@ import tablerTrash from '@iconify/icons-tabler/trash.js';
 import { JigTemplate } from '@awdlab/jig/api/ng';
 import { JigTableModule } from '@awdlab/jig/table';
 
-import { exampleData } from '../../helper/data';
+import { exampleData } from '../../utils/sample-data/data';
 
 import type { JigActionItem } from '@awdlab/jig/api';
 

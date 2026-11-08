@@ -4,6 +4,7 @@ import { accordionStyles } from '@awdlab/jig-themes/nova/accordion';
 import { accordionPanelStyles } from '@awdlab/jig-themes/nova/accordion-panel';
 import { movableStyles, resizableStyles, scrollShadowStyles } from '@awdlab/jig-themes/nova/api';
 import { avatarGroupStyles, avatarStyles } from '@awdlab/jig-themes/nova/avatar';
+import { badgeStyles } from '@awdlab/jig-themes/nova/badge';
 import {
   animation,
   backdrop,
@@ -13,7 +14,6 @@ import {
   shadow,
   sizes,
 } from '@awdlab/jig-themes/nova/base';
-import { badgeStyles } from '@awdlab/jig-themes/nova/badge';
 import { breadcrumbStyles } from '@awdlab/jig-themes/nova/breadcrumb';
 import { buttonStyles } from '@awdlab/jig-themes/nova/button';
 import { buttonGroupStyles } from '@awdlab/jig-themes/nova/button-group';
@@ -66,9 +66,9 @@ import { tabsStyles } from '@awdlab/jig-themes/nova/tabs';
 import { tagStyles } from '@awdlab/jig-themes/nova/tag';
 import { tagInputStyles } from '@awdlab/jig-themes/nova/tag-input';
 import { toastStyles } from '@awdlab/jig-themes/nova/toast';
+import { toggleButtonStyles } from '@awdlab/jig-themes/nova/toggle-button';
 import { toolbarStyles } from '@awdlab/jig-themes/nova/toolbar';
 import { toolbarRegionStyles } from '@awdlab/jig-themes/nova/toolbar-region';
-import { toggleButtonStyles } from '@awdlab/jig-themes/nova/toggle-button';
 import { tooltipStyles } from '@awdlab/jig-themes/nova/tooltip';
 import { treeStyles } from '@awdlab/jig-themes/nova/tree';
 import { uploadStyles } from '@awdlab/jig-themes/nova/upload';
@@ -100,16 +100,16 @@ export const COLORS = [
 export const nova = createTheme(
   'Nova',
   [
-    accordionStyles,
     accordionPanelStyles,
+    accordionStyles,
     animation,
     avatarGroupStyles,
     avatarStyles,
     backdrop,
     badgeStyles,
     breadcrumbStyles,
-    buttonStyles,
     buttonGroupStyles,
+    buttonStyles,
     calendarStyles,
     checkboxStyles,
     chipStyles,
@@ -119,27 +119,26 @@ export const nova = createTheme(
     dialogStyles,
     drawerStyles,
     dropdownListStyles,
+    editInplaceStyles,
     filterBarStyles,
     filterBuilderStyles,
     filterFieldStyles,
-    editInplaceStyles,
     font,
     globalStyles,
     hintStyles,
     iconStyles,
-    shadow,
     inplaceStyles,
     inputFieldStyles,
-    maskInputStyles,
     inputStyles,
     itemViewStyles,
     kbdStyles,
     listBoxStyles,
+    maskInputStyles,
     menuStyles,
     messageStyles,
     meterStyles,
-    otpStyles,
     movableStyles,
+    otpStyles,
     paginatorStyles,
     popoverStyles,
     progressStyles,
@@ -148,10 +147,11 @@ export const nova = createTheme(
     ratingStyles,
     resizableStyles,
     ring,
-    scrollShadowStyles,
     scrollerStyles,
-    selectStyles,
+    scrollShadowStyles,
     selectButtonStyles,
+    selectStyles,
+    shadow,
     sizes,
     skeletonStyles,
     sliderStyles,
@@ -164,12 +164,12 @@ export const nova = createTheme(
     switchStyles,
     tableStyles,
     tabsStyles,
-    tagStyles,
     tagInputStyles,
+    tagStyles,
     toastStyles,
-    toolbarStyles,
-    toolbarRegionStyles,
     toggleButtonStyles,
+    toolbarRegionStyles,
+    toolbarStyles,
     tooltipStyles,
     treeStyles,
     uploadStyles,

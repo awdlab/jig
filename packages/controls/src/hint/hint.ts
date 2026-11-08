@@ -3,17 +3,18 @@ import {
   booleanAttribute,
   Component,
   computed,
-  contentChild,
   effect,
   input,
   signal,
   TemplateRef,
 } from '@angular/core';
-import { JigBase, provideSelf, JigPt } from '@awdlab/jig/base';
+import { provideSelf, JigPt } from '@awdlab/jig/base';
 import { JigIcon } from '@awdlab/jig/icon';
 import { JigTooltip } from '@awdlab/jig/tooltip';
 import { generateElementId } from '@awdlab/jig/utils-ng';
 import { hintControlTemplate } from '@awdlab/jig-themes/templates/hint';
+
+import { HintTemplates } from './hint-templates';
 
 import type { JigIconKey } from '@awdlab/jig/icon';
 import type { IconType } from '@awdlab/jig-custom-types';
@@ -47,7 +48,7 @@ export interface JigHintValidationState {
     '[id]': 'controlId()',
   },
 })
-export class JigHint extends JigBase<'hint'> {
+export class JigHint extends HintTemplates {
   protected readonly theme = this.injectThemeTemplate(hintControlTemplate, {
     root: true,
     'root-collapsed': () => this.isHidden(),
@@ -73,14 +74,6 @@ export class JigHint extends JigBase<'hint'> {
   public readonly iconOnly = input(false, { transform: booleanAttribute });
 
   /**
-   * The hint text. Can also be a `TemplateRef` for custom rendering, or set via
-   * an `<ng-template #content>` content child. Projected content (`<ng-content>`)
-   * is used as a fallback when neither is provided.
-   * @default null
-   */
-  public readonly content = input<TemplateRef<unknown> | string | null>(null);
-
-  /**
    * Validation state supplied by helpers such as jigErrors.
    * @default null
    */
@@ -92,14 +85,12 @@ export class JigHint extends JigBase<'hint'> {
     () => this._bridgedValidationState() ?? this.validationState()
   );
 
-  private readonly _userContentTemplate = contentChild<TemplateRef<unknown>>('content');
-
   protected readonly hasIconOnlyTooltipContent = computed(() => {
     const validation = this._activeValidationState();
     if (validation?.visible && validation.message) {
       return true;
     }
-    return Boolean(this.content() || this._userContentTemplate());
+    return Boolean(this.content() || this.userContentTemplate());
   });
 
   /**
@@ -113,7 +104,7 @@ export class JigHint extends JigBase<'hint'> {
     if (!validation || validation.visible) {
       return false;
     }
-    return !this.content() && !this._userContentTemplate();
+    return !this.content() && !this.userContentTemplate();
   });
 
   /**
@@ -144,7 +135,7 @@ export class JigHint extends JigBase<'hint'> {
     if (this._activeValidationState()?.visible) {
       return null;
     }
-    const projected = this._userContentTemplate();
+    const projected = this.userContentTemplate();
     if (projected) {
       return projected;
     }

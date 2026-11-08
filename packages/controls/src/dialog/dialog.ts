@@ -126,7 +126,7 @@ export class JigDialog<
    * - `'any'` - The dialog can be closed by clicking outside the dialog or pressing the Escape key.
    * - `'escape'` - The dialog can only be closed by pressing the Escape key.
    * - `'none'` - The dialog cannot be closed by user interaction. It can only be closed programmatically.
-   * @default 'any'
+   * @default any
    */
   public readonly closeBy = input<CloseBy>('any');
   /**
@@ -141,12 +141,12 @@ export class JigDialog<
    * Whether the dialog is movable by dragging its header.
    * @default false
    */
-  public readonly movable = input<boolean | null | undefined | ''>(false);
+  public readonly movable = input(false, { transform: booleanAttribute });
   /**
    * Whether the dialog is resizable.
    * @default false
    */
-  public readonly resizable = input<boolean | null | undefined | ''>(false);
+  public readonly resizable = input(false, { transform: booleanAttribute });
   /**
    * The result of the dialog, which is the `value` of the button that was clicked to close the dialog or null.
    */

@@ -24,11 +24,10 @@ export const otpStyles = createThemePart({
         /* focus-ring contract (see focusRingSetup): states override --shade-shadow / --shade-ring */
         ${focusRingSetup(v)}
         --shade-shadow: ${v('shadow.sm')};
-        width: 2.75rem;
-        height: 2.75rem;
+        width: ${v('size.height.control')};
+        height: ${v('size.height.control')};
         border: 1px solid ${v('color.input')};
         border-radius: ${v('size.rounded.md')};
-        font-family: ${v('font.family')};
         font-size: ${v('font.size.lg')};
         font-weight: ${v('font.weight.medium')};
         background: transparent;
@@ -38,7 +37,7 @@ export const otpStyles = createThemePart({
         transition-duration: ${v('anim.time.snappyFade')};
         transition-timing-function: ${v('anim.ease.snappyFade')};
         caret-color: transparent;
-        ${focusRing}
+        ${focusRing(v)}
 
         &:focus-visible {
           border-color: ${v('color.ring')};

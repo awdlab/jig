@@ -37,16 +37,7 @@ type BarAction = {
 @Component({
   selector: 'jig-table-row-actions-bar',
   imports: [JigActionButton],
-  template: `
-    @for (action of barActions(); track action.item.id) {
-      <jig-action-button
-        [config]="action.config"
-        [inline]="true"
-        [attr.aria-haspopup]="action.hasChildren ? 'menu' : null"
-        (clicked)="onClicked(action)"
-      />
-    }
-  `,
+  templateUrl: './table-row-actions-bar.html',
   host: {
     '[class]': `theme.class('row-actions')`,
     role: 'presentation',
@@ -59,12 +50,7 @@ export class JigTableRowActionsBar implements OnDestroy {
   private readonly _element = inject<ElementRef<HTMLElement>>(ElementRef);
   private _menu?: ComponentRef<JigMenu>;
 
-  // One host `ElementRef` per rendered `jig-action-button`, in the same order
-  // as `barActions()`. Reading the native `<button>` off these refs is the
-  // robust anchor for the submenu popover — it doesn't depend on the action
-  // having a `testId`. The accessible name itself is owned by `JigTooltip`
-  // (via `jigTooltipAutoAriaMode="label"` on `action-button.html`), not this
-  // component.
+  // Host refs of the rendered action buttons, in `barActions()` order, used to anchor the submenu.
   private readonly _buttonHosts = viewChildren(JigActionButton, { read: ElementRef });
 
   /**

@@ -27,27 +27,31 @@ export class JigFilterFieldHarness extends JigHarness {
     await this.expectOpened(true);
   }
 
-  public row(index: number): Locator {
+  public getRowByIndex(index: number): Locator {
     return this.locator.locator(this.classes['row']).nth(index);
   }
 
-  public operatorSelect(index: number): JigSelectHarness {
-    return new JigSelectHarness(this.row(index).locator(this.classes['operator']['root']));
-  }
-
-  /** Select inside row using the 'value' ptClass (e.g. boolean operator or list select). */
-  public valueSelect(index: number): JigSelectHarness {
-    return new JigSelectHarness(this.row(index).locator(this.classes['value']['root']));
-  }
-
-  public valueInput(index: number): JigInputHarness {
-    return new JigInputHarness(
-      this.row(index).locator(`${this.classes['value']['root']} ${JIG_CLASSES.input['root']}`)
+  public getOperatorSelectByIndex(index: number): JigSelectHarness {
+    return new JigSelectHarness(
+      this.getRowByIndex(index).locator(this.classes['operator']['root'])
     );
   }
 
-  public removeButton(index: number): Locator {
-    return this.row(index).locator(this.classes['remove-btn']['root']);
+  /** Select inside row using the 'value' ptClass (e.g. boolean operator or list select). */
+  public getValueSelectByIndex(index: number): JigSelectHarness {
+    return new JigSelectHarness(this.getRowByIndex(index).locator(this.classes['value']['root']));
+  }
+
+  public getValueInputByIndex(index: number): JigInputHarness {
+    return new JigInputHarness(
+      this.getRowByIndex(index).locator(
+        `${this.classes['value']['root']} ${JIG_CLASSES.input['root']}`
+      )
+    );
+  }
+
+  public getRemoveButtonByIndex(index: number): Locator {
+    return this.getRowByIndex(index).locator(this.classes['remove-btn']['root']);
   }
 
   public addConditionButton(): Locator {

@@ -3,6 +3,7 @@ import { baseStyles } from '@awdlab/jig-themes/base';
 import {
   animationTemplate,
   colorsTemplate,
+  focusRingStyles,
   fontTemplate,
   sizesTemplate,
 } from '@awdlab/jig-themes/shade/base';
@@ -38,17 +39,16 @@ export const inputFieldStyles = createThemePart({
           color: ${v('color.foreground')};
           box-shadow: none;
           transition:
-            border-color 0.15s ease-in-out,
-            color 0.15s ease-in-out,
-            box-shadow 0.15s ease-in-out;
-          /** line-height + vertical padding + border */
-          --baseHeight: calc(1lh + 2 * ${v('size.padding.sm')} + 2px);
+            border-color ${v('anim.time.snappyFade')} ease-in-out,
+            color ${v('anim.time.snappyFade')} ease-in-out,
+            box-shadow ${v('anim.time.snappyFade')} ease-in-out;
+          --baseHeight: ${v('size.height.control')};
           height: max(var(--baseHeight), fit-content);
 
           /* regular */
           &:focus-within {
             border-color: ${v('color.ring')};
-            box-shadow: 0 0 0 3px color-mix(in srgb, ${v('color.ring')} 50%, transparent);
+            ${focusRingStyles(v)}
           }
         }
 
@@ -98,8 +98,8 @@ export const inputFieldStyles = createThemePart({
           border-color: ${v('color.destructive.base')};
           &:focus-within {
             border-color: ${v('color.destructive.base')};
-            box-shadow: 0 0 0 3px
-              color-mix(in srgb, ${v('color.destructive.base')} 20%, transparent);
+            --shade-ring: color-mix(in srgb, ${v('color.destructive.base')} 20%, transparent);
+            ${focusRingStyles(v)}
           }
         }
 
@@ -137,7 +137,7 @@ export const inputFieldStyles = createThemePart({
         }
 
         /* Label over */
-        ${c('labelKind-over')}, ${c('labelKind-floatOver')} {
+        ${c('label-kind-over')}, ${c('label-kind-floatOver')} {
           position: relative;
           ${c('label')} {
             position: absolute;
@@ -149,7 +149,7 @@ export const inputFieldStyles = createThemePart({
           }
         }
         /* float: not floating */
-        ${c('labelKind-floatOver')}:not(${getFloating(c('labelKind-floatOver'))}) {
+        ${c('label-kind-floatOver')}:not(${getFloating(c('label-kind-floatOver'))}) {
           ${c('label')} {
             /* Match the normalized field text size (see root) so the resting label doesn't
              * render larger than the input text it sits over. */
@@ -161,7 +161,7 @@ export const inputFieldStyles = createThemePart({
         }
 
         /* Label in */
-        ${c('labelKind-in')}, ${c('labelKind-floatIn')} {
+        ${c('label-kind-in')}, ${c('label-kind-floatIn')} {
           position: relative;
           ${c('root')} {
             /* Published for the base theme, so the input claims the label strip too. */
@@ -178,7 +178,7 @@ export const inputFieldStyles = createThemePart({
           }
         }
         /* float: not floating */
-        ${c('labelKind-floatIn')}:not(${getFloating(c('labelKind-floatIn'))}) {
+        ${c('label-kind-floatIn')}:not(${getFloating(c('label-kind-floatIn'))}) {
           ${c('label')} {
             font-size: ${v('font.size.sm')};
             pointer-events: none;
@@ -188,7 +188,7 @@ export const inputFieldStyles = createThemePart({
         }
 
         /* Label on */
-        ${c('labelKind-on')}, ${c('labelKind-floatOn')} {
+        ${c('label-kind-on')}, ${c('label-kind-floatOn')} {
           position: relative;
           ${c('label')} {
             position: absolute;
@@ -214,7 +214,7 @@ export const inputFieldStyles = createThemePart({
           }
         }
         /* float: not floating */
-        ${c('labelKind-floatOn')}:not(${getFloating(c('labelKind-floatOn'))}) {
+        ${c('label-kind-floatOn')}:not(${getFloating(c('label-kind-floatOn'))}) {
           ${c('label')} {
             font-size: ${v('font.size.sm')};
             pointer-events: none;
@@ -229,7 +229,7 @@ export const inputFieldStyles = createThemePart({
         }
 
         /* Label hidden */
-        ${c('labelKind-hidden')} ${c('label')} {
+        ${c('label-kind-hidden')} ${c('label')} {
           display: none;
         }
       `;

@@ -179,6 +179,31 @@ test('projected header', async ({ page }, testInfo) => {
   await expectNoA11yViolations(page);
 });
 
+test('accessibility (axe)', async ({ page }) => {
+  await loadComponent(
+    page,
+    {
+      template: `
+        <button #trigger type="button" jigButton (click)="dropdown.toggle()">Open</button>
+        <jig-dropdown-list
+          #dropdown
+          inputId="dd"
+          [anchor]="trigger"
+          label="Choose an option"
+          [items]="inputs().items"
+        />
+      `,
+      imports: ['button', 'dropdownList'],
+    },
+    { inputs: { items: ITEMS } }
+  );
+
+  const dropdown = new JigDropdownListHarness(page.locator('jig-dropdown-list'));
+  await page.locator('button').click();
+  await dropdown.expectOpened();
+  await expectNoA11yViolations(page);
+});
+
 test('rtl', async ({ page }, testInfo) => {
   await useRtl(page);
   await loadComponent(

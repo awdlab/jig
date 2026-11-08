@@ -1,14 +1,6 @@
 import { defineConfig, devices } from '@playwright/test';
 
 /**
- * Read environment variables from file.
- * https://github.com/motdotla/dotenv
- */
-// import dotenv from 'dotenv';
-// import path from 'path';
-// dotenv.config({ path: path.resolve(__dirname, '.env') });
-
-/**
  * See https://playwright.dev/docs/test-configuration.
  */
 export default defineConfig({
@@ -31,9 +23,7 @@ export default defineConfig({
   snapshotDir: 'tests/snapshots',
   expect: {
     toHaveScreenshot: {
-      // Per-pixel colour tolerance. The stock 0.2 scores a light tint (a focus or
-      // hover surface) as identical, so a whole region can change without a pixel
-      // counting. maxDiffPixels stays at its default of 0.
+      // Stricter than the stock 0.2, which scores light focus/hover tints as identical.
       threshold: 0.02,
     },
   },
@@ -55,16 +45,6 @@ export default defineConfig({
       name: 'webkit',
       use: { ...devices['Desktop Safari'] },
     },
-
-    /* Test against mobile viewports. */
-    // {
-    //   name: 'Mobile Chrome',
-    //   use: { ...devices['Pixel 5'] },
-    // },
-    // {
-    //   name: 'Mobile Safari',
-    //   use: { ...devices['iPhone 12'] },
-    // },
   ],
 
   webServer: {

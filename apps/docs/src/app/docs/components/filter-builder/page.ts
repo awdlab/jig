@@ -1,7 +1,7 @@
 import { JigDocsFilterBuilderPlayground } from './playground';
 import { Demo_FilterBuilder_ApplyMode } from '../../../demos/filter-builder/apply-mode';
 import { Demo_FilterBuilder_Base } from '../../../demos/filter-builder/base';
-import { Demo_FilterBuilder_DataTypes } from '../../../demos/filter-builder/datatypes';
+import { Demo_FilterBuilder_DataTypes } from '../../../demos/filter-builder/data-types';
 import { Demo_FilterBuilder_Headless } from '../../../demos/filter-builder/headless';
 import { Demo_FilterBuilder_Inline } from '../../../demos/filter-builder/inline';
 import { Demo_FilterBuilder_Multiple } from '../../../demos/filter-builder/multiple';

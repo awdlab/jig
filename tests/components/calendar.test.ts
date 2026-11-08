@@ -82,8 +82,7 @@ test('typing partial input is free and does not move the calendar', async ({ pag
   const maskHarness = new JigMaskInputHarness(page.locator('jig-calendar jig-mask-input').first());
   await maskHarness.focus();
 
-  // Regression: typing "1" used to auto-parse to "01/01/2001 12:00 AM" and block
-  // further input. Partial input must stay free and must NOT move the calendar.
+  // Partial input stays editable and never moves the calendar.
   await maskHarness.press('1');
   // Month section shows '1' (partial, active — raw digits shown while typing).
   await maskHarness.expectActiveText('1');

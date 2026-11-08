@@ -1,5 +1,4 @@
-import type { DeepKeys } from '../utils/deep-keys.js';
-import type { SubKey } from '../utils/sub-key.js';
+import type { DeepKeys, SubKey } from '../utils/index.js';
 
 export type VariableKeys<S extends string, V> = SubKey<[S, DeepKeys<V>]>;
 

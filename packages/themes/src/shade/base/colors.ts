@@ -1,12 +1,7 @@
 import { createThemePart, createVariableTemplate, repeatVariables } from '@awdlab/jig-themes/api';
 import { createShadeColors, type ShadeSchemeColors } from '@awdlab/jig-themes/shade/colors';
 
-// All color slots that get `.base`/`.foreground`/ramp CSS variables emitted. This is the set of
-// tokens the theme PARTS read internally — `accent` (every hover state), `muted` (muted text +
-// subtle backgrounds), `secondary` (chip/tag default) — plus the public ones. It is NOT the
-// user-selectable color list; see PUBLIC_COLOR_SLOTS.
-// When adding a slot, update all four touchpoints: ShadeSchemeColors, both scheme literals
-// in createShadeColors, COLOR_SLOTS, and toTemplateValues.
+// All emitted color slots, internal ones included; a new slot also needs ShadeSchemeColors, createShadeColors and toTemplateValues.
 export const COLOR_SLOTS = [
   'surface',
   'primary',
@@ -16,28 +11,16 @@ export const COLOR_SLOTS = [
   'destructive',
 ] as const;
 
-// The user-selectable colors (the `color="…"` input / `injectThemeColors`): just the neutral
-// dark (`primary`), neutral light (`surface`) and `destructive`. The other slots above are
-// internal styling tokens only — no control exposes them as a recolor option, so `slotColors`
-// emits `color-*` remap classes for these three alone.
+// The user-selectable colors; only these get `color-*` remap classes.
 export const PUBLIC_COLOR_SLOTS = ['surface', 'primary', 'destructive'] as const;
 
-// Numeric ramp levels, matching nova's `--jig-color-<slot>-<level>` contract. Shade is
-// slot-based (its own parts read `.base`/`.foreground`), but the ramp is emitted too so that
-// consumers and built-in controls that reference a specific level — e.g. the paginator's
-// `var(--jig-color-secondary-500)` — resolve to a real tone instead of an undefined variable.
+// Ramp levels matching nova's `--jig-color-<slot>-<level>` contract, so level references resolve.
 const RAMP_LEVELS = [25, 50, 100, 200, 300, 400, 500, 600, 700, 800, 900, 950, 975] as const;
 
 type RampKey = `${(typeof RAMP_LEVELS)[number]}`;
 type Ramp = Record<RampKey, string>;
 
-// Designed lightness (%) per ramp level for the DARK scheme; the LIGHT scheme uses the
-// complement (100 − value). It is intentionally non-linear rather than a plain lightness sweep:
-// shade's palette is monochrome, so a linear ramp leaves the mid-high levels a flat mid-gray and
-// nova-authored emphasis (`primary-700` headings, `-600` eyebrows) looks dimmer than body text.
-// This curve keeps the low levels subtle (near the background), `500` mid (so the paginator's
-// `secondary-500` highlight stays visible), and drives `600`+ toward the foreground so emphasis
-// reads strong in both schemes.
+// Non-linear dark-scheme lightness per level (light uses 100 - value), so 600+ emphasis reads strong in a monochrome palette.
 const RAMP_DARK_LIGHTNESS: Record<(typeof RAMP_LEVELS)[number], number> = {
   25: 6,
   50: 9,
@@ -90,6 +73,10 @@ export const colorsTemplate = createVariableTemplate({
     border: null,
     input: null,
     ring: null,
+    // Status hues for hint/state only; not public color slots.
+    info: null,
+    success: null,
+    warning: null,
     // Nested like the slots so all paired bg/fg tokens read the same, but intentionally
     // not part of COLOR_SLOTS — popover is not a public recolorable slot.
     popover: {
@@ -137,6 +124,9 @@ function toTemplateValues(scheme: ShadeSchemeColors, isDark: boolean) {
     border: scheme.border,
     input: scheme.input,
     ring: scheme.ring,
+    info: scheme.info,
+    success: scheme.success,
+    warning: scheme.warning,
   };
 }
 

@@ -91,11 +91,11 @@ export const treeStyles = createThemePart({
           );
         }
       }
-      ${c('toggle')} {
+      ${c('toggle-icon')} {
         color: ${v('color.surface.600')};
-        &:hover {
-          color: ${v('color.surface.700')};
-        }
+      }
+      ${c('toggle')}:hover ${c('toggle-icon')} {
+        color: ${v('color.surface.700')};
       }
       ${c('toggle-arrow')} {
         width: 0;

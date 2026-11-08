@@ -556,7 +556,7 @@ test('rtl', async ({ page }, testInfo) => {
           </ng-template>
         </jig-scroller>
       `,
-      imports: ['scroller', 'jigTemplate'],
+      imports: ['scroller', 'template'],
     },
     { inputs: { items } }
   );

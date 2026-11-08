@@ -1,3 +1,4 @@
+import { JigDocsStepperPlayground } from './playground';
 import { Demo_Stepper_Base } from '../../../demos/stepper/base';
 import { Demo_Stepper_Linear } from '../../../demos/stepper/linear';
 
@@ -13,6 +14,11 @@ export const StepperPage: JigDocsPage = {
       title: 'Examples',
       mdFile: 'components/stepper/index.md',
       components: [Demo_Stepper_Base, Demo_Stepper_Linear],
+    },
+    {
+      kind: 'component',
+      title: 'Playground',
+      component: JigDocsStepperPlayground,
     },
     { kind: 'single', title: 'API', mdFile: 'components/stepper/api.md' },
     { kind: 'single', title: 'A11y', mdFile: 'components/stepper/a11y.md' },

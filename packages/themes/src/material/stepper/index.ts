@@ -43,7 +43,7 @@ export const stepperStyles = createThemePart({
         ${c('marker')} {
           background: ${v('color.primary.500')};
           border-color: ${v('color.primary.500')};
-          color: #fff;
+          color: ${v('color.primary.500-contrast')};
         }
       }
       /* Declared after 'completed' so a revisited step that is both active and completed
@@ -63,7 +63,7 @@ export const stepperStyles = createThemePart({
         ${c('marker')} {
           background: ${v('color.error.500')};
           border-color: ${v('color.error.500')};
-          color: #fff;
+          color: ${v('color.error.500-contrast')};
         }
         ${c('label')} {
           color: ${v('color.error.500')};

@@ -27,7 +27,6 @@ export const buttonStyles = createThemePart({
         /* transparent border keeps bordered (outline) and borderless kinds pixel-identical */
         border: 1px solid transparent;
         border-radius: ${v('size.rounded.md')};
-        font-family: ${v('font.family')};
         font-size: ${v('font.size.sm')};
         font-weight: ${v('font.weight.medium')};
         padding: ${v('size.padding.md')} ${v('size.padding.xl')};
@@ -38,7 +37,7 @@ export const buttonStyles = createThemePart({
         transition-property: color, background-color, border-color, box-shadow, transform;
         transition-duration: ${v('anim.time.snappyFade')};
         transition-timing-function: ${v('anim.ease.snappyFade')};
-        ${focusRing}
+        ${focusRing(v)}
         /* universal tactile press feedback for every kind */
         &:active:not(:disabled) {
           transform: scale(0.97);
@@ -47,6 +46,12 @@ export const buttonStyles = createThemePart({
           cursor: default;
           opacity: 0.5;
         }
+      }
+
+      /* Single-line buttons share the field height; inline, link and icon buttons size to content. */
+      ${c('root')}:not(${c('inline')}):not(${c('kind-link')}):not(${c('kind-icon')}) {
+        height: ${v('size.height.control')};
+        padding-block: 0;
       }
 
       /* Shared kind vocabulary across all themes: primary | secondary | text | icon | link.
@@ -99,11 +104,7 @@ export const buttonStyles = createThemePart({
         }
       }
 
-      /* Square, ghost-style icon-only button. Kept because the built-in controls (dialog/toast
-       * close, paginator nav, calendar nav, input-field clear, …) reference kind="icon".
-       * NOTE: the paginator sizes its page buttons with an inline
-       * width: calc(1rem + 2 * var(--padding)) — so --padding MUST be defined here or those
-       * buttons collapse to inconsistent widths. */
+      /* Icon-only kind used by built-in controls; it must define --padding for the paginator's inline widths. */
       ${c('kind-icon')} {
         --padding: ${v('size.padding.md')};
         background: transparent;

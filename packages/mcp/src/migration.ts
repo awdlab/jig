@@ -6,13 +6,10 @@ import {
   type Migration,
   migrationComponentMarkdown,
   migrationOverview,
+  text,
 } from './render.js';
 
 import type { McpServer } from '@modelcontextprotocol/sdk/server/mcp.js';
-
-function text(body: string) {
-  return { content: [{ type: 'text' as const, text: body }] };
-}
 
 const normalize = (s: string) => s.toLowerCase().replace(/[^a-z0-9]/g, '');
 

@@ -14,7 +14,7 @@ export class JigSelectButtonHarness extends JigHarness {
     this.buttons = locator.locator('jig-toggle-button');
   }
 
-  public getButtonAt(index: number): JigToggleButtonHarness {
+  public getButtonByIndex(index: number): JigToggleButtonHarness {
     return new JigToggleButtonHarness(this.buttons.nth(index));
   }
 
@@ -24,22 +24,22 @@ export class JigSelectButtonHarness extends JigHarness {
     );
   }
 
-  public async clickButtonAt(index: number, force = false) {
-    await this.getButtonAt(index).click({ force });
+  public async clickButtonByIndex(index: number, force = false) {
+    await this.getButtonByIndex(index).click({ force });
   }
 
   public async expectButtonCount(count: number) {
     await expect(this.buttons).toHaveCount(count);
   }
 
-  public async expectSelectedAt(index: number) {
-    await this.getButtonAt(index).expectActive(true);
+  public async expectSelected(index: number) {
+    await this.getButtonByIndex(index).expectActive(true);
   }
 
   public async expectNoneSelected() {
     const count = await this.buttons.count();
     for (let i = 0; i < count; i++) {
-      await this.getButtonAt(i).expectActive(false);
+      await this.getButtonByIndex(i).expectActive(false);
     }
   }
 

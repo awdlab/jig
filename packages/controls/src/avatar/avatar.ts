@@ -10,8 +10,8 @@ import { avatarControlTemplate } from '@awdlab/jig-themes/templates/avatar';
   templateUrl: './avatar.html',
   imports: [JigPt],
   host: {
-    '[style.--size.px]': 'size()',
-    '[style.--color]': 'bgColor()',
+    '[style.--jig-avatar-size.px]': 'size()',
+    '[style.--jig-avatar-color]': 'bgColor()',
   },
   providers: [provideSelf(JigAvatar)],
 })

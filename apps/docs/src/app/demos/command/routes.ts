@@ -9,7 +9,7 @@ import type { JigActionItem } from '@awdlab/jig/api';
 
 @Component({
   imports: [JigCommand, JigButton],
-  selector: 'jig-demo-command-routes-demo',
+  selector: 'jig-demo-command-routes',
   template: `
     <button jigButton (click)="open.set(true)">Jump to a page</button>
     <jig-command [items]="items" [(open)]="open" />

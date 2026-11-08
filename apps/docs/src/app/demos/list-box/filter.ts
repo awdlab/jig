@@ -1,7 +1,7 @@
 import { Component, signal } from '@angular/core';
 import { JigListBox } from '@awdlab/jig/list-box';
 
-import { exampleData } from '../../helper/data';
+import { exampleData } from '../../utils/sample-data/data';
 
 @Component({
   imports: [JigListBox],

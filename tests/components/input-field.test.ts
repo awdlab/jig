@@ -1,9 +1,16 @@
-import test, { expect } from '@playwright/test';
+import test, { expect, type Locator, type Page } from '@playwright/test';
+import { JigInputFieldHarness, JigInputHarness } from '@awdlab/jig-playwright';
 
 import { expectNoA11yViolations } from '../helper/axe';
 import { loadComponent } from '../helper/load-component';
 import { useRtl } from '../helper/direction';
 import { expectScreenshot } from '../helper/screenshot';
+
+function inputField(page: Page, locator: Locator = page.locator('jig-input-field')) {
+  return new JigInputFieldHarness(locator, field => ({
+    input: new JigInputHarness(field.locator('input')),
+  }));
+}
 
 test('label names the projected input and clicking it focuses the input', async ({ page }) => {
   await loadComponent(page, {
@@ -14,12 +21,13 @@ test('label names the projected input and clicking it focuses the input', async 
     imports: ['inputField', 'input'],
   });
 
-  const input = page.locator('input');
-  const inputId = await input.getAttribute('id');
-  await expect(page.locator('label')).toHaveAttribute('for', inputId!);
+  const field = inputField(page);
+  const { input } = field.children;
+  const inputId = await input.locator.getAttribute('id');
+  await expect(field.label).toHaveAttribute('for', inputId!);
 
-  await page.locator('label').click();
-  await expect(input).toBeFocused();
+  await field.label.click();
+  await input.expectFocused();
 });
 
 test('label names a projected select and clicking it focuses the select', async ({ page }) => {
@@ -34,7 +42,7 @@ test('label names a projected select and clicking it focuses the select', async 
   const combobox = page.getByRole('combobox', { name: 'Stage' });
   await expect(combobox).toBeVisible();
 
-  await page.locator('label').click();
+  await inputField(page).label.click();
   await expect(combobox).toBeFocused();
 });
 
@@ -51,7 +59,7 @@ test('label names a projected calendar and clicking it focuses its input', async
   await expect(input).toHaveCount(1);
   await expect(input).not.toHaveAttribute('aria-label');
 
-  await page.locator('label').click();
+  await inputField(page).label.click();
   await expect(input).toBeFocused();
 });
 
@@ -79,7 +87,7 @@ test('labelledBy adds to the field label instead of replacing it', async ({ page
     imports: ['inputField', 'input'],
   });
 
-  await expect(page.locator('input')).toHaveAccessibleName('Nickname (optional)');
+  await expect(inputField(page).children.input.locator).toHaveAccessibleName('Nickname (optional)');
 });
 
 test('clear button empties the projected input and keeps an accessible name', async ({ page }) => {
@@ -91,13 +99,13 @@ test('clear button empties the projected input and keeps an accessible name', as
     imports: ['inputField', 'input'],
   });
 
-  const input = page.locator('input');
+  const field = inputField(page);
+  const { input } = field.children;
   await input.fill('hello');
-  const clear = page.getByRole('button');
-  await expect(clear).toHaveAttribute('aria-label', /.+/);
+  await expect(field.clearButton).toHaveAttribute('aria-label', /.+/);
 
-  await clear.click();
-  await expect(input).toHaveValue('');
+  await field.clear();
+  await input.expectValue('');
 });
 
 test('invalid forces the invalid look on the field chrome', async ({ page }) => {
@@ -113,11 +121,12 @@ test('invalid forces the invalid look on the field chrome', async ({ page }) => 
     { inputs: { invalid: false } }
   );
 
-  const chrome = page.locator('jig-input-field [class*="input-field-root"]');
-  await expect(chrome).not.toHaveClass(/input-field-invalid/);
+  const field = inputField(page);
+  const invalidClass = new RegExp(field.classes.invalid.slice(1));
+  await expect(field.root).not.toHaveClass(invalidClass);
 
   await handle.setInputs({ invalid: true });
-  await expect(chrome).toHaveClass(/input-field-invalid/);
+  await expect(field.root).toHaveClass(invalidClass);
 });
 
 test('an invalid form only marks the fields whose own control is invalid', async ({ page }) => {
@@ -146,10 +155,9 @@ test('an invalid form only marks the fields whose own control is invalid', async
   await expect(page.locator('form')).toHaveClass(/ng-touched/);
 
   const borderColor = (testId: string) =>
-    page
-      .getByTestId(testId)
-      .locator('[class*="input-field-root"]')
-      .evaluate(el => getComputedStyle(el).borderTopColor);
+    inputField(page, page.getByTestId(testId)).root.evaluate(
+      el => getComputedStyle(el).borderTopColor
+    );
 
   await expect
     .poll(async () => {
@@ -170,7 +178,7 @@ test('accessibility (axe)', async ({ page }) => {
     imports: ['inputField', 'input'],
   });
 
-  await expect(page.locator('input')).toBeVisible();
+  await inputField(page).children.input.expectVisible();
   await expectNoA11yViolations(page);
 });
 
@@ -204,13 +212,14 @@ test('readonly hides the clear button so the value cannot be wiped', async ({ pa
     { inputs: { readonly: true } }
   );
 
-  const input = page.locator('input');
-  await expect(page.getByRole('button')).toHaveCount(0);
-  await expect(input).toHaveValue('hello');
+  const field = inputField(page);
+  const { input } = field.children;
+  await expect(field.clearButton).toHaveCount(0);
+  await input.expectValue('hello');
 
   await handle.setInputs({ readonly: false });
-  await page.getByRole('button').click();
-  await expect(input).toHaveValue('');
+  await field.clear();
+  await input.expectValue('');
 });
 
 test('labelledBy reaches a projected select too', async ({ page }) => {
@@ -236,6 +245,7 @@ test('the field label follows an id set on the projected input', async ({ page }
     imports: ['inputField', 'input'],
   });
 
-  await expect(page.locator('input')).toHaveAttribute('id', 'nick');
-  await expect(page.locator('jig-input-field label')).toHaveAttribute('for', 'nick');
+  const field = inputField(page);
+  await expect(field.children.input.locator).toHaveAttribute('id', 'nick');
+  await expect(field.label).toHaveAttribute('for', 'nick');
 });

@@ -1,5 +1,6 @@
 import { NgTemplateOutlet } from '@angular/common';
 import {
+  booleanAttribute,
   Component,
   computed,
   ElementRef,
@@ -49,35 +50,56 @@ type WeekModel = {
   templateUrl: './days.html',
   imports: [NgTemplateOutlet, JigPt, JigButton, JigIcon],
 })
-export class CalendarDays {
+export class JigCalendarDays {
+  /** The owning calendar, used for theme pass-through. */
   public readonly component = input.required<JigBaseSafe<'calendar'>>();
+  /** The calendar's resolved theme template. */
   public readonly theme = input.required<ControlTemplateInfo<typeof calendarControlTemplate>>();
+  /** The displayed year. */
   public readonly year = input.required<number>();
+  /** The displayed month, zero-based. */
   public readonly month = input.required<number>();
+  /** The selected date, or `null` when nothing is selected. */
   public readonly currentValue = input.required<Date | null>();
+  /** The weekday the grid starts on. */
   public readonly firstDayOfWeek = input.required<WeekDay>();
+  /** The earliest selectable date, or `null` for no lower bound. */
   public readonly min = input.required<Date | null>();
+  /** The latest selectable date, or `null` for no upper bound. */
   public readonly max = input.required<Date | null>();
-  public readonly dayTemplate = input.required<TemplateRef<DayTemplateType>>();
-  public readonly weekDayTemplate = input.required<TemplateRef<WeekDayTemplateType>>();
-  public readonly timeTemplate = input.required<TemplateRef<TimeTemplateType>>();
-  public readonly yearTemplate = input.required<TemplateRef<YearTemplateType>>();
-  public readonly monthTemplate = input.required<TemplateRef<MonthTemplateType>>();
-  public readonly showTime = input.required<boolean>();
-  public readonly showSeconds = input.required<boolean>();
-  public readonly previousMonth = output();
-  public readonly nextMonth = output();
+  /** Template that renders each day cell. */
+  public readonly templateDay = input.required<TemplateRef<DayTemplateType>>();
+  /** Template that renders each weekday header cell. */
+  public readonly templateWeekDay = input.required<TemplateRef<WeekDayTemplateType>>();
+  /** Template that renders the time picker below the grid. */
+  public readonly templateTime = input.required<TemplateRef<TimeTemplateType>>();
+  /** Template that renders the year picker in the header. */
+  public readonly templateYear = input.required<TemplateRef<YearTemplateType>>();
+  /** Template that renders the month picker in the header. */
+  public readonly templateMonth = input.required<TemplateRef<MonthTemplateType>>();
+  /** Whether the time picker is shown below the grid. */
+  public readonly showTime = input.required({ transform: booleanAttribute });
+  /** Whether the time picker includes seconds. */
+  public readonly showSeconds = input.required({ transform: booleanAttribute });
+  /** Emitted when the previous-month button is pressed. */
+  public readonly previousMonthRequested = output();
+  /** Emitted when the next-month button is pressed. */
+  public readonly nextMonthRequested = output();
+  /** Emitted when a day cell is picked. */
   public readonly daySelected = output<DayModel>();
+  /** Emitted when a year is picked in the header. */
   public readonly yearSelected = output<number>();
+  /** Emitted when a month is picked in the header. */
   public readonly monthSelected = output<Month>();
-  public readonly timeChanged = output<Date | null>();
+  /** Emitted with the new date when the time picker changes, or `null` when cleared. */
+  public readonly timeChange = output<Date | null>();
 
   protected readonly MONTHS = MONTHS;
   protected readonly i18n = inject(I18n).translations;
   protected readonly todaysDay = new Date().getDate();
   protected readonly todaysMonth = new Date().getMonth();
   protected readonly todaysYear = new Date().getFullYear();
-  protected readonly doTimeChange = (t: Date | null) => this.timeChanged.emit(t);
+  protected readonly doTimeChange = (t: Date | null) => this.timeChange.emit(t);
   protected readonly doYearChange = (t: number) => this.yearSelected.emit(t);
   protected readonly doMonthChange = (t: Month) => this.monthSelected.emit(t);
 
@@ -205,11 +227,11 @@ export class CalendarDays {
   }
 
   protected prev() {
-    this.previousMonth.emit();
+    this.previousMonthRequested.emit();
   }
 
   protected next() {
-    this.nextMonth.emit();
+    this.nextMonthRequested.emit();
   }
 
   protected selectYear(year: number) {

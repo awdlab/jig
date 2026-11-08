@@ -27,7 +27,7 @@ import type {
 /**
  * Resolves validation errors for the control it sits on and exposes them as
  * normalized, message-mapped signals — ready to bridge into a {@link JigHint}
- * via {@link JigErrors.jigErrorsHint}.
+ * via {@link JigErrors.hint}.
  *
  * Which form paradigm is in play is abstracted away by {@link injectJigControlState}:
  * template-driven (`ngModel`), reactive (`formControl` / `formControlName`) and
@@ -35,7 +35,7 @@ import type {
  * relevant parent-group errors and a no-form `touched` fallback.
  *
  * `jigErrorsCustom` layers on additional errors independently of any form, and
- * {@link JigErrors.jigErrorsShowOn} controls when messages surface (defaults to
+ * {@link JigErrors.showOn} controls when messages surface (defaults to
  * `touched`). Error keys map onto the shared message table; signal-forms
  * `minLength` / `maxLength` kinds have their own table entries alongside the
  * classic lowercase `minlength` / `maxlength`.
@@ -50,32 +50,37 @@ export class JigErrors {
   /**
    * Hint instance that receives the resolved validation state.
    * @category inputs
+   * @alias jigErrorsHint
    */
-  public readonly jigErrorsHint = input<JigHint | undefined>();
+  public readonly hint = input<JigHint | undefined>(undefined, { alias: 'jigErrorsHint' });
 
   /**
    * Interaction state that controls when errors become visible.
    * @category inputs
+   * @alias jigErrorsShowOn
    */
-  public readonly jigErrorsShowOn = input<JigErrorsShowOn>('touched');
+  public readonly showOn = input<JigErrorsShowOn>('touched', { alias: 'jigErrorsShowOn' });
 
   /**
    * Whether to show the first matching error or all messages.
    * @category inputs
+   * @alias jigErrorsMode
    */
-  public readonly jigErrorsMode = input<JigErrorsMode>('first');
+  public readonly mode = input<JigErrorsMode>('first', { alias: 'jigErrorsMode' });
 
   /**
    * Per-instance messages that override globally provided defaults.
    * @category inputs
+   * @alias jigErrorsMessages
    */
-  public readonly jigErrorsMessages = input<JigErrorsMessages | null>(null);
+  public readonly messages = input<JigErrorsMessages | null>(null, { alias: 'jigErrorsMessages' });
 
   /**
    * Additional errors supplied independently of Angular form validation.
    * @category inputs
+   * @alias jigErrorsCustom
    */
-  public readonly jigErrorsCustom = input<JigErrorsCustom>(null);
+  public readonly custom = input<JigErrorsCustom>(null, { alias: 'jigErrorsCustom' });
 
   /** Paradigm-agnostic view of the host control (see {@link injectJigControlState}). */
   private readonly _state = injectJigControlState();
@@ -112,16 +117,12 @@ export class JigErrors {
       return false;
     }
 
-    // Hold error display until the i18n defaults have loaded, so a default
-    // message never flashes as its raw key ("required") before the async
-    // translation import lands. Only affects errors with no instance/carried/
-    // global message (those show immediately); pending always shows (it has a
-    // hardcoded fallback). See {@link _awaitingI18n}.
+    // Hold errors until the i18n defaults load, so a default message never flashes as its raw key.
     if (!this.pending() && this._awaitingI18n()) {
       return false;
     }
 
-    switch (this.jigErrorsShowOn()) {
+    switch (this.showOn()) {
       case 'always':
         return true;
       case 'never':
@@ -146,7 +147,7 @@ export class JigErrors {
     }
 
     const errors = this.errors();
-    if (this.jigErrorsMode() === 'all') {
+    if (this.mode() === 'all') {
       return errors.map(error => error.message).join('\n') || null;
     }
 
@@ -166,7 +167,7 @@ export class JigErrors {
     // styling. The control owns its invalid border (via its own `invalidOn`
     // trigger), and the input field mirrors its child. See {@link JigErrors}.
     effect(() => {
-      this.jigErrorsHint()?.setValidationState(this.state());
+      this.hint()?.setValidationState(this.state());
     });
   }
 
@@ -177,7 +178,7 @@ export class JigErrors {
   }
 
   private _normalizeCustomErrors(): readonly JigError[] {
-    const errors = this.jigErrorsCustom();
+    const errors = this.custom();
     if (!errors) {
       return [];
     }
@@ -222,12 +223,12 @@ export class JigErrors {
 
   /**
    * Resolves a display message for an error, in priority order:
-   * per-instance {@link jigErrorsMessages} → a message carried on the error
+   * per-instance {@link messages} → a message carried on the error
    * itself → globally provided messages → the i18n `errors.*` default → the key.
    */
   private _resolveMessage(context: JigErrorsMessageContext): string {
     return (
-      resolveUserMessage(context, this.jigErrorsMessages() ?? {}) ??
+      resolveUserMessage(context, this.messages() ?? {}) ??
       carriedMessage(context.value) ??
       resolveUserMessage(context, this._globalMessages) ??
       this._translate(context.key, context.params) ??
@@ -249,7 +250,7 @@ export class JigErrors {
       params: error.params,
     };
     return (
-      resolveUserMessage(context, this.jigErrorsMessages() ?? {}) === undefined &&
+      resolveUserMessage(context, this.messages() ?? {}) === undefined &&
       carriedMessage(context.value) === undefined &&
       resolveUserMessage(context, this._globalMessages) === undefined
     );

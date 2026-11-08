@@ -9,8 +9,8 @@ Unlike [`jigMovable`](/components/movable), neither one repositions the element.
 
 ### Reporting a Drag
 
-`jigDrag` emits three outputs: `dragStart` once the gesture begins, `dragged`
-on every pointer move, and `dragEnd` on release.
+`jigDrag` emits three outputs: `dragStarted` once the gesture begins, `dragged`
+on every pointer move, and `dragEnded` on release.
 
 {{ demo: Demo_Drag_Base }}
 
@@ -72,5 +72,5 @@ export class DragResizeSidebar extends JigDragBase {
 }
 ```
 
-`dragStart`, `dragged` and `dragEnd` still emit — `onDragged` runs in addition
+`dragStarted`, `dragged` and `dragEnded` still emit — `onDragged` runs in addition
 to them, not instead.

@@ -43,9 +43,7 @@ export const calendarStyles = createThemePart({
       ${c('days')} {
         gap: ${v('size.padding.md')};
         padding-bottom: ${v('size.padding.md')};
-      }
-      ${c('months')} {
-        gap: ${v('size.padding.sm')};
+      };
       }
       ${c('week-day')} {
         font-weight: ${v('font.weight.medium')};

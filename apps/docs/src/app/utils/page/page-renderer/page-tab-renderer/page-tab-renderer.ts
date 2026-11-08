@@ -6,7 +6,7 @@ import { JigBreadcrumb } from '@awdlab/jig/breadcrumb';
 import { JigTab, JigTabs } from '@awdlab/jig/tabs';
 import { filter } from 'rxjs';
 
-import { BreadcrumbService } from '../../../../frame/breadcrumb.service';
+import { BreadcrumbService } from '../../../../frame/breadcrumb';
 import { safeRoutePath } from '../../../routing';
 import { Seo } from '../../../seo';
 import { JigDocsSourceLink } from '../../source-link';

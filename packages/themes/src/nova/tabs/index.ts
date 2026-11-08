@@ -1,6 +1,7 @@
 import { createThemePart, css } from '@awdlab/jig-themes/api';
 import { baseStyles } from '@awdlab/jig-themes/base';
 import {
+  animationTemplate,
   colorsTemplate,
   controlRing,
   fontTemplate,
@@ -13,7 +14,14 @@ import { tabsControlTemplate } from '@awdlab/jig-themes/templates/tabs';
 export const tabsStyles = createThemePart({
   controlTemplate: tabsControlTemplate,
   base: baseStyles.tabs,
-  dependencies: [colorsTemplate, sizesTemplate, fontTemplate, shadowTemplate, ringTemplate],
+  dependencies: [
+    colorsTemplate,
+    sizesTemplate,
+    fontTemplate,
+    shadowTemplate,
+    ringTemplate,
+    animationTemplate,
+  ],
   root: {
     css: ({ v, c }) => css`
       ${c('headers-container')} {
@@ -37,8 +45,8 @@ export const tabsStyles = createThemePart({
         border-radius: calc(${v('size.rounded.md')} - 3px);
         padding: ${v('size.padding.sm')} ${v('size.padding.lg')};
         transition:
-          background 0.15s ease,
-          color 0.15s ease;
+          background ${v('anim.time.snappyFade')} ease,
+          color ${v('anim.time.snappyFade')} ease;
         &:hover {
           color: ${v('color.text')};
         }

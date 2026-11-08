@@ -49,7 +49,7 @@ import { JigTooltip } from '@awdlab/jig/tooltip';
 import { JigTree } from '@awdlab/jig/tree';
 import { JigUpload, type JigUploadFile } from '@awdlab/jig/upload';
 
-import { exampleData } from '../helper/data';
+import { exampleData } from '../utils/sample-data/data';
 import { JigDocsThemePicker } from '../utils/theme-picker/theme-picker';
 
 import type { JigTreeItem } from '@awdlab/jig/api';

@@ -11,8 +11,8 @@
   >
     <button
       role="separator"
-      [aria-orientation]="layout()"
-      [aria-label]="translations['splitter_handleLabel']()"
+      [attr.aria-orientation]="layout()"
+      [attr.aria-label]="translations['splitter_handleLabel']()"
       [attr.aria-valuenow]="dividerValueNow(index)"
       [attr.aria-valuemin]="0"
       [attr.aria-valuemax]="100"

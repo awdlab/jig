@@ -67,7 +67,7 @@ export const snackbarStyles = createThemePart({
         background: var(--theme-bg, ${ON_SURFACE});
       }
 
-      ${c('defaultHeaderText')} {
+      ${c('default-header-text')} {
         font-weight: ${v('font.weight.semibold')};
         display: flex;
         align-items: center;
@@ -78,7 +78,7 @@ export const snackbarStyles = createThemePart({
       ${c('color-surface')} {
         --snk-icon-color: ${ON_SURFACE};
       }
-      ${c('defaultHeaderText')} jig-icon {
+      ${c('default-header-text')} jig-icon {
         color: var(--snk-icon-color);
       }
 
@@ -133,7 +133,7 @@ export const snackbarStyles = createThemePart({
         }
       }
 
-      ${c('defaultContent')} {
+      ${c('default-content')} {
         line-height: 1.5;
       }
 
@@ -141,15 +141,12 @@ export const snackbarStyles = createThemePart({
         gap: ${v('size.padding.sm')};
       }
 
-      /* The close icon button has no themed color of its own, so it would fall
-         back to the UA default (black). Pin it to the neutral surface foreground
-         (the surface is always neutral now). Scoped to our own close button so
-         caller action colors are never overridden. */
-      ${c('closeButton')} {
+      /* Pins the close button to the surface foreground without overriding caller action colors. */
+      ${c('close-button')} {
         color: ${ON_SURFACE};
       }
 
-      ${c('progressBar')} {
+      ${c('progress-bar')} {
         height: 3px;
         inset-inline-start: ${v('size.padding.md')};
         inset-inline-end: ${v('size.padding.md')};

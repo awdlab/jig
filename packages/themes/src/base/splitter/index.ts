@@ -55,15 +55,7 @@ export const splitterStyles = createThemePart({
         }
       }
 
-      /*
-       * Thin & invisible kinds.
-       *
-       * The splitter measures the divider element's offset size to build the grid
-       * track (see splitter-calculator). To expand the handle on interaction
-       * WITHOUT shifting content, the divider stays a fixed size (1px / 0px) and
-       * the handle is taken out of flow. The visible bar is a centered ::after
-       * whose size animates from the resting line width up to the default width.
-       */
+      /* Thin/invisible dividers keep a fixed measured size; the out-of-flow handle grows its ::after on interaction. */
       ${c('kind-thin')}, ${c('kind-invisible')} {
         ${c('divider')} {
           position: relative;

@@ -1,8 +1,9 @@
 import { afterRenderEffect, computed, signal, untracked } from '@angular/core';
 import { elementSizeSignal, isRtl } from '@awdlab/jig/api/ng';
 import { getResizeLimitInPx, ResizeEngine } from '@awdlab/jig/api/resize';
+import { clamp } from '@awdlab/jig/utils';
 
-import type { JigTableTh } from './table-header-cell';
+import type { JigTableTh } from './table-th';
 import type { ElementRef, ModelSignal, Signal } from '@angular/core';
 import type { ResizableItem, ResizeSize } from '@awdlab/jig/api/resize';
 
@@ -412,7 +413,7 @@ export class TableColumnLayoutModel {
     // Clamp so the 3px-wide indicator stays within the visible content area
     // (use clientWidth to exclude scrollbar width from the boundary)
     const maxLeft = tableEl.clientWidth - 3;
-    indicatorLeftPx = Math.max(0, Math.min(indicatorLeftPx, maxLeft));
+    indicatorLeftPx = clamp(indicatorLeftPx, 0, maxLeft);
 
     this._dropIndicatorState.set({
       leftPx: indicatorLeftPx,
@@ -553,7 +554,7 @@ export class TableColumnLayoutModel {
       getResizeLimitInPx(headerCell.minSize(), containerSize)
     );
     const maxPx = getResizeLimitInPx(headerCell.maxSize(), containerSize);
-    const clampedWidth = Math.max(minPx, Math.min(maxPx, totalWidth));
+    const clampedWidth = clamp(totalWidth, minPx, maxPx);
 
     this._resizeEngine.setItemSize(headerCell as unknown as ResizableItem, `${clampedWidth}px`);
     this._resizeEngine.hasBeenResized.set(true);

@@ -3,6 +3,7 @@ import { baseStyles } from '@awdlab/jig-themes/base';
 import {
   animationTemplate,
   colorsTemplate,
+  focusRingStyles,
   fontTemplate,
   shadowTemplate,
   sizesTemplate,
@@ -43,9 +44,7 @@ export const tabsStyles = createThemePart({
           color: ${v('color.foreground')};
         }
         &:focus-visible {
-          outline: 2px solid transparent;
-          outline-offset: 2px;
-          box-shadow: 0 0 0 3px color-mix(in srgb, ${v('color.ring')} 50%, transparent);
+          ${focusRingStyles(v)}
         }
       }
       ${c('header-active')} {

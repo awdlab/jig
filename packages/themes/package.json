@@ -22,9 +22,9 @@
     "access": "public"
   },
   "scripts": {
-    "prebuild": "pnpm rimraf ./dist",
-    "postbuild": "tsx ./tools/post-build.ts",
-    "build": "pnpm prebuild && tsc -p ./tsconfig.lib.json --outDir ./dist && pnpm postbuild",
+    "build:pre": "pnpm rimraf ./dist",
+    "build": "pnpm build:pre && tsc -p ./tsconfig.lib.json --outDir ./dist && pnpm build:post",
+    "build:post": "tsx ./tools/post-build.ts && cpy ../../LICENSE .",
     "test": "vitest run",
     "test:watch": "vitest"
   },

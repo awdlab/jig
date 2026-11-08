@@ -12,7 +12,7 @@ import {
 import { domEventHandler } from '@awdlab/jig/api/ng';
 import { JigPt, provideSelf, ValueControlBase } from '@awdlab/jig/base';
 import { I18n } from '@awdlab/jig/i18n';
-import { JigRovingGroup, JigRovingItem } from '@awdlab/jig/roving-focus';
+import { JigRovingGroup, JigRovingItem } from '@awdlab/jig/roving-group';
 import { maskInputControlTemplate } from '@awdlab/jig-themes/templates/mask-input';
 
 import {

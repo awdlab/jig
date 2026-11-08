@@ -40,7 +40,7 @@ export const toastStyles = createThemePart({
         box-shadow: ${v('shadow.xl')};
       }
 
-      ${c('defaultHeaderText')} {
+      ${c('default-header-text')} {
         font-weight: ${v('font.weight.semibold')};
         display: flex;
         align-items: center;
@@ -98,7 +98,7 @@ export const toastStyles = createThemePart({
         }
       }
 
-      ${c('defaultContent')} {
+      ${c('default-content')} {
         line-height: 1.5;
       }
     `,

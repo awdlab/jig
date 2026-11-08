@@ -1,4 +1,5 @@
 import test, { expect, type Page } from '@playwright/test';
+import { JigOtpHarness } from '@awdlab/jig-playwright';
 import { loadComponent } from '../helper/load-component';
 import { useRtl } from '../helper/direction';
 import { expectNoA11yViolations } from '../helper/axe';
@@ -27,10 +28,9 @@ async function loadOtp(
     },
     { inputs }
   );
-  const otp = page.locator('jig-otp');
-  await expect(otp).toBeVisible();
-  const cells = otp.locator('input');
-  return { handle, otp, cells };
+  const otp = new JigOtpHarness(page.locator('jig-otp'));
+  await otp.expectVisible();
+  return { handle, otp };
 }
 
 async function lastValue(handle: { getOutputLog: () => Promise<Record<string, any[]>> }) {
@@ -43,17 +43,15 @@ async function lastValue(handle: { getOutputLog: () => Promise<Record<string, an
 // ---------------------------------------------------------------------------
 
 test('renders one cell per length and composes the value while typing', async ({ page }) => {
-  const { handle, cells } = await loadOtp(page, { length: 4, integerOnly: true });
+  const { handle, otp } = await loadOtp(page, { length: 4, integerOnly: true });
 
-  await expect(cells).toHaveCount(4);
+  await expect(otp.cells).toHaveCount(4);
 
-  await cells.first().focus();
-  await page.keyboard.type('1234');
+  await otp.fill('1234');
 
-  await expect(cells.nth(0)).toHaveValue('1');
-  await expect(cells.nth(3)).toHaveValue('4');
+  await otp.expectCells('1234');
   // Focus auto-advanced to the last cell.
-  await expect(cells.nth(3)).toBeFocused();
+  await expect(otp.getCellByIndex(3)).toBeFocused();
   await expect.poll(() => lastValue(handle)).toBe('1234');
 });
 
@@ -62,13 +60,12 @@ test('renders one cell per length and composes the value while typing', async ({
 // ---------------------------------------------------------------------------
 
 test('integerOnly rejects non-digit input', async ({ page }) => {
-  const { cells } = await loadOtp(page, { length: 4, integerOnly: true });
+  const { otp } = await loadOtp(page, { length: 4, integerOnly: true });
 
-  await cells.first().focus();
-  await page.keyboard.type('a1');
+  await otp.fill('a1');
 
   // The letter is dropped; the digit lands in the first cell.
-  await expect(cells.nth(0)).toHaveValue('1');
+  await expect(otp.getCellByIndex(0)).toHaveValue('1');
 });
 
 // ---------------------------------------------------------------------------
@@ -76,17 +73,16 @@ test('integerOnly rejects non-digit input', async ({ page }) => {
 // ---------------------------------------------------------------------------
 
 test('backspace clears the active cell and steps back when empty', async ({ page }) => {
-  const { cells } = await loadOtp(page, { length: 4, integerOnly: true });
+  const { otp } = await loadOtp(page, { length: 4, integerOnly: true });
 
-  await cells.first().focus();
-  await page.keyboard.type('12');
+  await otp.fill('12');
   // Focus is on cell 2 (empty). First Backspace steps back to cell 1 and clears it.
   await page.keyboard.press('Backspace');
-  await expect(cells.nth(1)).toBeFocused();
-  await expect(cells.nth(1)).toHaveValue('');
+  await expect(otp.getCellByIndex(1)).toBeFocused();
+  await expect(otp.getCellByIndex(1)).toHaveValue('');
   // Second Backspace clears the (still-filled) cell 0.
   await page.keyboard.press('Backspace');
-  await expect(cells.nth(0)).toHaveValue('');
+  await expect(otp.getCellByIndex(0)).toHaveValue('');
 });
 
 // ---------------------------------------------------------------------------
@@ -94,13 +90,12 @@ test('backspace clears the active cell and steps back when empty', async ({ page
 // ---------------------------------------------------------------------------
 
 test('paste distributes characters across cells', async ({ page }) => {
-  const { handle, cells } = await loadOtp(page, { length: 6, integerOnly: true });
+  const { handle, otp } = await loadOtp(page, { length: 6, integerOnly: true });
 
   // Dispatch a synthetic paste with populated clipboardData — CI browsers deny
   // the real Clipboard API, so we drive the control's `paste` handler directly.
-  await cells.first().focus();
-  await page.evaluate((text: string) => {
-    const input = document.querySelector('jig-otp input') as HTMLInputElement;
+  await otp.focusCell(0);
+  await otp.getCellByIndex(0).evaluate((input: HTMLInputElement, text: string) => {
     input.focus();
     const dt = new DataTransfer();
     dt.setData('text', text);
@@ -109,8 +104,7 @@ test('paste distributes characters across cells', async ({ page }) => {
     input.dispatchEvent(event);
   }, '123456');
 
-  await expect(cells.nth(0)).toHaveValue('1');
-  await expect(cells.nth(5)).toHaveValue('6');
+  await otp.expectCells('123456');
   await expect.poll(() => lastValue(handle)).toBe('123456');
 });
 
@@ -119,9 +113,9 @@ test('paste distributes characters across cells', async ({ page }) => {
 // ---------------------------------------------------------------------------
 
 test('mask renders cells as password fields', async ({ page }) => {
-  const { cells } = await loadOtp(page, { length: 4, mask: true });
+  const { otp } = await loadOtp(page, { length: 4, mask: true });
 
-  await expect(cells.first()).toHaveAttribute('type', 'password');
+  await expect(otp.getCellByIndex(0)).toHaveAttribute('type', 'password');
 });
 
 // ---------------------------------------------------------------------------
@@ -131,47 +125,45 @@ test('mask renders cells as password fields', async ({ page }) => {
 test('accessibility (axe)', async ({ page }) => {
   const { otp } = await loadOtp(page, { length: 6, integerOnly: true });
 
-  await expect(otp).toHaveAttribute('role', 'group');
-  await expect(otp).toHaveAttribute('aria-label', 'Verification code');
+  await expect(otp.locator).toHaveAttribute('role', 'group');
+  await expect(otp.locator).toHaveAttribute('aria-label', 'Verification code');
   await expectNoA11yViolations(page);
 });
 
 test('visual', async ({ page }, testInfo) => {
-  const { cells } = await loadOtp(page, { length: 4, integerOnly: true });
+  const { otp } = await loadOtp(page, { length: 4, integerOnly: true });
 
   await test.step('empty', async () => {
     await expectScreenshot(page, testInfo, 'empty');
   });
 
   await test.step('filled', async () => {
-    await cells.first().focus();
-    await page.keyboard.type('1234');
-    await expect(cells.nth(3)).toHaveValue('4');
+    await otp.fill('1234');
+    await otp.expectCells('1234');
     await expectScreenshot(page, testInfo, 'filled');
   });
 });
 
 test('rtl', async ({ page }, testInfo) => {
   await useRtl(page);
-  const { cells } = await loadOtp(page, { length: 4, integerOnly: true });
-  await cells.nth(0).focus();
-  await page.keyboard.type('12');
+  const { otp } = await loadOtp(page, { length: 4, integerOnly: true });
+  await otp.fill('12');
   await expectScreenshot(page, testInfo);
 });
 
 test('rtl keyboard: cells advance along the inline axis', async ({ page }) => {
   await useRtl(page);
-  const { cells } = await loadOtp(page, { length: 4, integerOnly: true });
+  const { otp } = await loadOtp(page, { length: 4, integerOnly: true });
 
-  await cells.nth(0).focus();
-  await expect(cells.nth(0)).toBeFocused();
+  await otp.focusCell(0);
+  await expect(otp.getCellByIndex(0)).toBeFocused();
 
   await page.keyboard.press('ArrowLeft');
-  await expect(cells.nth(1)).toBeFocused();
+  await expect(otp.getCellByIndex(1)).toBeFocused();
   await page.keyboard.press('ArrowRight');
-  await expect(cells.nth(0)).toBeFocused();
+  await expect(otp.getCellByIndex(0)).toBeFocused();
 
   // Cannot step past the first cell backwards.
   await page.keyboard.press('ArrowRight');
-  await expect(cells.nth(0)).toBeFocused();
+  await expect(otp.getCellByIndex(0)).toBeFocused();
 });

@@ -11,6 +11,7 @@ import { avatarGroupStyles, avatarStyles } from '@awdlab/jig-themes/material/ava
 import { badgeStyles } from '@awdlab/jig-themes/material/badge';
 import {
   animation,
+  backdrop,
   font,
   material as materialColors,
   shadow,
@@ -31,6 +32,7 @@ import { editInplaceStyles } from '@awdlab/jig-themes/material/edit-inplace';
 import { filterBarStyles } from '@awdlab/jig-themes/material/filter-bar';
 import { filterBuilderStyles } from '@awdlab/jig-themes/material/filter-builder';
 import { filterFieldStyles } from '@awdlab/jig-themes/material/filter-field';
+import { globalStyles } from '@awdlab/jig-themes/material/global';
 import { hintStyles } from '@awdlab/jig-themes/material/hint';
 import { iconStyles } from '@awdlab/jig-themes/material/icon';
 import { inplaceStyles } from '@awdlab/jig-themes/material/inplace';
@@ -67,9 +69,9 @@ import { tabsStyles } from '@awdlab/jig-themes/material/tabs';
 import { tagStyles } from '@awdlab/jig-themes/material/tag';
 import { tagInputStyles } from '@awdlab/jig-themes/material/tag-input';
 import { toastStyles } from '@awdlab/jig-themes/material/toast';
+import { toggleButtonStyles } from '@awdlab/jig-themes/material/toggle-button';
 import { toolbarStyles } from '@awdlab/jig-themes/material/toolbar';
 import { toolbarRegionStyles } from '@awdlab/jig-themes/material/toolbar-region';
-import { toggleButtonStyles } from '@awdlab/jig-themes/material/toggle-button';
 import { tooltipStyles } from '@awdlab/jig-themes/material/tooltip';
 import { treeStyles } from '@awdlab/jig-themes/material/tree';
 import { uploadStyles } from '@awdlab/jig-themes/material/upload';
@@ -80,7 +82,7 @@ export const KINDS = {
   button: ['primary', 'secondary', 'link', 'text', 'icon'] as const,
   message: ['default', 'outlined', 'simple'] as const,
   tag: ['default', 'pill'] as const,
-  'input-field': ['outlined', 'filled'] as const,
+  inputField: ['outlined', 'filled'] as const,
   inputFieldLabel: ['in', 'on', 'over', 'floatIn', 'floatOn', 'floatOver', 'hidden'] as const,
   spinButtons: ['stacked', 'inline'] as const,
   hint: ['default', 'info', 'success', 'warning', 'error'] as const,
@@ -102,44 +104,45 @@ export const COLORS = [
 export const material = createTheme(
   'Material',
   [
-    accordionStyles,
     accordionPanelStyles,
+    accordionStyles,
     animation,
     avatarGroupStyles,
     avatarStyles,
+    backdrop,
     badgeStyles,
     breadcrumbStyles,
-    buttonStyles,
     buttonGroupStyles,
+    buttonStyles,
     calendarStyles,
     checkboxStyles,
     chipStyles,
     colorPickerStyles,
     commandStyles,
-    materialColors,
     dialogStyles,
     drawerStyles,
     dropdownListStyles,
+    editInplaceStyles,
     filterBarStyles,
     filterBuilderStyles,
     filterFieldStyles,
-    editInplaceStyles,
     font,
+    globalStyles,
     hintStyles,
     iconStyles,
-    shadow,
     inplaceStyles,
     inputFieldStyles,
-    maskInputStyles,
     inputStyles,
     itemViewStyles,
     kbdStyles,
     listBoxStyles,
+    maskInputStyles,
+    materialColors,
     menuStyles,
     messageStyles,
     meterStyles,
-    otpStyles,
     movableStyles,
+    otpStyles,
     paginatorStyles,
     popoverStyles,
     progressStyles,
@@ -147,10 +150,11 @@ export const material = createTheme(
     radioStyles,
     ratingStyles,
     resizableStyles,
-    scrollShadowStyles,
     scrollerStyles,
-    selectStyles,
+    scrollShadowStyles,
     selectButtonStyles,
+    selectStyles,
+    shadow,
     sizes,
     skeletonStyles,
     sliderStyles,
@@ -163,12 +167,12 @@ export const material = createTheme(
     switchStyles,
     tableStyles,
     tabsStyles,
-    tagStyles,
     tagInputStyles,
+    tagStyles,
     toastStyles,
-    toolbarStyles,
-    toolbarRegionStyles,
     toggleButtonStyles,
+    toolbarRegionStyles,
+    toolbarStyles,
     tooltipStyles,
     treeStyles,
     uploadStyles,

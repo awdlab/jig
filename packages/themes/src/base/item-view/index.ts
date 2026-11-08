@@ -21,9 +21,9 @@ export const itemViewStyles = createThemePart({
       ${c('item')} {
         display: flex;
         align-items: center;
-        &${c('hidden-separator')} {
-          visibility: hidden;
-        }
+      }
+      ${c('hidden-separator')} {
+        visibility: hidden;
       }
       ${c('more-items')} {
         display: flex;

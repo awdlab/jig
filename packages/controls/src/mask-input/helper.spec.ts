@@ -62,7 +62,7 @@ describe('resolveMask', () => {
   it('returns null for null/empty/unknown raw string', () => {
     expect(resolveMask(null)).toBeNull();
     expect(resolveMask('')).toBeNull();
-    expect(resolveMask('00/00')).toBeNull(); // raw patterns no longer supported
+    expect(resolveMask('00/00')).toBeNull(); // raw patterns are not supported
   });
 
   it('resolves named registry masks', () => {

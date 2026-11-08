@@ -2,7 +2,7 @@
  * The lifecycle state of a single {@link JigUploadFile}.
  *
  * - `pending` — queued, not yet handed to the consumer (manual mode, or pre-emit).
- * - `uploading` — emitted via `(upload)`, the consumer is transferring it.
+ * - `uploading` — emitted via `(uploadRequested)`, the consumer is transferring it.
  * - `done` — the consumer reported success via `markDone`.
  * - `failed` — the consumer reported an error via `markFailed`.
  * - `cancelled` — dismissed while in-flight; the item is removed from the list

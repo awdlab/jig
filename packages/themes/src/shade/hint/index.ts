@@ -1,25 +1,26 @@
 import { createThemePart, css } from '@awdlab/jig-themes/api';
 import { baseStyles } from '@awdlab/jig-themes/base';
-import { colorsTemplate, fontTemplate, sizesTemplate } from '@awdlab/jig-themes/shade/base';
+import {
+  animationTemplate,
+  colorsTemplate,
+  fontTemplate,
+  sizesTemplate,
+} from '@awdlab/jig-themes/shade/base';
 import { hintControlTemplate } from '@awdlab/jig-themes/templates/hint';
 
 export const hintStyles = createThemePart({
   controlTemplate: hintControlTemplate,
   base: baseStyles.hint,
-  dependencies: [colorsTemplate, sizesTemplate, fontTemplate],
+  dependencies: [colorsTemplate, sizesTemplate, fontTemplate, animationTemplate],
   root: {
-    // Shade's palette is intentionally monochrome, so it has no info/success/warning
-    // color tokens. Hints need semantic signalling, so those three kinds introduce
-    // fixed accessible hues here; `error` reuses the destructive token for cohesion
-    // and `default` is muted body text.
     css: ({ v, c }) => css`
       ${c('root')} {
         color: ${v('color.muted.foreground')};
         font-size: ${v('font.size.xs')};
         line-height: ${v('font.size.xs')};
         transition:
-          grid-template-rows 0.2s ease-in-out,
-          margin 0.2s ease-in-out;
+          grid-template-rows ${v('anim.time.fade')} ease-in-out,
+          margin ${v('anim.time.fade')} ease-in-out;
       }
 
       ${c('icon')} {
@@ -28,15 +29,15 @@ export const hintStyles = createThemePart({
       }
 
       ${c('kind-info')} {
-        color: #2563eb;
+        color: ${v('color.info')};
       }
 
       ${c('kind-success')} {
-        color: #16a34a;
+        color: ${v('color.success')};
       }
 
       ${c('kind-warning')} {
-        color: #d97706;
+        color: ${v('color.warning')};
       }
 
       ${c('kind-error')} {

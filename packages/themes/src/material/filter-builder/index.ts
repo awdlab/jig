@@ -1,12 +1,17 @@
 import { createThemePart, css } from '@awdlab/jig-themes/api';
 import { baseStyles } from '@awdlab/jig-themes/base';
-import { colorsTemplate, sizesTemplate } from '@awdlab/jig-themes/material/base';
+import {
+  animationTemplate,
+  colorsTemplate,
+  focusRing,
+  sizesTemplate,
+} from '@awdlab/jig-themes/material/base';
 import { filterBuilderControlTemplate } from '@awdlab/jig-themes/templates/filter-builder';
 
 export const filterBuilderStyles = createThemePart({
   controlTemplate: filterBuilderControlTemplate,
   base: baseStyles.filterBuilder,
-  dependencies: [colorsTemplate, sizesTemplate],
+  dependencies: [colorsTemplate, sizesTemplate, animationTemplate],
   root: {
     css: ({ v, c, d }) => css`
       /* MD3 icon-button state layer: circular halo grown out of the icon's own
@@ -16,13 +21,12 @@ export const filterBuilderStyles = createThemePart({
         border-radius: ${v('size.rounded.full')};
         padding: 0.25rem;
         margin: -0.25rem;
-        transition: background 0.15s ease;
+        transition: background ${v('anim.time.snappyFade')} ease;
         &:hover {
           background: color-mix(in srgb, ${v('color.primary.500')} 8%, transparent);
         }
         &:focus-visible {
-          outline: 2px solid color-mix(in srgb, ${v('color.primary.500')} 50%, transparent);
-          outline-offset: 2px;
+          ${focusRing(v)}
         }
       }
       ${c('popover-content')} {
@@ -57,7 +61,7 @@ export const filterBuilderStyles = createThemePart({
         letter-spacing: 0.05em;
         color: ${v('color.surface.400')};
         cursor: pointer;
-        transition: color 0.15s ease;
+        transition: color ${v('anim.time.snappyFade')} ease;
       }
       ${c('condition-divider')}:hover {
         color: ${v('color.primary.foreground')};

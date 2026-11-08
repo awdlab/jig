@@ -12,7 +12,7 @@ import type { JigActionItem } from '@awdlab/jig/api';
 
 @Component({
   imports: [JigCommand, JigButton, JigKbd, JigKeyboardShortcut],
-  selector: 'jig-demo-command-shortcuts-demo',
+  selector: 'jig-demo-command-shortcuts',
   template: `
     <div
       tabindex="0"

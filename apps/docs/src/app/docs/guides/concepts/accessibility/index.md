@@ -14,7 +14,7 @@ The target is **WCAG 2.2 level AA**.
   an **A11y** tab with its exact key map.
 - **Roving tabindex** for composite widgets, so a toolbar, tab list or radio
   group is one tab stop rather than many. See
-  [Roving Focus](/components/roving-focus).
+  [Roving Group](/components/roving-group).
 - **Focus trapping and restoration** in modal surfaces — a dialog traps focus
   while open and returns it to the trigger on close.
 - **Live regions** for transient messages: toasts and snackbars render into a
@@ -124,6 +124,6 @@ Nothing is perfect, and pretending otherwise is not useful:
 ### Reference
 
 - [Errors](/components/errors) — validation messages and announcements
-- [Roving Focus](/components/roving-focus) — the composite-widget keyboard model
+- [Roving Group](/components/roving-group) — the composite-widget keyboard model
 - [Forms & Validation](/guides/forms-validation) — labelling and invalid state
 - Each control's **A11y** tab — the authoritative per-control detail

@@ -10,7 +10,7 @@ import {
 import { getNearestJigInstanceSig } from '@awdlab/jig/base';
 
 import { JigTable } from './table';
-import { JigTableTh } from './table-header-cell';
+import { JigTableTh } from './table-th';
 
 /**
  * Pins the column of its {@link JigTableTh} to the start or end edge of the

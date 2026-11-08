@@ -1,6 +1,7 @@
 import { createThemePart, css } from '@awdlab/jig-themes/api';
 import { baseStyles } from '@awdlab/jig-themes/base';
 import {
+  animationTemplate,
   colorsTemplate,
   fieldInvalidRing,
   fieldRing,
@@ -13,7 +14,7 @@ import { otpControlTemplate } from '@awdlab/jig-themes/templates/otp';
 export const otpStyles = createThemePart({
   controlTemplate: otpControlTemplate,
   base: baseStyles.otp,
-  dependencies: [colorsTemplate, fontTemplate, sizesTemplate, ringTemplate],
+  dependencies: [colorsTemplate, fontTemplate, sizesTemplate, ringTemplate, animationTemplate],
   root: {
     css: ({ v, c }) => css`
       ${c('root')} {
@@ -31,8 +32,8 @@ export const otpStyles = createThemePart({
         outline: 3px solid transparent;
         outline-offset: 0;
         transition:
-          border-color 0.15s ease,
-          outline-color 0.15s ease;
+          border-color ${v('anim.time.snappyFade')} ease,
+          outline-color ${v('anim.time.snappyFade')} ease;
         caret-color: transparent;
 
         &:hover {

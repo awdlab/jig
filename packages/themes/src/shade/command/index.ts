@@ -1,6 +1,7 @@
 import { createThemePart, css } from '@awdlab/jig-themes/api';
 import { baseStyles } from '@awdlab/jig-themes/base';
 import {
+  animationTemplate,
   colorsTemplate,
   fontTemplate,
   shadowTemplate,
@@ -11,7 +12,7 @@ import { commandControlTemplate } from '@awdlab/jig-themes/templates/command';
 export const commandStyles = createThemePart({
   controlTemplate: commandControlTemplate,
   base: baseStyles.command,
-  dependencies: [colorsTemplate, sizesTemplate, fontTemplate, shadowTemplate],
+  dependencies: [colorsTemplate, sizesTemplate, fontTemplate, shadowTemplate, animationTemplate],
   root: {
     css: ({ v, c, d }) => css`
       ${c('root')} ${d('dialog', 'wrapper')} {
@@ -27,7 +28,7 @@ export const commandStyles = createThemePart({
         /* the field's outward box-shadow ring would bleed past the divider, so the
            focus ring is drawn inset instead */
         outline: 3px solid transparent;
-        transition: outline-color 0.15s ease;
+        transition: outline-color ${v('anim.time.snappyFade')} ease;
         &:focus-within {
           outline-color: color-mix(in srgb, ${v('color.ring')} 50%, transparent);
           box-shadow: none;

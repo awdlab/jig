@@ -1,4 +1,4 @@
-import { Component, computed, inject, input, output } from '@angular/core';
+import { booleanAttribute, Component, computed, inject, input, output } from '@angular/core';
 import { Platform } from '@awdlab/jig/api/ng';
 import { I18n } from '@awdlab/jig/i18n';
 import { JigInput } from '@awdlab/jig/input';
@@ -12,13 +12,17 @@ import type { JigBaseSafe } from '@awdlab/jig/base';
   templateUrl: './time.html',
   imports: [JigInput, JigMaskInput, JigInputField],
 })
-export class CalendarTime {
+export class JigCalendarTime {
   protected readonly i18n = inject(I18n).translations;
   protected readonly isTouchDevice = inject(Platform).isTouchDevice();
 
+  /** The owning calendar, used for theme pass-through. */
   public readonly component = input.required<JigBaseSafe<'calendar'>>();
+  /** The date whose time is edited, or `null` when nothing is selected. */
   public readonly currentValue = input.required<Date | null>();
-  public readonly showSeconds = input.required<boolean>();
+  /** Whether the time field includes seconds. */
+  public readonly showSeconds = input.required({ transform: booleanAttribute });
+  /** Emitted with the new date when the time is edited, or `null` when cleared. */
   public readonly timeChange = output<Date | null>();
   public readonly mask = computed(() =>
     this.showSeconds() ? DATE_TIME_MASKS.time : DATE_TIME_MASKS.timeShort

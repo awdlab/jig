@@ -1,13 +1,13 @@
 import { Component, signal } from '@angular/core';
 import { JigListBox } from '@awdlab/jig/list-box';
 
-import { exampleData } from '../../helper/data';
+import { exampleData } from '../../utils/sample-data/data';
 
 import type { JigItemsValue } from '@awdlab/jig/api';
 
 @Component({
   imports: [JigListBox],
-  selector: 'jig-demo-list-box-value-demo',
+  selector: 'jig-demo-list-box-value',
   template: `
     <jig-list-box
       [items]="items"

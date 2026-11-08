@@ -15,6 +15,7 @@ import { JigButton } from '@awdlab/jig/button';
 import { I18n } from '@awdlab/jig/i18n';
 import { JigIcon } from '@awdlab/jig/icon';
 import { JigProgress } from '@awdlab/jig/progress';
+import { clamp } from '@awdlab/jig/utils';
 import { uploadControlTemplate } from '@awdlab/jig-themes/templates/upload';
 
 import type { JigUploadFile } from './types';
@@ -45,7 +46,7 @@ let uploadInstanceSeq = 0;
  * hides it, and drives it:
  *
  * ```html
- * <jig-upload #up="jigUpload" mode="auto" (upload)="send($event, up)">
+ * <jig-upload #up="jigUpload" mode="auto" (uploadRequested)="send($event, up)">
  *   <input type="file" multiple accept="image/*" />
  * </jig-upload>
  * ```
@@ -129,16 +130,16 @@ export class JigUpload extends JigBase<'upload'> {
    * Emitted with the files to upload: on select/drop in `auto` mode, or when a
    * manual trigger fires. The emitted items are already marked `uploading`.
    */
-  public readonly upload = output<JigUploadFile[]>();
+  public readonly uploadRequested = output<JigUploadFile[]>();
   /** Emitted when a file is removed from the list. */
-  public readonly remove = output<JigUploadFile>();
-  /** Emitted when a `failed` file's retry is pressed (also re-emits `upload`). */
-  public readonly retry = output<JigUploadFile>();
+  public readonly fileRemoved = output<JigUploadFile>();
+  /** Emitted when a `failed` file's retry is pressed (also re-emits `uploadRequested`). */
+  public readonly retryRequested = output<JigUploadFile>();
   /**
    * Emitted when an in-flight file is dismissed (the item's remove/cancel
    * action while `uploading`). Abort the request; the item is then removed.
    */
-  public readonly cancelUpload = output<JigUploadFile>();
+  public readonly uploadCancelled = output<JigUploadFile>();
 
   /** The tracked files, in insertion order. */
   public readonly files = signal<JigUploadFile[]>([]);
@@ -187,18 +188,12 @@ export class JigUpload extends JigBase<'upload'> {
         return;
       }
       input.addEventListener('change', () => this.onNativeChange(input));
-      // The native input is the accessible control; name it from the projected
-      // placeholder content (previously the zone's own text). Set here because
-      // the input is projected content we can't bind an attribute on directly.
+      // Names the projected native input from the placeholder content, since projected content cannot be bound.
       input.setAttribute('aria-labelledby', this.labelId);
       this._nativeInput.set(input);
     });
 
-    // The projected native input[type=file] is itself the interactive, focusable
-    // control: it overlays the zone and opens the picker natively on
-    // click/Enter/Space. Drop it from the tab order only when clicking is
-    // disallowed (drag-only) or the control is disabled, so screen-reader users
-    // get a single, real focus stop with correct semantics.
+    // The native file input is the focus stop; it leaves the tab order when drag-only or disabled.
     effect(() => {
       const input = this._nativeInput();
       if (!input) {
@@ -213,7 +208,7 @@ export class JigUpload extends JigBase<'upload'> {
 
   /** Report transfer progress (`0`–`100`) for a file; marks it `uploading`. */
   public setProgress(id: string, progress: number): void {
-    this.patch(id, { state: 'uploading', progress: clampPercent(progress) });
+    this.patch(id, { state: 'uploading', progress: clamp(progress, 0, 100) });
   }
 
   /** Mark a file as actively uploading. */
@@ -278,7 +273,7 @@ export class JigUpload extends JigBase<'upload'> {
    *
    * Returns a promise that resolves once every started file has settled — i.e.
    * reached `done`, `failed`, or been cancelled/removed. It resolves with the
-   * same items handed to `(upload)`, so their final {@link JigUploadFile.state}
+   * same items handed to `(uploadRequested)`, so their final {@link JigUploadFile.state}
    * tells you which succeeded and which failed. Resolves with `[]` if there was
    * nothing pending.
    */
@@ -301,7 +296,7 @@ export class JigUpload extends JigBase<'upload'> {
   }
 
   protected retryFile(item: JigUploadFile): void {
-    this.retry.emit(item);
+    this.retryRequested.emit(item);
     void this.startUpload([item]);
   }
 
@@ -309,14 +304,14 @@ export class JigUpload extends JigBase<'upload'> {
     // A single dismiss action: while in-flight, aborting the upload is implied,
     // so tell the consumer to cancel the request before we drop the item.
     if (item.state === 'uploading') {
-      this.cancelUpload.emit(item);
+      this.uploadCancelled.emit(item);
       // Move to a terminal state before settling so uploadAll()/uploadFile()
       // don't resolve with the item still reading as `uploading`.
       item.state = 'cancelled';
     }
     this.files.update(files => files.filter(f => f.id !== item.id));
     this.settle(item.id);
-    this.remove.emit(item);
+    this.fileRemoved.emit(item);
   }
 
   /** Human-readable file size for display in the list. */
@@ -372,7 +367,7 @@ export class JigUpload extends JigBase<'upload'> {
       item.state = 'uploading';
     }
     this.files.update(files => [...files]);
-    this.upload.emit(items);
+    this.uploadRequested.emit(items);
     return Promise.all(items.map(item => this.whenSettled(item.id))).then(() => items);
   }
 
@@ -413,10 +408,6 @@ export class JigUpload extends JigBase<'upload'> {
       this.settle(id);
     }
   }
-}
-
-function clampPercent(value: number): number {
-  return Math.min(Math.max(value, 0), 100);
 }
 
 /** Match a file against an `accept` attribute (`.ext`, `type/sub`, `type/*`). */

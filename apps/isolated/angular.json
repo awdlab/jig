@@ -55,6 +55,7 @@
     }
   },
   "cli": {
+    "packageManager": "pnpm",
     "analytics": false
   }
 }

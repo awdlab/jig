@@ -4,7 +4,7 @@ import { JigEditInplace } from '@awdlab/jig/edit-inplace';
 
 @Component({
   imports: [JigEditInplace, JigTemplate],
-  selector: 'jig-demo-inplace-templates',
+  selector: 'jig-demo-edit-inplace-templates',
   template: ` <jig-edit-inplace #inplace [value]="value()" (valueChange)="value.set($event)">
     <ng-template #display [jigTemplate]="inplace.templateTypes.display" let-display>
       <span

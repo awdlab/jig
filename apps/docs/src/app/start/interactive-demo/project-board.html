@@ -433,7 +433,7 @@
                   </span>
                 </div>
               }
-              <jig-upload #up="jigUpload" (upload)="onUpload($event, task, up)">
+              <jig-upload #up="jigUpload" (uploadRequested)="onUpload($event, task, up)">
                 <input type="file" multiple />
                 Drop files or click to attach
               </jig-upload>

@@ -1,6 +1,11 @@
 import { createThemePart, css } from '@awdlab/jig-themes/api';
 import { baseStyles } from '@awdlab/jig-themes/base';
-import { colorsTemplate, fontTemplate, sizesTemplate } from '@awdlab/jig-themes/shade/base';
+import {
+  colorsTemplate,
+  focusRingStyles,
+  fontTemplate,
+  sizesTemplate,
+} from '@awdlab/jig-themes/shade/base';
 import { tagInputControlTemplate } from '@awdlab/jig-themes/templates/tag-input';
 
 export const tagInputStyles = createThemePart({
@@ -48,9 +53,13 @@ export const tagInputStyles = createThemePart({
           opacity: 0.5;
         }
         &:focus-visible {
-          outline: none;
-          box-shadow: 0 0 0 3px color-mix(in srgb, ${v('color.ring')} 50%, transparent);
+          ${focusRingStyles(v)}
         }
+      }
+      /* A disabled tag keeps only its border, so it doesn't read as an active chip. */
+      ${c('field')}:has(${d('input', 'root')}:disabled) ${c('tag')} {
+        background: transparent;
+        color: ${v('color.muted.foreground')};
       }
     `,
   },

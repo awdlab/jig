@@ -6,12 +6,6 @@ import type { Routes } from '@angular/router';
 
 export const routes: Routes = [
   {
-    // Scratch page for trying a control in isolation; reachable by direct URL
-    // only. Lazy so it stays out of the main bundle.
-    path: 'test',
-    loadComponent: () => import('./test').then(m => m.TestComponent),
-  },
-  {
     // Unlinked control overview — reachable by direct URL only (not in the
     // docs menu). Lazy so it stays out of the main bundle.
     path: '_gallery',

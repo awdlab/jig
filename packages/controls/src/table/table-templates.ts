@@ -1,4 +1,4 @@
-import { Component, contentChild, TemplateRef } from '@angular/core';
+import { contentChild, Directive, TemplateRef } from '@angular/core';
 import { templateTypesFn } from '@awdlab/jig/api/ng';
 import { JigBase } from '@awdlab/jig/base';
 
@@ -13,10 +13,8 @@ export type GroupHeaderContext = {
   };
 };
 
-@Component({
-  template: '',
-})
-export abstract class JigTableTemplates<T extends object> extends JigBase<'table'> {
+@Directive()
+export abstract class TableTemplates<T extends object> extends JigBase<'table'> {
   private readonly _headerTemplate = contentChild<TemplateRef<unknown>>('header');
   private readonly _bodyTemplate =
     contentChild<TemplateRef<typeof this.templateTypes.body>>('body');

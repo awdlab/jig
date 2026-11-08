@@ -24,10 +24,10 @@
       <button
         type="button"
         role="tab"
-        [aria-selected]="header.id === activeTab()"
+        [attr.aria-selected]="header.id === activeTab()"
         [id]="elementId + '_tab_' + header.id"
         [attr.aria-controls]="elementId + '_tabpanel_' + header.id"
-        [tabindex]="header.id === activeTab() ? 0 : -1"
+        [attr.tabindex]="header.id === activeTab() ? 0 : -1"
         (keydown)="handleTabKeyPress($event, header.id)"
         #tabHeader
         [ptInt]="this"

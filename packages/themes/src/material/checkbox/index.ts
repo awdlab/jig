@@ -20,7 +20,7 @@ export const checkboxStyles = createThemePart({
           background-color ${v('anim.time.snappyFade')} ${v('anim.ease.snappyFade')},
           border-color ${v('anim.time.snappyFade')} ${v('anim.ease.snappyFade')};
       }
-      ${c('box-checked')} {
+      ${c('box-checked')}, ${c('box-indeterminate')} {
         background-color: ${v('color.primary.500')};
         border-color: ${v('color.primary.500')};
         color: ${v('color.primary.500-contrast')};
@@ -50,13 +50,13 @@ export const checkboxStyles = createThemePart({
       ${c('root')}:hover:not(:has(${c('input')}[disabled])) ${c('box')} {
         box-shadow: 0 0 0 0.625rem color-mix(in srgb, ${v('color.text')} 4%, transparent);
       }
-      ${c('root')}:hover:not(:has(${c('input')}[disabled])) ${c('box-checked')} {
+      ${c('root')}:hover:not(:has(${c('input')}[disabled])) :is(${c('box-checked')}, ${c('box-indeterminate')}) {
         box-shadow: 0 0 0 0.625rem color-mix(in srgb, ${v('color.primary.500')} 8%, transparent);
       }
       ${c('root')}:has(${c('input')}:focus-visible) ${c('box')} {
         box-shadow: 0 0 0 0.625rem color-mix(in srgb, ${v('color.text')} 12%, transparent);
       }
-      ${c('root')}:has(${c('input')}:focus-visible) ${c('box-checked')} {
+      ${c('root')}:has(${c('input')}:focus-visible) :is(${c('box-checked')}, ${c('box-indeterminate')}) {
         box-shadow: 0 0 0 0.625rem color-mix(in srgb, ${v('color.primary.500')} 12%, transparent);
       }
 

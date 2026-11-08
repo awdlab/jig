@@ -133,12 +133,7 @@ export class JigIcon extends JigBase<'icon'> {
 
   constructor() {
     super();
-    // Invariant checks live here — NOT inside the computeds above.
-    // Throwing inside a computed() is swallowed by Angular's reactive graph:
-    // producerRecomputeValue caches the error and only re-throws on a direct
-    // getter read, so a recompute during change-detection producer polling
-    // runs the body (firing the JigError constructor's fancy log) without ever
-    // surfacing the error. afterRenderEffect throws surface reliably.
+    // Invariant checks run here because errors thrown inside a computed() can be swallowed by the reactive graph.
     afterRenderEffect(() => {
       const icon = this.icon();
       const defaultIcon = this.defaultIcon();

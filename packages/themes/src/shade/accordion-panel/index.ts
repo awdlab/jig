@@ -1,12 +1,18 @@
 import { createThemePart, css } from '@awdlab/jig-themes/api';
 import { baseStyles } from '@awdlab/jig-themes/base';
-import { colorsTemplate, fontTemplate, sizesTemplate } from '@awdlab/jig-themes/shade/base';
+import {
+  animationTemplate,
+  colorsTemplate,
+  focusRingStyles,
+  fontTemplate,
+  sizesTemplate,
+} from '@awdlab/jig-themes/shade/base';
 import { accordionPanelControlTemplate } from '@awdlab/jig-themes/templates/accordion-panel';
 
 export const accordionPanelStyles = createThemePart({
   controlTemplate: accordionPanelControlTemplate,
   base: baseStyles.accordionPanel,
-  dependencies: [colorsTemplate, sizesTemplate, fontTemplate],
+  dependencies: [colorsTemplate, sizesTemplate, fontTemplate, animationTemplate],
   root: {
     css: ({ v, c }) => css`
       ${c('root')} {
@@ -16,7 +22,7 @@ export const accordionPanelStyles = createThemePart({
       }
       ${c('content-expander')} {
         color: ${v('color.foreground')};
-        transition: grid-template-rows 0.2s ease-in-out;
+        transition: grid-template-rows ${v('anim.time.fade')} ease-in-out;
       }
       ${c('content')} {
         jig-defer {
@@ -36,7 +42,7 @@ export const accordionPanelStyles = createThemePart({
         jig-icon {
           color: ${v('color.muted.foreground')};
           margin: 0 ${v('size.padding.md')};
-          transition: color 0.2s ease-in-out;
+          transition: color ${v('anim.time.fade')} ease-in-out;
         }
         &:hover {
           ${c('header-text')} {
@@ -44,9 +50,7 @@ export const accordionPanelStyles = createThemePart({
           }
         }
         &:focus-visible {
-          outline: 2px solid transparent;
-          outline-offset: 2px;
-          box-shadow: 0 0 0 3px color-mix(in srgb, ${v('color.ring')} 50%, transparent);
+          ${focusRingStyles(v)}
           border-radius: ${v('size.rounded.sm')};
         }
       }
@@ -62,7 +66,7 @@ export const accordionPanelStyles = createThemePart({
         padding: ${v('size.padding.lg')} ${v('size.padding.xl')};
         font-weight: ${v('font.weight.medium')};
         color: ${v('color.foreground')};
-        transition: color 0.2s ease-in-out;
+        transition: color ${v('anim.time.fade')} ease-in-out;
       }
     `,
   },

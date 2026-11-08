@@ -5,7 +5,7 @@ import { JigInput } from '@awdlab/jig/input';
 import { JigInputField } from '@awdlab/jig/input-field';
 
 @Component({
-  selector: 'jig-demo-dialog-prompt',
+  selector: 'jig-demo-dialog-prompt-dialog',
   imports: [JigInput, JigInputField],
   template: `
     <jig-input-field [label]="'Value'" [labelKind]="'over'">
@@ -14,7 +14,7 @@ import { JigInputField } from '@awdlab/jig/input-field';
   `,
 })
 // TODO: figure out how to make the button values type safe here
-export class DialogPromptDemo extends PromptDialogBase<{ value: string }, true | false> {
+export class Demo_Dialog_Prompt_Dialog extends PromptDialogBase<{ value: string }, true | false> {
   protected value = '';
 
   // Handle dialog button clicks
@@ -43,7 +43,7 @@ export class Demo_Dialog_Prompt {
   protected prompt(): void {
     const res = createDialog(this._injector, {
       title: 'Please enter something 🫡',
-      content: DialogPromptDemo,
+      content: Demo_Dialog_Prompt_Dialog,
       footerButtons: [
         {
           label: 'Cancel',

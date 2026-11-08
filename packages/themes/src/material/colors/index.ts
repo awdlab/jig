@@ -1,9 +1,6 @@
 import { getColorPalette, getColorPaletteRgb } from '@awdlab/jig-themes/nova/colors';
 
-// Material Design base colors (the "500" tone of each MD palette). Shades are derived by nova's
-// lightness-sweep ramp (getColorPalette) rather than the exact MD tonal hexes.
-// ponytail: shades are lightness-derived from these bases, not the exact MD per-shade hexes;
-// upgrade path = hardcode the full MD palettes + matching RGB if exact shade fidelity is needed.
+// ponytail: shades are lightness-derived from these MD 500 tones; hardcode the full MD palettes if exact shade fidelity matters.
 const indigoHex = '#3f51b5'; // primary
 const pinkHex = '#e91e63'; // accent
 const neutralHex = '#5f6368'; // surface + secondary (neutral grey)
@@ -28,5 +25,4 @@ export const orangeColorRgb = getColorPaletteRgb(orangeHex);
 export const blueColorRgb = getColorPaletteRgb(blueHex);
 export const greenColorRgb = getColorPaletteRgb(greenHex);
 
-// Re-export the palette helper so the color engine (Task 2) can build custom-primary values.
 export { getColorPalette, getColorPaletteRgb };

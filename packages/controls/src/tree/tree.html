@@ -23,12 +23,7 @@
   @let disabled = node.parentDisabled || item.disabled;
   @let state = nodeState(item);
   @let selectableNode = isSelectable(node);
-  <!--
-    Virtual scrolling renders a flat list, so treeitems are not DOM-nested in
-    role="group" containers. Per WAI-ARIA, aria-level + aria-setsize +
-    aria-posinset are the sanctioned substitute that convey the hierarchy to
-    assistive tech. (The `group` CSS class below is visual styling only.)
-  -->
+  <!-- Virtual scrolling renders a flat list, so aria-level, aria-setsize and aria-posinset convey the hierarchy. -->
   <!-- eslint-disable-next-line @angular-eslint/template/click-events-have-key-events, @angular-eslint/template/interactive-supports-focus -->
   <div
     [jigScrollerItem]="node"

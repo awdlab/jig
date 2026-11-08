@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { JigAccordion, JigAccordionPanel } from '@awdlab/jig/accordion';
 
-import { exampleData } from '../../helper/data';
+import { exampleData } from '../../utils/sample-data/data';
 
 @Component({
   selector: 'jig-demo-accordion-multiple',

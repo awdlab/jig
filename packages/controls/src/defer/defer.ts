@@ -1,6 +1,8 @@
 import { NgTemplateOutlet } from '@angular/common';
-import { booleanAttribute, Component, effect, input, signal, TemplateRef } from '@angular/core';
-import { JigBase, provideSelf } from '@awdlab/jig/base';
+import { booleanAttribute, Component, effect, input, signal } from '@angular/core';
+import { provideSelf } from '@awdlab/jig/base';
+
+import { DeferTemplates } from './defer-templates';
 
 /**
  * @category control
@@ -11,13 +13,13 @@ import { JigBase, provideSelf } from '@awdlab/jig/base';
   imports: [NgTemplateOutlet],
   providers: [provideSelf(JigDefer)],
   host: {
-    '[class.open]': 'open()',
-    '[class.hidden]': '!open() && hiddenOnClosed()',
-    '[aria-hidden]': '!open()',
+    '[attr.data-open]': 'open() ? "" : null',
+    '[attr.data-hidden]': '!open() && hiddenOnClosed() ? "" : null',
+    '[attr.aria-hidden]': '!open()',
   },
   styles: [
     `
-      :host.hidden {
+      :host[data-hidden] {
         visibility: hidden;
         position: absolute;
         top: -9999px;
@@ -26,18 +28,8 @@ import { JigBase, provideSelf } from '@awdlab/jig/base';
     `,
   ],
 })
-export class JigDefer<T> extends JigBase<null> {
+export class JigDefer<T> extends DeferTemplates<T> {
   protected readonly theme = null;
-  /**
-   * Template to render lazily. When omitted, the projected content
-   * (`ng-content`) is rendered instead.
-   */
-  public readonly lazyContent = input<TemplateRef<T> | undefined | null>(undefined);
-  /**
-   * Context object passed to {@link lazyContent} when it is rendered.
-   * @default null
-   */
-  public readonly lazyContentContext = input<T | null>(null);
   /**
    * Whether the deferred content is currently open (shown).
    * @default false

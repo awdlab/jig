@@ -14,7 +14,7 @@ import { JigBase, provideSelf } from '@awdlab/jig/base';
 @Component({
   selector: 'jig-tab',
   imports: [],
-  template: '',
+  templateUrl: './tab.html',
 
   providers: [provideSelf(JigTab)],
 })

@@ -4,7 +4,7 @@ import { toolbarControlTemplate } from '@awdlab/jig-themes/templates/toolbar';
 import { toolbarRegionControlTemplate } from '@awdlab/jig-themes/templates/toolbar-region';
 import { JigHarness } from '../harness.js';
 
-export type ToolbarPlacement = 'start' | 'center' | 'end';
+export type JigToolbarPlacement = 'start' | 'center' | 'end';
 
 export class JigToolbarHarness extends JigHarness {
   public readonly classes = themeClasses(toolbarControlTemplate);
@@ -27,42 +27,42 @@ export class JigToolbarHarness extends JigHarness {
   }
 
   /** Each placement owns a popover, so this is always scoped to one of them. */
-  public popoverContentIn(placement: ToolbarPlacement): Locator {
+  public popoverContentIn(placement: JigToolbarPlacement): Locator {
     return this.placement(placement).locator(this.classes['popover-content']);
   }
 
-  public placement(placement: ToolbarPlacement): Locator {
+  public placement(placement: JigToolbarPlacement): Locator {
     return this.locator.locator(this.classes[`placement-${placement}`]);
   }
 
   /** Items of one placement that are visible in the bar (not collapsed). */
-  public visibleItemsIn(placement: ToolbarPlacement): Locator {
+  public visibleItemsIn(placement: JigToolbarPlacement): Locator {
     return this.placement(placement).locator(
       `${this.regionClasses['item']}:not(${this.regionClasses['item-overflowing']})`
     );
   }
 
-  public overflowingItemsIn(placement: ToolbarPlacement): Locator {
+  public overflowingItemsIn(placement: JigToolbarPlacement): Locator {
     return this.placement(placement).locator(this.regionClasses['item-overflowing']);
   }
 
-  public triggerIn(placement: ToolbarPlacement): Locator {
+  public triggerIn(placement: JigToolbarPlacement): Locator {
     return this.placement(placement).locator(this.classes['overflow-trigger']);
   }
 
-  public async openOverflow(placement: ToolbarPlacement) {
+  public async openOverflow(placement: JigToolbarPlacement) {
     await this.triggerIn(placement).locator(this.classes['overflow-button']).click();
   }
 
-  public async expectVisibleTexts(placement: ToolbarPlacement, texts: string[]) {
+  public async expectVisibleTexts(placement: JigToolbarPlacement, texts: string[]) {
     await expect(this.visibleItemsIn(placement)).toHaveText(texts);
   }
 
-  public async expectOverflowingTexts(placement: ToolbarPlacement, texts: string[]) {
+  public async expectOverflowingTexts(placement: JigToolbarPlacement, texts: string[]) {
     await expect(this.overflowingItemsIn(placement)).toHaveText(texts);
   }
 
-  public async expectTriggerVisible(placement: ToolbarPlacement, visible: boolean) {
+  public async expectTriggerVisible(placement: JigToolbarPlacement, visible: boolean) {
     const trigger = this.triggerIn(placement);
     if (visible) {
       await expect(trigger).not.toHaveClass(

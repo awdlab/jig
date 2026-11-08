@@ -27,10 +27,7 @@ export const buttonStyles = createThemePart({
         display: inline-flex;
         vertical-align: middle;
       }
-      /* The link kind is a text-level control, not a box: it flows inside running text, wraps
-         with it and inherits the surrounding typography. Compounded with the root class so it
-         wins over the theme's button chrome (padding, height, font) — themes only add colour,
-         decoration and the focus ring. */
+      /* The link kind flows inline with running text; compounded with root so it beats the theme's button chrome. */
       ${c('root')}${c('kind-link')} {
         display: inline;
         font: inherit;

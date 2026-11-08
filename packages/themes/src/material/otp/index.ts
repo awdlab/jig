@@ -18,8 +18,8 @@ export const otpStyles = createThemePart({
         gap: ${v('size.padding.sm')};
       }
       ${c('box')} {
-        width: 2.75rem;
-        height: 2.75rem;
+        width: ${v('size.height.control')};
+        height: ${v('size.height.control')};
         font-size: ${v('font.size.lg')};
         font-weight: ${v('font.weight.medium')};
         color: ${v('color.text')};

@@ -57,7 +57,7 @@ const CASES: { query: string; route: string; topN?: number }[] = [
   { query: 'make an element draggable with the mouse', route: 'components/movable' },
   // "tab" in the query pulls the tabs control in on the lexical pass, and the
   // concept is unavoidably named "roving tabindex" — guard that it stays found.
-  { query: 'roving tabindex single tab stop', route: 'components/roving-focus', topN: 8 },
+  { query: 'roving tabindex single tab stop', route: 'components/roving-group', topN: 8 },
   { query: 'load more rows when scrolling to the bottom', route: 'components/scroll-amount' },
   { query: 'which browsers are supported', route: 'guides/browser-support' },
   // Partial words: embeddings cannot match a prefix, so these ride entirely on

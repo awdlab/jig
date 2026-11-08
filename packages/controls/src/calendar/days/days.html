@@ -24,7 +24,7 @@
     </div>
     <ng-container
       *ngTemplateOutlet="
-        monthTemplate();
+        templateMonth();
         context: {
           $implicit: {
             month: MONTHS[month()],
@@ -36,7 +36,7 @@
 
     <ng-container
       *ngTemplateOutlet="
-        yearTemplate();
+        templateYear();
         context: {
           $implicit: {
             year: year(),
@@ -52,7 +52,7 @@
         <span role="columnheader" [ptInt]="component()" [ptClass]="'week-day'">
           <ng-container
             *ngTemplateOutlet="
-              weekDayTemplate();
+              templateWeekDay();
               context: {
                 $implicit: {
                   weekDay: weekDay.weekDay,
@@ -97,7 +97,7 @@
             >
               <ng-container
                 *ngTemplateOutlet="
-                  dayTemplate();
+                  templateDay();
                   context: {
                     $implicit: {
                       date: day.date,
@@ -118,7 +118,7 @@
   @if (showTime()) {
     <ng-container
       *ngTemplateOutlet="
-        timeTemplate();
+        templateTime();
         context: {
           $implicit: { time: currentValue(), showSeconds: showSeconds(), change: doTimeChange },
         }

@@ -1,6 +1,11 @@
 import { createThemePart, css } from '@awdlab/jig-themes/api';
 import { baseStyles } from '@awdlab/jig-themes/base';
-import { colorsTemplate, shadowTemplate, sizesTemplate } from '@awdlab/jig-themes/shade/base';
+import {
+  colorsTemplate,
+  focusRingStyles,
+  shadowTemplate,
+  sizesTemplate,
+} from '@awdlab/jig-themes/shade/base';
 import { sliderControlTemplate } from '@awdlab/jig-themes/templates/slider';
 
 export const sliderStyles = createThemePart({
@@ -16,9 +21,7 @@ export const sliderStyles = createThemePart({
         &:focus-visible {
           outline: none;
           ${c('thumb')} {
-            outline: 2px solid transparent;
-            outline-offset: 2px;
-            box-shadow: 0 0 0 3px color-mix(in srgb, ${v('color.ring')} 50%, transparent);
+            ${focusRingStyles(v)}
           }
         }
       }

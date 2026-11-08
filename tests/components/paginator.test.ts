@@ -10,7 +10,7 @@ const TEMPLATE = `<jig-paginator
   [totalItems]="inputs().totalItems"
   [pageSize]="inputs().pageSize"
   [fixedPageSize]="inputs().fixedPageSize"
-  (value)="output('value', $event)"
+  (stateChange)="output('stateChange', $event)"
 />`;
 
 const baseInputs = { totalItems: 30, pageSize: 10, fixedPageSize: false };
@@ -41,7 +41,7 @@ test('next / previous navigation moves the current page and emits state', async 
   await paginator.goToNext();
   await paginator.expectCurrentPage(2);
 
-  let last = (await handle.getOutputLog())['value']!.at(-1);
+  let last = (await handle.getOutputLog())['stateChange']!.at(-1);
   expect(last.page.current).toBe(1);
   expect(last.page.size).toBe(10);
   expect(last.slice).toEqual({ skip: 10, take: 10 });
@@ -49,7 +49,7 @@ test('next / previous navigation moves the current page and emits state', async 
   await paginator.goToPrevious();
   await paginator.expectCurrentPage(1);
 
-  last = (await handle.getOutputLog())['value']!.at(-1);
+  last = (await handle.getOutputLog())['stateChange']!.at(-1);
   expect(last.page.current).toBe(0);
   expect(last.slice.skip).toBe(0);
 });
@@ -65,7 +65,7 @@ test('clicking a page number jumps directly to that page', async ({ page }) => {
   await paginator.getByRole('button', { name: '3', exact: true }).click();
 
   await expect(paginator.locator('[aria-current="page"]')).toHaveText('3');
-  expect((await handle.getOutputLog())['value']!.at(-1).page.current).toBe(2);
+  expect((await handle.getOutputLog())['stateChange']!.at(-1).page.current).toBe(2);
 });
 
 test('navigation clamps at the first and last page', async ({ page }) => {
@@ -105,7 +105,7 @@ const COMPACT_TEMPLATE = `<jig-paginator
   [mode]="'compact'"
   [hasNext]="inputs().hasNext"
   [pageSize]="inputs().pageSize"
-  (value)="output('value', $event)"
+  (stateChange)="output('stateChange', $event)"
 />`;
 
 test('compact mode shows only prev/next, no page numbers', async ({ page }) => {

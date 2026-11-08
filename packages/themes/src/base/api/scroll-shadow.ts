@@ -5,12 +5,7 @@ export const scrollShadowStyles = createThemePart({
   controlTemplate: scrollShadowDirectiveTemplate,
   dependencies: [],
   root: {
-    // Structural overlay. The `overlay` layer is a zero-size sticky box pinned to the scroll
-    // viewport's top-left corner; `surface` is an absolutely-positioned cover sized to the viewport
-    // (via the --jig-scroll-shadow-w/h vars the directive sets). Each edge is painted as a 12px
-    // gradient strip, enabled per-edge by the scrolled-* classes — the exact same gradient formula
-    // consumers can reuse (see the table's sticky-column edges). Only the tint
-    // (--jig-scroll-shadow-color) is theme-defined (nova/shade); everything here is structural.
+    // Structural overlay: a sticky zero-size layer whose cover paints a 12px gradient per scrolled edge.
     css: ({ c }) => css`
       ${c('overlay')} {
         position: sticky;

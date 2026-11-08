@@ -38,7 +38,7 @@ const GRIP_SIZE = 16;
 @Directive({
   selector: '[jigResizable]',
   host: {
-    '[class]': 'theme.classes({ resizable: jigResizable(), resized: resized()})',
+    '[class]': 'theme.classes({ resizable: enabled(), resized: resized()})',
   },
 })
 export class JigResizable {
@@ -52,19 +52,21 @@ export class JigResizable {
   /**
    * Whether the element is resizable. The empty string (bare attribute) enables it.
    * @default true
+   * @alias jigResizable
    */
-  public readonly jigResizable = input(true, { transform: booleanAttribute });
+  public readonly enabled = input(true, { transform: booleanAttribute, alias: 'jigResizable' });
   /**
    * Minimum and maximum size constraints for the resizable element. Number values
    * are treated as pixels; strings are used as-is. Any bound left `null`/`undefined`
    * is unconstrained (the effective maximum is still clamped to the viewport).
+   * @alias jigResizableSizeLimits
    */
-  public readonly jigResizableSizeLimits = input<{
+  public readonly sizeLimits = input<{
     minWidth: string | number | null | undefined;
     minHeight: string | number | null | undefined;
     maxWidth: string | number | null | undefined;
     maxHeight: string | number | null | undefined;
-  }>();
+  }>(undefined, { alias: 'jigResizableSizeLimits' });
 
   protected readonly resized = signal(false);
 
@@ -104,7 +106,7 @@ export class JigResizable {
     // claimed during dispatch, not in an effect: a batched flush would run JigMovable's
     // pointermove handling before the claim and move the element
     domEventHandler(this._el, 'pointerdown', pointerDown => {
-      if (!this.jigResizable()) {
+      if (!this.enabled()) {
         return;
       }
       this._isPointerDown = true;
@@ -120,7 +122,7 @@ export class JigResizable {
     });
 
     effect(() => {
-      if (!this._isBrowser || !this.jigResizable()) {
+      if (!this._isBrowser || !this.enabled()) {
         return;
       }
       const _size = this._resizeEvent(); // just as the trigger
@@ -144,8 +146,8 @@ export class JigResizable {
       const maxWidth = isRtl(this._el.nativeElement) ? elRect.right : bodyWidth - elRect.left;
       const maxHeight = bodyHeight - elRect.top;
 
-      const inputMaxWidth = this.jigResizableSizeLimits()?.maxWidth;
-      const inputMaxHeight = this.jigResizableSizeLimits()?.maxHeight;
+      const inputMaxWidth = this.sizeLimits()?.maxWidth;
+      const inputMaxHeight = this.sizeLimits()?.maxHeight;
       const formattedMaxWidth = this.formatSizeValue(inputMaxWidth);
       const formattedMaxHeight = this.formatSizeValue(inputMaxHeight);
 
@@ -156,8 +158,8 @@ export class JigResizable {
         ? `min(${formattedMaxHeight}, ${maxHeight}px)`
         : `${maxHeight}px`;
 
-      const inputMinWidth = this.jigResizableSizeLimits()?.minWidth;
-      const inputMinHeight = this.jigResizableSizeLimits()?.minHeight;
+      const inputMinWidth = this.sizeLimits()?.minWidth;
+      const inputMinHeight = this.sizeLimits()?.minHeight;
       const formattedMinWidth = this.formatSizeValue(inputMinWidth);
       const formattedMinHeight = this.formatSizeValue(inputMinHeight);
 
