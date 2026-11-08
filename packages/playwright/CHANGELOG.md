@@ -1,5 +1,40 @@
 # Changelog
 
+## @awdlab/jig-playwright 0.0.9 (2026-11-08)
+
+- **Package manifests are aligned and every package ships its LICENSE.** `@awdlab/jig-themes`, `@awdlab/jig-custom-types`, `@awdlab/jig-mcp` and `@awdlab/jig-playwright` now include the MIT `LICENSE` file. `@awdlab/jig-custom-types` and `@awdlab/jig-playwright` are marked `sideEffects: false`. `@awdlab/jig` peers on `@floating-ui/dom@^1.8.0`.
+
+**Breaking:** `@awdlab/jig-playwright` gains an `exports` map, so only the package root (and `package.json`) can be imported.
+
+Migration:
+
+- `@awdlab/jig-playwright/dist/...` deep imports → `@awdlab/jig-playwright`
+- **Template scopes and class names are kebab-case everywhere.** The spin-buttons and scroll-shadow scopes and the snackbar, toast and input-field class names now follow the kebab-case convention, so generated classes and `pt` keys change. Custom CSS or `pt` configs targeting the old names must update.
+
+Migration:
+
+- Scope `spinButtons` → `spin-buttons` (`.jig-spinButtons-*` → `.jig-spin-buttons-*`).
+- Scope `scrollShadow` → `scroll-shadow` (`.jig-scrollShadow-*` → `.jig-scroll-shadow-*`).
+- Snackbar: `defaultHeader` → `default-header`, `defaultHeaderText` → `default-header-text`, `defaultContent` → `default-content`, `progressBar` → `progress-bar` (keyframes `jig-snackbar-progressBar` → `jig-snackbar-progress-bar`), `closeButton` → `close-button`.
+- Toast: `defaultHeader` → `default-header`, `defaultHeaderText` → `default-header-text`, `defaultContent` → `default-content`.
+- Input field: `labelKind-*` → `label-kind-*` (e.g. `.jig-input-field-labelKind-on` → `.jig-input-field-label-kind-on`).
+- Playwright: `themeClasses()` keys for the classes above follow the new names (e.g. `classes['default-header']`).
+- **Harness indexed accessors are all `get{X}ByIndex(index)`.** Every harness method that returns a part by position now uses the same name shape, `JigMenuHarness.getItemByIndex` is synchronous, and new harnesses cover icon, number input and single radios.
+
+Migration:
+
+- `JigButtonGroupHarness` / `JigSelectButtonHarness`: `getButtonAt` → `getButtonByIndex`; `JigSelectButtonHarness`: `clickButtonAt` → `clickButtonByIndex`, `expectSelectedAt` → `expectSelected`.
+- `JigTableHarness`: `row` → `getRowByIndex`, `cell` → `getCellByIndex`, `rowCells` → `getRowCellsByIndex`, `headerCell` → `getHeaderCellByIndex`, `rowCheckbox` → `getRowCheckboxByIndex`, `sortControl` → `getSortControlByIndex`, `columnFilter` → `getColumnFilterByIndex`, `groupHeader` → `getGroupHeaderByIndex`, `rowAction` → `getRowActionByIndex`.
+- `JigFilterBuilderHarness` / `JigFilterFieldHarness`: `row` → `getRowByIndex`, `propertySelect` → `getPropertySelectByIndex`, `operatorSelect` → `getOperatorSelectByIndex`, `valueSelect` → `getValueSelectByIndex`, `valueInput` → `getValueInputByIndex`, `removeButton` → `getRemoveButtonByIndex`.
+- `JigFilterBarHarness`: `chip` → `getChipByIndex`.
+- `JigTagInputHarness`: `tag` → `getTagByIndex`, `removeButton` → `getRemoveButtonByIndex`.
+- `JigUploadHarness`: `item` → `getItemByIndex`, `name` → `getNameByIndex`, `actionButton` → `getActionButtonByIndex`.
+- `JigToastHostHarness`: `getToast` → `getToastByIndex`; `JigSnackbarHostHarness`: `getSnackbar` → `getSnackbarByIndex`.
+- `JigRadioGroupHarness`: `radio(index)` (a `Locator`) → `getRadioByIndex(index)` (a `JigRadioHarness`; use `.locator` for the element).
+- `JigMenuHarness.getItemByIndex` returns the `Locator` directly — drop the `await`.
+- Type `ToolbarPlacement` → `JigToolbarPlacement`.
+- New: `JigIconHarness`, `JigNumberInputHarness` (spin buttons via `increment()` / `decrement()`), `JigRadioHarness`; `JigMenuHarness.menu` / `expectOpened()` / `getItemByLabel()`, `JigCommandHarness.getItemByLabel()`, `JigOtpHarness.getCellByIndex()`, `JigInputFieldHarness.root`, `JigTableHarness.expectRowClass()` / `getRowActionsBarByIndex()`; `JigInputHarness.expectValue` accepts a `RegExp`.
+
 ## @awdlab/jig-playwright 0.0.8 (2026-10-26)
 
 - **`jig-calendar` takes `min` and `max` date bounds.** Days outside the range render disabled with `aria-disabled` and ignore clicks and Enter/Space, while every month stays navigable so out-of-range days can still carry context; a typed date outside the range is clamped to the nearest bound instead of being committed. Bounds compare by calendar day, so their time of day does not matter. Both inputs accept `undefined`, so a signal forms `min()`/`max()` rule binds straight onto the calendar. Themes style the new `day-disabled` class, custom day templates receive a `disabled` flag, and `JigCalendarHarness` gains a `dayDisabled` locator.

@@ -1,5 +1,76 @@
 # Changelog
 
+## @awdlab/jig 0.0.14 (2026-11-08)
+
+- **Package manifests are aligned and every package ships its LICENSE.** `@awdlab/jig-themes`, `@awdlab/jig-custom-types`, `@awdlab/jig-mcp` and `@awdlab/jig-playwright` now include the MIT `LICENSE` file. `@awdlab/jig-custom-types` and `@awdlab/jig-playwright` are marked `sideEffects: false`. `@awdlab/jig` peers on `@floating-ui/dom@^1.8.0`.
+
+**Breaking:** `@awdlab/jig-playwright` gains an `exports` map, so only the package root (and `package.json`) can be imported.
+
+Migration:
+
+- `@awdlab/jig-playwright/dist/...` deep imports → `@awdlab/jig-playwright`
+- **Theme kinds, colors and keys line up across themes.** Shade's message and tag offer the same kinds as Nova and Material, and its message and spinner follow the `color` input. Shade and Material apply their `font.family` token once to every control instead of per part. Theme kinds and defaults are looked up by the camelCase control name, so Material's `inputField` kinds are typed and still applied. The theme part lists and imports are sorted alphabetically.
+
+Migration:
+
+- Shade message: `kind="destructive"` → `color="destructive"`. The kinds are now `default`, `outlined` and `simple`.
+- Shade tag: the kinds are now `default` and `pill`. `kind="destructive"` → `color="destructive"`; `kind="secondary"` → `kind="default"` (both rendered the same); `kind="outline"` is removed.
+- Material `KINDS['input-field']` → `KINDS.inputField` (also in `customizeKinds` and `theme.defaults`).
+- Theme key `'color-picker'` → `colorPicker` (`ThemeTemplate`, `baseStyles`, `JigBase`/`ValueControlBase` generics). The scope and CSS classes stay `color-picker`.
+- `unstyledBase` is removed from `@awdlab/jig-themes/base`. Use `baseStyles` to build your own theme.
+- The hint template drops its `color-*` classes; no theme styled them. Use `kind` for hint severity.
+- **Controls share one code style: prefixed CSS custom properties, `data-*` host state, attribute ARIA bindings and shared helpers.** CSS custom properties set by controls carry a `--jig-{control}-` prefix, host state is exposed as `data-*` attributes instead of classes, and ARIA/tabindex host bindings are attribute bindings. Toast and snackbar run on one shared notification manager (public API unchanged), a single `clamp()` in `@awdlab/jig/utils` replaces the local copies, and the empty `package.json` files in the entry point folders are gone.
+
+Migration:
+
+- Avatar CSS properties: `--size` → `--jig-avatar-size`, `--color` → `--jig-avatar-color`.
+- Spinner CSS properties: `--size` → `--jig-spinner-size`, `--thickness` → `--jig-spinner-thickness`.
+- Color picker CSS property: `--hue` → `--jig-color-picker-hue`.
+- `jig-defer` host classes `.open` / `.hidden` → `[data-open]` / `[data-hidden]` attributes.
+- Motion tier marker classes `.jig-motion-loop` / `.jig-motion-exact` / `.jig-motion-cosmetic` → `[data-jig-motion="loop"]` / `[data-jig-motion="exact"]` / `[data-jig-motion="cosmetic"]` (indeterminate `jig-progress`, `jig-spinner`, `jig-skeleton`, the snackbar progress bar).
+- New export `clamp(value, min, max)` from `@awdlab/jig/utils`.
+- **Outputs, directive inputs and template classes follow one naming scheme.** Outputs are `*Change` (state moved), a past participle (it happened) or a present participle (it is about to happen) — never a bare verb or noun. Directive inputs are aliased `jig{Directive}{Prop}`, template inputs use a `template` prefix, boolean inputs accept bare attributes, and every `{Name}Templates` base class is exported from its entry point. The roving focus directives move to the `@awdlab/jig/roving-group` entry point.
+
+Migration:
+
+- Upload outputs: `(upload)` → `(uploadRequested)`, `(remove)` → `(fileRemoved)`, `(retry)` → `(retryRequested)`, `(cancelUpload)` → `(uploadCancelled)`.
+- Snackbar `(closeSnackbar)` → `(closed)`; toast `(closeToast)` → `(closed)`.
+- Menu `(closeAll)` → `(allClosed)`.
+- Paginator `(value)` → `(stateChange)`.
+- Slider `(valueCommit)` → `(valueCommitted)`.
+- Tree `(nodeExpand)` → `(nodeExpanded)`.
+- `jigDrag` `(dragStart)` → `(dragStarted)`, `(dragEnd)` → `(dragEnded)`.
+- Calendar internals: `CalendarDays` → `JigCalendarDays`, `CalendarTime` → `JigCalendarTime`; days outputs `previousMonth` → `previousMonthRequested`, `nextMonth` → `nextMonthRequested`, `timeChanged` → `timeChange`; days inputs `dayTemplate`/`weekDayTemplate`/`timeTemplate`/`yearTemplate`/`monthTemplate` → `templateDay`/`templateWeekDay`/`templateTime`/`templateYear`/`templateMonth`.
+- Entry point `@awdlab/jig/roving-focus` → `@awdlab/jig/roving-group` (docs route `/components/roving-focus` → `/components/roving-group`). `JigRovingGroup` and `[jigRovingGroup]` are unchanged.
+- `jigRovingGroup` attributes: `orientation` → `jigRovingGroupOrientation`, `rovingMode` → `jigRovingGroupMode`, `rovingWrap` → `jigRovingGroupWrap`, `rovingDisabled` → `jigRovingGroupDisabled`. Class properties: `rovingMode` → `mode`, `rovingWrap` → `wrap`, `rovingDisabled` → `disabled`.
+- `jig-radio-group` input `rovingWrap` → `wrap`.
+- `jigScrollShadow` attribute `scrollShadowTarget` → `jigScrollShadowTarget` (property `target`).
+- Scroller attribute selector `[jig-scroller]` → `[jigScroller]`.
+- Rating input `indicatorTemplate` → `templateIndicator`.
+- Class properties behind unchanged attribute names: `JigErrors` `jigErrorsHint`/`jigErrorsShowOn`/`jigErrorsMode`/`jigErrorsMessages`/`jigErrorsCustom` → `hint`/`showOn`/`mode`/`messages`/`custom`; `JigMovable` `jigMovable`/`jigMovableDragHandle`/`jigMovableChangeCursor`/`jigMovableLimitToViewport` → `enabled`/`dragHandle`/`changeCursor`/`limitToViewport`; `JigResizable` `jigResizable`/`jigResizableSizeLimits` → `enabled`/`sizeLimits`; `JigTableFilterableColumn` `jigTableFilterableColumn{Type,Items,AutoApply,AllowMultiple,Template,Operators,DefaultOperator,Label}` → `type`/`items`/`autoApply`/`allowMultiple`/`template`/`operators`/`defaultOperator`/`label`.
+- Classes: `TooltipComponent` → `JigTooltipContent`, `JigTableTemplates` → `TableTemplates` (now a `@Directive()`), `AccordionTemplates` → `AccordionPanelTemplates`.
+- New exports: every `{Name}Templates` base class (including the new `HintTemplates`, `DeferTemplates` and `ToolbarRegionTemplates`) and the accordion types (`HeaderTemplateType`, `AccordionControl`, `ACCORDION_CONTROL`).
+- `booleanAttribute` transforms on dialog `movable`/`resizable`, snackbar and toast `closable`, input-field `showRequiredMarker` and the tooltip boolean inputs; `optionalBooleanAttribute` now also maps `null` to `undefined` (inherit). Unset `showRequiredMarker` and tooltip booleans still inherit their config defaults.
+- **Template scopes and class names are kebab-case everywhere.** The spin-buttons and scroll-shadow scopes and the snackbar, toast and input-field class names now follow the kebab-case convention, so generated classes and `pt` keys change. Custom CSS or `pt` configs targeting the old names must update.
+
+Migration:
+
+- Scope `spinButtons` → `spin-buttons` (`.jig-spinButtons-*` → `.jig-spin-buttons-*`).
+- Scope `scrollShadow` → `scroll-shadow` (`.jig-scrollShadow-*` → `.jig-scroll-shadow-*`).
+- Snackbar: `defaultHeader` → `default-header`, `defaultHeaderText` → `default-header-text`, `defaultContent` → `default-content`, `progressBar` → `progress-bar` (keyframes `jig-snackbar-progressBar` → `jig-snackbar-progress-bar`), `closeButton` → `close-button`.
+- Toast: `defaultHeader` → `default-header`, `defaultHeaderText` → `default-header-text`, `defaultContent` → `default-content`.
+- Input field: `labelKind-*` → `label-kind-*` (e.g. `.jig-input-field-labelKind-on` → `.jig-input-field-label-kind-on`).
+- Playwright: `themeClasses()` keys for the classes above follow the new names (e.g. `classes['default-header']`).
+- **`jig-select` now announces the highlighted option to screen readers.** The focused combobox (trigger, editable input or projected `jigInput`) points `aria-activedescendant` at the option the arrow keys highlight; before, the attribute sat only on the unfocused listbox, so screen readers stayed silent while navigating.
+- **Theme styles, tokens and focus rings line up across themes.** Each theme has one focus-ring helper in `base/focus.ts`, used by every part that draws a ring: Nova's `controlRing` (now with an optional color, also used by the button), Shade's `focusRingStyles`/`focusRing`, and a new Material `focusRing`. Shade and Material gain a `size.height.control` token that fields, buttons and OTP boxes share, Material gains a `backdrop` token part for dialog and drawer, and Shade gains `color.info`/`success`/`warning` for hint and state. Hardcoded transition durations now use the `anim.time.*` tokens, and Material's badge and stepper use contrast tokens instead of `#fff`. Gaps are filled: Material's indeterminate checkbox, Shade's table row actions, skeleton and error rows, mask-input separators, disabled tag-input tags, and Nova's tree toggle icon. Controls now apply theme classes that were styled but never set: dialog `close-button`, filter-field/filter-builder `active-indicator` (a dot while a filter is active), item-view `hidden-separator`, table `row-action-button`, and button `loading` via the new `jigButtonLoading` input (sets `aria-busy`).
+
+Migration:
+
+- Nova: `ring`, `ringTemplate` and `controlRing` moved from `nova/base/field.ts` to `nova/base/focus.ts`. Both are re-exported from `@awdlab/jig-themes/nova/base`, so imports from there are unchanged.
+- Shade: `focusRing` is now a function. `${focusRing}` → `${focusRing(v)}`.
+- Shade `ShadeSchemeColors` requires `info`, `success` and `warning`.
+- Template class names removed because no control applies them: calendar `month` and `months`, table `foot`.
+
 ## @awdlab/jig 0.0.13 (2026-11-04)
 
 - **Pressing the `jig-slider` track now moves the value live.** The nearest handle jumps to the pointer on press and follows it until release, where `valueCommit` fires; before, the value only changed on click. The track now reacts to pointer events, so a scripted `click()` on it no longer moves the value, and a click on a thumb bubbles to ancestors as a click on the track already did. The press area is now `2rem` tall, shows a pointer cursor and reaches past the track's ends, overhanging the control by up to `0.5rem` along its long sides unless it is `disabled` or `readonly`.

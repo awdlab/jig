@@ -1,5 +1,25 @@
 # Changelog
 
+## @awdlab/jig-mcp 0.0.6 (2026-11-08)
+
+- **Package manifests are aligned and every package ships its LICENSE.** `@awdlab/jig-themes`, `@awdlab/jig-custom-types`, `@awdlab/jig-mcp` and `@awdlab/jig-playwright` now include the MIT `LICENSE` file. `@awdlab/jig-custom-types` and `@awdlab/jig-playwright` are marked `sideEffects: false`. `@awdlab/jig` peers on `@floating-ui/dom@^1.8.0`.
+
+**Breaking:** `@awdlab/jig-playwright` gains an `exports` map, so only the package root (and `package.json`) can be imported.
+
+Migration:
+
+- `@awdlab/jig-playwright/dist/...` deep imports → `@awdlab/jig-playwright`
+- **Controls share one code style: prefixed CSS custom properties, `data-*` host state, attribute ARIA bindings and shared helpers.** CSS custom properties set by controls carry a `--jig-{control}-` prefix, host state is exposed as `data-*` attributes instead of classes, and ARIA/tabindex host bindings are attribute bindings. Toast and snackbar run on one shared notification manager (public API unchanged), a single `clamp()` in `@awdlab/jig/utils` replaces the local copies, and the empty `package.json` files in the entry point folders are gone.
+
+Migration:
+
+- Avatar CSS properties: `--size` → `--jig-avatar-size`, `--color` → `--jig-avatar-color`.
+- Spinner CSS properties: `--size` → `--jig-spinner-size`, `--thickness` → `--jig-spinner-thickness`.
+- Color picker CSS property: `--hue` → `--jig-color-picker-hue`.
+- `jig-defer` host classes `.open` / `.hidden` → `[data-open]` / `[data-hidden]` attributes.
+- Motion tier marker classes `.jig-motion-loop` / `.jig-motion-exact` / `.jig-motion-cosmetic` → `[data-jig-motion="loop"]` / `[data-jig-motion="exact"]` / `[data-jig-motion="cosmetic"]` (indeterminate `jig-progress`, `jig-spinner`, `jig-skeleton`, the snackbar progress bar).
+- New export `clamp(value, min, max)` from `@awdlab/jig/utils`.
+
 ## @awdlab/jig-mcp 0.0.5 (2026-10-26)
 
 - **The table hands sorting, filter UX and row-action anchoring back to the app.**
